@@ -43,12 +43,33 @@ var CountDown;
     }
     CountDown.init = init;
     function updateWatchFromEntry() {
-        var value = parseInt(ENTRY_ELEMENT.value);
-        value *= 1000;
+        try  {
+            var value = stringToMilliseconds(ENTRY_ELEMENT.value);
+        } catch (error) {
+            console.log(error);
+            return;
+        }
         updateWatch(value);
     }
     function stringToMilliseconds(entryValue) {
-        return entryValue * 1000;
+        var pattern = /[0-9]+(?= *([smhd]))/gi;
+        var matches = pattern.exec(entryValue);
+        var milliseconds = 0;
+        var foundPattern = false;
+        var temp;
+        while(matches !== null) {
+            foundPattern = true;
+            temp = parseInt(matches[0], 10);
+            if(numberOfDigits(temp) > 3) {
+                throw "Max. 3 digits for each number";
+            }
+            milliseconds += timeToMilliseconds(temp, matches[1]);
+            matches = pattern.exec(entryValue);
+        }
+        if(!foundPattern) {
+            throw "Didn't found the pattern";
+        }
+        return milliseconds;
     }
     function updateWatch(count) {
         COUNT = count;

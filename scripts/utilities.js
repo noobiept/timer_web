@@ -61,3 +61,37 @@ function dateToString(dateMilliseconds) {
     }
     return date;
 }
+function numberOfDigits(theNumber) {
+    var numberString = theNumber.toString();
+    var digits = numberString.length;
+    if(numberString[0] === '-') {
+        digits--;
+    }
+    return digits;
+}
+function timeToMilliseconds(time, type) {
+    switch(type) {
+        case "s": {
+            time *= 1000;
+            break;
+
+        }
+        case "m": {
+            time *= 60 * 1000;
+            break;
+
+        }
+        case "h": {
+            time *= 60 * 60 * 1000;
+            break;
+
+        }
+        case "d": {
+            time *= 24 * 60 * 60 * 1000;
+            break;
+
+        }
+    }
+    return time;
+}
+; ;

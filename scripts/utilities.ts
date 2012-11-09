@@ -97,3 +97,78 @@ if ( date == "" )
 
 return date;
 }
+
+
+
+
+/*
+ * Returns the number of digits in a number
+ */
+ 
+function numberOfDigits( theNumber: number ): number
+{
+var numberString = theNumber.toString();
+
+var digits = numberString.length;
+
+    //it shouldn't have negative numbers?... //HERE
+if (numberString[0] === '-')
+    {
+    digits--;
+    }
+
+
+return digits;
+}
+
+
+
+
+/*
+ * Arguments:
+ * 
+ *      time (int)    : represents the amount of time, of the type specified
+ *      type (string) : a single character (h - hour, m - minute, etc)
+ *
+ *  
+ * Returns the time in milliseconds (as an int)
+ */
+ 
+function timeToMilliseconds( time: number, type: string ): number
+{
+    /*
+     * 1 day    -> 24 hours
+     * 1 hour   -> 60 minutes
+     * 1 minute -> 60 seconds
+     * 1 second -> 1000 milliseconds
+     * 
+     * So for example, 1 hour is 60 * 60 * 1000 milliseconds
+     */
+        
+        
+    //a letter: (s)econd, (m)inute, (h)our, or (d)ay
+switch ( type )
+    {
+    case "s":
+        
+        time *= 1000;
+        break;
+            
+    case "m":
+        
+        time *= 60 * 1000;
+        break;
+            
+    case "h":
+        
+        time *= 60 * 60 * 1000;
+        break;
+            
+    case "d":
+        
+        time *= 24 * 60 * 60 * 1000;
+        break;
+    }
+
+return time;
+};
