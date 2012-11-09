@@ -10,31 +10,37 @@
     <script src="scripts/utilities.js"></script>
 </head>
 <body>
-    <h1>Timer Application</h1>
+    <h1 id="title">Timer Application</h1>
 
-    <div id="content">
-    </div>
 
     <div id="StopWatch">
-    
-        <h2>Stop Watch</h2>
 
-        <div id="StopWatch-count">0</div>
-        <input id="StopWatch-startStop" type="button" value="Start"/>
-        <input id="StopWatch-restart" type="button" value="Restart"/>
-        <input id="StopWatch-reset" type="button" value="Reset" />
+        <div class="StopWatch-container">
+            <h2>Stop Watch</h2>
 
-    </div>
+            <div class="StopWatch-count">0</div>
+            <input class="StopWatch-startStop" type="button" value="Start"/>
+            <input class="StopWatch-restart" type="button" value="Restart"/>
+            <input class="StopWatch-reset" type="button" value="Reset" />
+
+        </div>
+
+    <div id="StopWatch-add">Moaar!</div>
+    </div>    
 
     <div id="CountDown">
 
-        <h2>Count Down</h2>
+        <div class="CountDown-container">
+            <h2>Count Down</h2>
 
-        <div id="CountDown-count">0</div>
-        <input id="CountDown-startStop" type="button" value="Start" />
-        <input id="CountDown-restart" type="button" value="Restart" />
-        <input id="CountDown-reset" type="button" value="Reset" />
-        <input id="CountDown-entry" type="text" value="10s" /> seconds
+            <div class="CountDown-count">0</div>
+            <input class="CountDown-startStop" type="button" value="Start" />
+            <input class="CountDown-restart" type="button" value="Restart" />
+            <input class="CountDown-reset" type="button" value="Reset" />
+            <input class="CountDown-entry" type="text" value="10s" /> seconds
+        </div>
+
+    <div id="CountDown-add">Moaar!</div>
     </div>
 
 </body>

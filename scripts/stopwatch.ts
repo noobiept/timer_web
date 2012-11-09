@@ -45,11 +45,11 @@ window.clearInterval( INTERVAL_F );
 
 export function init()
 {
-var startStop = <HTMLInputElement> document.querySelector("#StopWatch-startStop");
-var restart = <HTMLInputElement> document.querySelector("#StopWatch-restart");
-var reset = <HTMLInputElement> document.querySelector( "#StopWatch-reset" );
+var startStop = <HTMLInputElement> document.querySelector(".StopWatch-startStop");
+var restart = <HTMLInputElement> document.querySelector(".StopWatch-restart");
+var reset = <HTMLInputElement> document.querySelector( ".StopWatch-reset" );
 
-COUNT_ELEMENT = <HTMLDivElement> document.querySelector("#StopWatch-count");
+COUNT_ELEMENT = <HTMLDivElement> document.querySelector(".StopWatch-count");
 
 
 updateWatch( 0 );

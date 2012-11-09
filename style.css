@@ -1,8 +1,28 @@
 ﻿body
-{
-    font-family: 'Segoe UI', sans-serif
-}
+    {
+    font-family: 'Segoe UI', sans-serif;
+    }
 
-span {
-    font-style: italic
-}
+#title
+    {
+    text-align: center;
+    }
+
+
+#StopWatch
+    {
+    margin-top: 20px;
+    float: left;
+    width: 50%;
+    }
+
+
+#CountDown
+    {
+    margin-top: 20px;
+    float: left;
+    width: 50%;
+    }
+
+
+

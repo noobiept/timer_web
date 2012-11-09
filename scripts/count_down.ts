@@ -34,14 +34,14 @@ window.clearInterval( INTERVAL_F );
 
 export function init()
 {
-COUNT_ELEMENT = <HTMLInputElement> document.querySelector( "#CountDown-count" );
+COUNT_ELEMENT = <HTMLInputElement> document.querySelector( ".CountDown-count" );
 
 
-ENTRY_ELEMENT = <HTMLInputElement> document.querySelector( "#CountDown-entry" );
+ENTRY_ELEMENT = <HTMLInputElement> document.querySelector( ".CountDown-entry" );
 
-var startStop = <HTMLInputElement> document.querySelector( "#CountDown-startStop" );
-var restart = <HTMLInputElement> document.querySelector( '#CountDown-restart' );
-var reset = <HTMLInputElement> document.querySelector( '#CountDown-reset' );
+var startStop = <HTMLInputElement> document.querySelector( ".CountDown-startStop" );
+var restart = <HTMLInputElement> document.querySelector( '.CountDown-restart' );
+var reset = <HTMLInputElement> document.querySelector( '.CountDown-reset' );
 
 
 updateWatchFromEntry();

@@ -15,11 +15,11 @@ var CountDown;
         window.clearInterval(INTERVAL_F);
     }
     function init() {
-        COUNT_ELEMENT = document.querySelector("#CountDown-count");
-        ENTRY_ELEMENT = document.querySelector("#CountDown-entry");
-        var startStop = document.querySelector("#CountDown-startStop");
-        var restart = document.querySelector('#CountDown-restart');
-        var reset = document.querySelector('#CountDown-reset');
+        COUNT_ELEMENT = document.querySelector(".CountDown-count");
+        ENTRY_ELEMENT = document.querySelector(".CountDown-entry");
+        var startStop = document.querySelector(".CountDown-startStop");
+        var restart = document.querySelector('.CountDown-restart');
+        var reset = document.querySelector('.CountDown-reset');
         updateWatchFromEntry();
         startStop.onclick = function () {
             if(!RUNNING) {

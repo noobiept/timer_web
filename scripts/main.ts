@@ -13,6 +13,8 @@
 
     to doo:
 
+        - ter um titulo para cada watch
+        - poder adicionar varios, e te-los a funcionar independentemente
 
  */
 

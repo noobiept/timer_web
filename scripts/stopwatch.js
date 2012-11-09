@@ -18,10 +18,10 @@ var StopWatch;
         window.clearInterval(INTERVAL_F);
     }
     function init() {
-        var startStop = document.querySelector("#StopWatch-startStop");
-        var restart = document.querySelector("#StopWatch-restart");
-        var reset = document.querySelector("#StopWatch-reset");
-        COUNT_ELEMENT = document.querySelector("#StopWatch-count");
+        var startStop = document.querySelector(".StopWatch-startStop");
+        var restart = document.querySelector(".StopWatch-restart");
+        var reset = document.querySelector(".StopWatch-reset");
+        COUNT_ELEMENT = document.querySelector(".StopWatch-count");
         updateWatch(0);
         startStop.onclick = function () {
             if(!RUNNING) {
