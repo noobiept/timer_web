@@ -28,11 +28,15 @@ StopWatch.ADD_MORE_ELEMENT = addMore;
 
 constructor()
 {
+    // :: Title :: //
+
 var title = <HTMLHeadingElement> document.createElement( 'h2' );
 
 title.className = 'StopWatch-title';
 title.contentEditable = 'true';
 title.innerText = 'Stop Watch Title';
+
+    // :: Count Element :: //
 
 var count = <HTMLDivElement> document.createElement( 'div' );
 
@@ -40,11 +44,15 @@ count.className = 'StopWatch-count';
 
 this.COUNT_ELEMENT = count;
 
+    // :: Start/Stop :: //
+
 var startStop = <HTMLInputElement> document.createElement( 'input' );
 
 startStop.className = 'StopWatch-startStop';
 startStop.type = 'button';
 startStop.value = 'Start';
+
+    // :: Restart :: //
 
 var restart = <HTMLInputElement> document.createElement( 'input' );
 
@@ -52,12 +60,15 @@ restart.className = 'StopWatch-restart';
 restart.type = 'button';
 restart.value = 'Restart';
 
+    // :: Reset :: //
+
 var reset = <HTMLInputElement> document.createElement( 'input' );
 
 reset.className = 'StopWatch-reset';
 reset.type = 'button';
 reset.value = 'Reset';
 
+    // :: Container :: //
 
 var container = <HTMLDivElement> document.createElement( 'div' );
 
@@ -72,6 +83,8 @@ container.appendChild( reset );
 var watchMainContainer = <HTMLDivElement> document.querySelector( '#StopWatch' );
 
 watchMainContainer.insertBefore( container, StopWatch.ADD_MORE_ELEMENT );
+
+    // :: Set Events :: //
 
 this.updateWatch( 0 );
 

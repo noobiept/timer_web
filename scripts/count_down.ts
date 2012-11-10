@@ -1,57 +1,112 @@
 /// <reference path="utilities.ts" />
 
-module CountDown
+class CountDown
 { 
 
     // counts the number of milliseconds left in the watch
-var COUNT = 0;
-var COUNT_ELEMENT: HTMLInputElement;
+private COUNT: number = 0;
+private COUNT_ELEMENT: HTMLDivElement;
 
-var INTERVAL_F: number;
+private INTERVAL_F: number;
 
-var RUNNING = false;
+private RUNNING: bool = false;
 
-var ENTRY_ELEMENT: HTMLInputElement;
+private ENTRY_ELEMENT: HTMLInputElement;
 
+private static ADD_MORE_ELEMENT: HTMLDivElement;
 
-function startTimer()
+static init()
 {
-RUNNING = true;
+var addMore = <HTMLDivElement> document.querySelector( '#CountDown-add' );
 
-window.clearInterval( INTERVAL_F );
+addMore.onclick = function()
+    {
+    new CountDown();
+    };
 
-INTERVAL_F = window.setInterval( tick, 1000 );
+CountDown.ADD_MORE_ELEMENT = addMore;
 }
 
 
-function stopTimer()
+constructor()
 {
-RUNNING = false;
+    // :: Title :: //
 
-window.clearInterval( INTERVAL_F );
-}
+var title = <HTMLHeadingElement> document.createElement( 'h2' );
 
+title.className = 'CountDown-title';
+title.contentEditable = 'true';
+title.innerText = 'Count Down Title';
 
-export function init()
-{
-COUNT_ELEMENT = <HTMLInputElement> document.querySelector( ".CountDown-count" );
+    // :: Count Element :: //
 
+var countElement = <HTMLDivElement> document.createElement( 'div' );
 
-ENTRY_ELEMENT = <HTMLInputElement> document.querySelector( ".CountDown-entry" );
+countElement.className = 'CountDown-count';
 
-var startStop = <HTMLInputElement> document.querySelector( ".CountDown-startStop" );
-var restart = <HTMLInputElement> document.querySelector( '.CountDown-restart' );
-var reset = <HTMLInputElement> document.querySelector( '.CountDown-reset' );
+this.COUNT_ELEMENT = countElement;
 
+    // :: Start/Stop :: //
 
-updateWatchFromEntry();
+var startStop = <HTMLInputElement> document.createElement( 'input' );
 
-startStop.onclick = function()
+startStop.className = 'CountDown-startStop';
+startStop.type = 'button';
+startStop.value = 'Start';
+
+    // :: Restart :: //
+
+var restart = <HTMLInputElement> document.createElement( 'input' );
+
+restart.className = 'CountDown-restart';
+restart.type = 'button';
+restart.value = 'Restart';
+
+    // :: Reset :: //
+
+var reset = <HTMLInputElement> document.createElement( 'input' );
+
+reset.className = 'CountDown-reset';
+reset.type = 'button';
+reset.value = 'Reset';
+
+    // :: Entry :: //
+
+var entry = <HTMLInputElement> document.createElement( 'input' );
+
+entry.className = 'CountDown-entry';
+entry.type = 'text';
+entry.value = '10s';
+
+this.ENTRY_ELEMENT = entry;
+
+    // :: Container :: //
+
+var container = <HTMLDivElement> document.createElement( 'div' );
+
+container.className = 'CountDown-container';
+
+container.appendChild( title );
+container.appendChild( countElement );
+container.appendChild( startStop );
+container.appendChild( restart );
+container.appendChild( reset );
+container.appendChild( entry );
+
+var countDownContainer = <HTMLDivElement> document.querySelector( '#CountDown' );
+
+countDownContainer.insertBefore( container, CountDown.ADD_MORE_ELEMENT );
+
+    // :: Set Events :: //
+
+this.updateWatchFromEntry();
+
+startStop.onclick = () =>
     {
         // start the watch
-    if ( !RUNNING )
+    if ( !this.RUNNING )
         {
-        startTimer();
+        this.startTimer();
 
         startStop.value = 'Stop';
         }
@@ -59,39 +114,58 @@ startStop.onclick = function()
         // stop the watch
     else
         {
-        stopTimer();
+        this.stopTimer();
 
         startStop.value = 'Continue';
         }  
     };
 
 
-restart.onclick = function()
+restart.onclick = () =>
     {
     startStop.value = 'Stop';
 
-    updateWatchFromEntry();
+    this.updateWatchFromEntry();
 
-    startTimer();
+    this.startTimer();
     };
 
 
-reset.onclick = function()
+reset.onclick = () =>
     {
-    stopTimer();
+    this.stopTimer();
 
     startStop.value = 'Start';
 
-    updateWatchFromEntry();
+    this.updateWatchFromEntry();
     };
 }
 
 
-function updateWatchFromEntry()
+startTimer()
+{
+this.RUNNING = true;
+
+window.clearInterval( this.INTERVAL_F );
+
+this.INTERVAL_F = window.setInterval( () => { this.tick(); }, 1000 );
+}
+
+
+stopTimer()
+{
+this.RUNNING = false;
+
+window.clearInterval( this.INTERVAL_F );
+}
+
+
+
+updateWatchFromEntry()
 {
 try
     {
-    var value = stringToMilliseconds( ENTRY_ELEMENT.value );
+    var value = this.stringToMilliseconds( this.ENTRY_ELEMENT.value );
     }
     
 catch( error )
@@ -101,12 +175,12 @@ catch( error )
     return;
     }
 
-updateWatch( value );
+this.updateWatch( value );
 }
 
 
 
-function stringToMilliseconds( entryValue: string ): number
+stringToMilliseconds( entryValue: string ): number
 {
 /*
  * 
@@ -172,17 +246,17 @@ return milliseconds;
 }
 
 
-function updateWatch( count: number )
+updateWatch( count: number )
 {
-COUNT = count;
+this.COUNT = count;
 
-COUNT_ELEMENT.innerText = dateToString( COUNT );
+this.COUNT_ELEMENT.innerText = dateToString( this.COUNT );
 }
 
 
-function tick()
+tick()
 {
-updateWatch( COUNT - 1000 );
+this.updateWatch( this.COUNT - 1000 );
 }
 
 }
