@@ -13,8 +13,9 @@
 
     to doo:
 
-        - ter um titulo para cada watch
-        - poder adicionar varios, e te-los a funcionar independentemente
+        - poder remover os relogios
+
+        - gravar na localStorage os titulos/timers adicionados etc
 
  */
 
@@ -26,4 +27,6 @@ window.onload = function
 {
 StopWatch.init();
 CountDown.init();
+
+new StopWatch();
 };

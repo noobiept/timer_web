@@ -1,65 +1,86 @@
 /// <reference path="utilities.ts" />
 
-module StopWatch
+class StopWatch
 { 
+    // private properties
+private COUNT: number = 0;
+private COUNT_ELEMENT: HTMLDivElement;
 
-var COUNT = 0;
-var COUNT_ELEMENT: HTMLDivElement;
-
-
-var INTERVAL_F: number;
+private INTERVAL_F: number;
 
     // tells when the stop watch is running or not
-var RUNNING = false;
+private RUNNING = false;
 
-/*
-    Updates the watch current number
- */
+private static ADD_MORE_ELEMENT: HTMLDivElement;
 
-function updateWatch( count: number )
-{
-COUNT = count;
 
-COUNT_ELEMENT.innerText = dateToString( count );
+static init()
+{ 
+var addMore = <HTMLDivElement> document.querySelector( '#StopWatch-add' );
+
+addMore.onclick = function()
+    {
+    new StopWatch();
+    };
+
+StopWatch.ADD_MORE_ELEMENT = addMore;
 }
 
-
-
-function startTimer()
+constructor()
 {
-RUNNING = true;
+var title = <HTMLHeadingElement> document.createElement( 'h2' );
 
-window.clearInterval( INTERVAL_F );
+title.className = 'StopWatch-title';
+title.contentEditable = 'true';
+title.innerText = 'Stop Watch Title';
 
-INTERVAL_F = window.setInterval( tick, 1000 );
-}
+var count = <HTMLDivElement> document.createElement( 'div' );
+
+count.className = 'StopWatch-count';
+
+this.COUNT_ELEMENT = count;
+
+var startStop = <HTMLInputElement> document.createElement( 'input' );
+
+startStop.className = 'StopWatch-startStop';
+startStop.type = 'button';
+startStop.value = 'Start';
+
+var restart = <HTMLInputElement> document.createElement( 'input' );
+
+restart.className = 'StopWatch-restart';
+restart.type = 'button';
+restart.value = 'Restart';
+
+var reset = <HTMLInputElement> document.createElement( 'input' );
+
+reset.className = 'StopWatch-reset';
+reset.type = 'button';
+reset.value = 'Reset';
 
 
-function stopTimer()
-{
-RUNNING = false;
+var container = <HTMLDivElement> document.createElement( 'div' );
 
-window.clearInterval( INTERVAL_F );
-}
+container.className = 'StopWatch-container';
 
+container.appendChild( title );
+container.appendChild( count );
+container.appendChild( startStop );
+container.appendChild( restart );
+container.appendChild( reset );
 
-export function init()
-{
-var startStop = <HTMLInputElement> document.querySelector(".StopWatch-startStop");
-var restart = <HTMLInputElement> document.querySelector(".StopWatch-restart");
-var reset = <HTMLInputElement> document.querySelector( ".StopWatch-reset" );
+var watchMainContainer = <HTMLDivElement> document.querySelector( '#StopWatch' );
 
-COUNT_ELEMENT = <HTMLDivElement> document.querySelector(".StopWatch-count");
+watchMainContainer.insertBefore( container, StopWatch.ADD_MORE_ELEMENT );
 
+this.updateWatch( 0 );
 
-updateWatch( 0 );
-
-startStop.onclick = function()
+startStop.onclick = () =>
     {
         // start the watch
-    if ( !RUNNING )
+    if ( !this.RUNNING )
         {
-        startTimer();
+        this.startTimer();
    
         startStop.value = "Stop";
         }
@@ -67,39 +88,73 @@ startStop.onclick = function()
         // stop the watch
     else
         {
-        stopTimer();
+        this.stopTimer();
 
         startStop.value = "Continue";
         }
     };
 
 
-restart.onclick = function()
+restart.onclick = () =>
     {
     startStop.value = 'Stop';
 
-    updateWatch( 0 );
+    this.updateWatch( 0 );
 
-    startTimer();
+    this.startTimer();
     };
 
 
-reset.onclick = function()
+reset.onclick = () =>
     {
-    stopTimer();
+    this.stopTimer();
 
     startStop.value = "Start";
 
-    updateWatch( 0 );
+    this.updateWatch( 0 );
     };
 }
 
 
 
+/*
+    Updates the watch current number
+ */
 
-function tick()
+updateWatch( count: number )
+{
+this.COUNT = count;
+
+this.COUNT_ELEMENT.innerText = dateToString( count );
+}
+
+
+
+startTimer()
+{
+this.RUNNING = true;
+
+window.clearInterval( this.INTERVAL_F );
+
+this.INTERVAL_F = window.setInterval(() => {
+    this.tick(); } , 1000 );
+}
+
+
+stopTimer()
+{
+this.RUNNING = false;
+
+window.clearInterval( this.INTERVAL_F );
+}
+
+
+
+
+
+tick()
 { 
-updateWatch( COUNT + 1000 );
+this.updateWatch( this.COUNT + 1000 );
 }
 
 }

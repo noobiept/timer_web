@@ -1,0 +1,8 @@
+{
+    "name": "timer",
+    "version": "1.0",
+    
+    "app": { "launch": { "local_path": "home.html" } },
+    
+    "manifest_version": 2
+}
