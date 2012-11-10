@@ -95,3 +95,14 @@ function timeToMilliseconds(time, type) {
     return time;
 }
 ; ;
+function drawRemoveButton(canvas) {
+    canvas.width = 15;
+    canvas.height = 15;
+    var ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(2, 2);
+    ctx.lineTo(13, 13);
+    ctx.moveTo(2, 13);
+    ctx.lineTo(13, 2);
+    ctx.stroke();
+}

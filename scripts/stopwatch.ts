@@ -6,6 +6,8 @@ class StopWatch
 private COUNT: number = 0;
 private COUNT_ELEMENT: HTMLDivElement;
 
+private CONTAINER_ELEMENT: HTMLDivElement;
+
 private INTERVAL_F: number;
 
     // tells when the stop watch is running or not
@@ -68,6 +70,15 @@ reset.className = 'StopWatch-reset';
 reset.type = 'button';
 reset.value = 'Reset';
 
+    // :: Remove Button :: //
+
+var remove = <HTMLCanvasElement> document.createElement( 'canvas' );
+
+remove.className = 'StopWatch-remove';
+
+drawRemoveButton( remove );
+
+
     // :: Container :: //
 
 var container = <HTMLDivElement> document.createElement( 'div' );
@@ -79,6 +90,9 @@ container.appendChild( count );
 container.appendChild( startStop );
 container.appendChild( restart );
 container.appendChild( reset );
+container.appendChild( remove );
+
+this.CONTAINER_ELEMENT = container;
 
 var watchMainContainer = <HTMLDivElement> document.querySelector( '#StopWatch' );
 
@@ -126,6 +140,12 @@ reset.onclick = () =>
 
     this.updateWatch( 0 );
     };
+
+
+remove.onclick = () =>
+    {
+    this.remove();
+    };
 }
 
 
@@ -162,6 +182,13 @@ window.clearInterval( this.INTERVAL_F );
 }
 
 
+remove()
+{
+var mainContainer = <HTMLDivElement> document.querySelector( '#StopWatch' );
+
+
+mainContainer.removeChild( this.CONTAINER_ELEMENT );
+}
 
 
 

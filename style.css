@@ -9,20 +9,32 @@
     }
 
 
-#StopWatch
+#StopWatch, #CountDown
     {
+    float: left;    
+
     margin-top: 20px;
-    float: left;
     width: 50%;
     }
 
 
-#CountDown
+.StopWatch-container, .CountDown-container
     {
-    margin-top: 20px;
-    float: left;
-    width: 50%;
+    position: relative;
     }
 
 
+.StopWatch-remove, .CountDown-remove
+    {
+    position: absolute;
+    
+    top: 5px;
+    right: 5px;
 
+    cursor: pointer;
+    }
+
+#StopWatch-add, #CountDown-add
+    {
+    cursor: pointer;
+    }

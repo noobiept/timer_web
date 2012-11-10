@@ -22,6 +22,9 @@ var StopWatch = (function () {
         reset.className = 'StopWatch-reset';
         reset.type = 'button';
         reset.value = 'Reset';
+        var remove = document.createElement('canvas');
+        remove.className = 'StopWatch-remove';
+        drawRemoveButton(remove);
         var container = document.createElement('div');
         container.className = 'StopWatch-container';
         container.appendChild(title);
@@ -29,6 +32,8 @@ var StopWatch = (function () {
         container.appendChild(startStop);
         container.appendChild(restart);
         container.appendChild(reset);
+        container.appendChild(remove);
+        this.CONTAINER_ELEMENT = container;
         var watchMainContainer = document.querySelector('#StopWatch');
         watchMainContainer.insertBefore(container, StopWatch.ADD_MORE_ELEMENT);
         this.updateWatch(0);
@@ -50,6 +55,9 @@ var StopWatch = (function () {
             _this.stopTimer();
             startStop.value = "Start";
             _this.updateWatch(0);
+        };
+        remove.onclick = function () {
+            _this.remove();
         };
     }
     StopWatch.ADD_MORE_ELEMENT = null;
@@ -75,6 +83,10 @@ var StopWatch = (function () {
     StopWatch.prototype.stopTimer = function () {
         this.RUNNING = false;
         window.clearInterval(this.INTERVAL_F);
+    };
+    StopWatch.prototype.remove = function () {
+        var mainContainer = document.querySelector('#StopWatch');
+        mainContainer.removeChild(this.CONTAINER_ELEMENT);
     };
     StopWatch.prototype.tick = function () {
         this.updateWatch(this.COUNT + 1000);

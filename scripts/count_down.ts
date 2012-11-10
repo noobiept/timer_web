@@ -7,6 +7,8 @@ class CountDown
 private COUNT: number = 0;
 private COUNT_ELEMENT: HTMLDivElement;
 
+private CONTAINER_ELEMENT: HTMLDivElement;
+
 private INTERVAL_F: number;
 
 private RUNNING: bool = false;
@@ -80,6 +82,14 @@ entry.value = '10s';
 
 this.ENTRY_ELEMENT = entry;
 
+    // :: Remove Button :: //
+
+var remove = <HTMLCanvasElement> document.createElement( 'canvas' );
+
+remove.className = 'CountDown-remove';
+
+drawRemoveButton( remove );
+
     // :: Container :: //
 
 var container = <HTMLDivElement> document.createElement( 'div' );
@@ -92,6 +102,9 @@ container.appendChild( startStop );
 container.appendChild( restart );
 container.appendChild( reset );
 container.appendChild( entry );
+container.appendChild( remove );
+
+this.CONTAINER_ELEMENT = container;
 
 var countDownContainer = <HTMLDivElement> document.querySelector( '#CountDown' );
 
@@ -139,6 +152,12 @@ reset.onclick = () =>
 
     this.updateWatchFromEntry();
     };
+
+
+remove.onclick = () =>
+    {
+    this.remove();
+    }
 }
 
 
@@ -252,6 +271,15 @@ this.COUNT = count;
 
 this.COUNT_ELEMENT.innerText = dateToString( this.COUNT );
 }
+
+
+remove()
+{ 
+var mainContainer = <HTMLDivElement> document.querySelector( '#CountDown' );
+
+mainContainer.removeChild( this.CONTAINER_ELEMENT );
+}
+
 
 
 tick()

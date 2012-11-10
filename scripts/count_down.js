@@ -27,6 +27,9 @@ var CountDown = (function () {
         entry.type = 'text';
         entry.value = '10s';
         this.ENTRY_ELEMENT = entry;
+        var remove = document.createElement('canvas');
+        remove.className = 'CountDown-remove';
+        drawRemoveButton(remove);
         var container = document.createElement('div');
         container.className = 'CountDown-container';
         container.appendChild(title);
@@ -35,6 +38,8 @@ var CountDown = (function () {
         container.appendChild(restart);
         container.appendChild(reset);
         container.appendChild(entry);
+        container.appendChild(remove);
+        this.CONTAINER_ELEMENT = container;
         var countDownContainer = document.querySelector('#CountDown');
         countDownContainer.insertBefore(container, CountDown.ADD_MORE_ELEMENT);
         this.updateWatchFromEntry();
@@ -56,6 +61,9 @@ var CountDown = (function () {
             _this.stopTimer();
             startStop.value = 'Start';
             _this.updateWatchFromEntry();
+        };
+        remove.onclick = function () {
+            _this.remove();
         };
     }
     CountDown.ADD_MORE_ELEMENT = null;
@@ -110,6 +118,10 @@ var CountDown = (function () {
     CountDown.prototype.updateWatch = function (count) {
         this.COUNT = count;
         this.COUNT_ELEMENT.innerText = dateToString(this.COUNT);
+    };
+    CountDown.prototype.remove = function () {
+        var mainContainer = document.querySelector('#CountDown');
+        mainContainer.removeChild(this.CONTAINER_ELEMENT);
     };
     CountDown.prototype.tick = function () {
         this.updateWatch(this.COUNT - 1000);
