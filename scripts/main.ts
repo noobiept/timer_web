@@ -24,14 +24,25 @@
 /// <reference path="../d.ts/jquery-1.8.d.ts" />
 
 /// <reference path="stopwatch.ts" />
-/// <reference path="count_down.ts" />
 
 
 window.onload = function 
 {
-StopWatch.init();
-CountDown.init();
+var addStopWatch = <HTMLDivElement> document.querySelector( '#StopWatch-add' );
 
-new StopWatch();
-new CountDown();
+addStopWatch.onclick = function()
+    {
+    new StopWatch( true, 'StopWatch' );
+    };
+
+
+var addCountDown = <HTMLDivElement> document.querySelector( '#CountDown-add' );
+
+addCountDown.onclick = function()
+    {
+    new StopWatch( false, 'CountDown' );
+    }
+
+new StopWatch( true, 'StopWatch' );
+new StopWatch( false, 'CountDown' );
 };

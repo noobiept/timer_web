@@ -1,37 +1,46 @@
 var StopWatch = (function () {
-    function StopWatch() {
+    function StopWatch(countUp, baseCssClass) {
         var _this = this;
         this.COUNT = 0;
         this.NUMBER_DECIMAL_CASES = 0;
         this.TIMER_INTERVAL = 1000;
         this.RUNNING = false;
+        this.COUNT_UP = countUp;
+        this.BASE_CSS_CLASS = baseCssClass;
         var title = document.createElement('h2');
-        title.className = 'StopWatch-title';
+        title.className = baseCssClass + '-title';
         title.contentEditable = 'true';
-        title.innerText = 'Stop Watch Title';
+        title.innerText = separateWords(baseCssClass) + ' Title';
         var count = document.createElement('div');
-        count.className = 'StopWatch-count';
+        count.className = baseCssClass + '-count';
         var startStop = document.createElement('input');
-        startStop.className = 'StopWatch-startStop';
+        startStop.className = baseCssClass + '-startStop';
         startStop.type = 'button';
         startStop.value = 'Start';
         var restart = document.createElement('input');
-        restart.className = 'StopWatch-restart';
+        restart.className = baseCssClass + '-restart';
         restart.type = 'button';
         restart.value = 'Restart';
         var reset = document.createElement('input');
-        reset.className = 'StopWatch-reset';
+        reset.className = baseCssClass + '-reset';
         reset.type = 'button';
         reset.value = 'Reset';
         var options = document.createElement('input');
-        options.className = 'StopWatch-openOptions';
+        options.className = baseCssClass + '-openOptions';
         options.type = 'button';
         options.value = 'Options';
         var remove = document.createElement('canvas');
-        remove.className = 'StopWatch-remove';
+        remove.className = baseCssClass + '-remove';
         drawRemoveButton(remove);
+        var entry = null;
+        if(countUp === false) {
+            entry = document.createElement('input');
+            entry.className = baseCssClass + '-entry';
+            entry.type = 'text';
+            entry.value = '10s';
+        }
         var container = document.createElement('div');
-        container.className = 'StopWatch-container';
+        container.className = baseCssClass + '-container';
         container.appendChild(title);
         container.appendChild(count);
         container.appendChild(startStop);
@@ -39,8 +48,11 @@ var StopWatch = (function () {
         container.appendChild(reset);
         container.appendChild(remove);
         container.appendChild(options);
-        var watchMainContainer = document.querySelector('#StopWatch');
-        watchMainContainer.insertBefore(container, StopWatch.ADD_MORE_ELEMENT);
+        if(!countUp) {
+            container.appendChild(entry);
+        }
+        var watchMainContainer = document.querySelector('#' + baseCssClass + '-mainContainer');
+        watchMainContainer.appendChild(container);
         startStop.onclick = function () {
             if(!_this.RUNNING) {
                 _this.startTimer();
@@ -66,25 +78,40 @@ var StopWatch = (function () {
         remove.onclick = function () {
             _this.remove();
         };
+        if(!countUp) {
+            entry.onkeypress = function (event) {
+                var key = event.which;
+                if(key == EVENT_KEY.enter) {
+                    startStop.value = 'Stop';
+                    _this.updateWatch(_this.getInitialValue());
+                    _this.startTimer();
+                }
+            };
+        }
         this.COUNT_ELEMENT = count;
         this.START_STOP_ELEMENT = startStop;
+        this.RESTART_ELEMENT = restart;
+        this.RESET_ELEMENT = reset;
+        this.REMOVE_ELEMENT = remove;
+        this.ENTRY_ELEMENT = entry;
         this.CONTAINER_ELEMENT = container;
         this.updateWatch(this.getInitialValue());
-    }
-    StopWatch.ADD_MORE_ELEMENT = null;
-    StopWatch.init = function init() {
-        var addMore = document.querySelector('#StopWatch-add');
-        addMore.onclick = function () {
-            new StopWatch();
-        };
-        StopWatch.ADD_MORE_ELEMENT = addMore;
     }
     StopWatch.prototype.updateWatch = function (count) {
         this.COUNT = count;
         this.COUNT_ELEMENT.innerText = dateToString(count, this.NUMBER_DECIMAL_CASES);
     };
     StopWatch.prototype.getInitialValue = function () {
-        return 0;
+        var value = 0;
+        if(!this.COUNT_UP) {
+            try  {
+                value = this.stringToMilliseconds(this.ENTRY_ELEMENT.value);
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+        }
+        return value;
     };
     StopWatch.prototype.startTimer = function () {
         var _this = this;
@@ -131,11 +158,37 @@ var StopWatch = (function () {
         this.startTimer();
     };
     StopWatch.prototype.remove = function () {
-        var mainContainer = document.querySelector('#StopWatch');
+        var mainContainer = document.querySelector('#' + this.BASE_CSS_CLASS + '-mainContainer');
         mainContainer.removeChild(this.CONTAINER_ELEMENT);
     };
+    StopWatch.prototype.stringToMilliseconds = function (entryValue) {
+        var pattern = /[0-9]+(?= *([smhd]))/gi;
+        var matches = pattern.exec(entryValue);
+        var milliseconds = 0;
+        var foundPattern = false;
+        var temp;
+        while(matches !== null) {
+            foundPattern = true;
+            temp = parseInt(matches[0], 10);
+            if(numberOfDigits(temp) > 3) {
+                throw "Max. 3 digits for each number";
+            }
+            milliseconds += timeToMilliseconds(temp, matches[1]);
+            matches = pattern.exec(entryValue);
+        }
+        if(!foundPattern) {
+            throw "Didn't found the pattern";
+        }
+        return milliseconds;
+    };
     StopWatch.prototype.tick = function () {
-        this.updateWatch(this.COUNT + this.TIMER_INTERVAL);
+        var nextCount;
+        if(this.COUNT_UP) {
+            nextCount = this.COUNT + this.TIMER_INTERVAL;
+        } else {
+            nextCount = this.COUNT - this.TIMER_INTERVAL;
+        }
+        this.updateWatch(nextCount);
     };
     return StopWatch;
 })();

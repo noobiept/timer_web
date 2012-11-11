@@ -165,3 +165,8 @@ function drawRemoveButton(canvas) {
 function round(num, dec) {
     return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 }
+function separateWords(str) {
+    str = str.replace(/([A-Z])/g, ' $1');
+    str = str.replace(/^s*/, '');
+    return str;
+}
