@@ -38,3 +38,24 @@
     {
     cursor: pointer;
     }
+
+
+.PopupWindow-container
+    {
+    position : absolute;
+
+    min-width: 200px;
+    min-height: 100px;
+
+    background-color: #636363;
+
+    padding-top: 22px;
+    }
+
+
+.PopupWindow-close
+    {
+    position: absolute;
+    top: 2px;
+    right: 8px;
+    }

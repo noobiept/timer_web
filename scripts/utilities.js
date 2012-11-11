@@ -60,7 +60,7 @@ var EVENT_KEY = {
     f11: 122,
     f12: 123
 };
-function dateToString(dateMilliseconds) {
+function dateToString(dateMilliseconds, forceDecimalCases) {
     var second = 1000;
     var minute = 60 * second;
     var hour = 60 * minute;
@@ -82,45 +82,39 @@ function dateToString(dateMilliseconds) {
         dateMilliseconds -= minute;
     }
     secondsLeft = dateMilliseconds / 1000;
-    var theDate = [
-        [
-            "day", 
-            daysLeft
-        ], 
-        [
-            "hour", 
-            hoursLeft
-        ], 
-        [
-            "minute", 
-            minutesLeft
-        ], 
-        [
-            "second", 
-            secondsLeft
-        ]
-    ];
-    var constructDate = function (dateTmp, numberOf) {
-        if(numberOf !== 1) {
-            dateTmp += "s";
+    var date = '';
+    if(daysLeft !== 0) {
+        var dayStr = 'day';
+        if(daysLeft !== 1) {
+            dayStr += 's';
         }
-        return numberOf + " " + dateTmp + " ";
-    };
-    var totalUnits = 2;
-    var date = "";
-    var i;
-    for(i = 0; i < theDate.length; i++) {
-        if(totalUnits === 0) {
-            break;
-        }
-        if(theDate[i][1] !== 0) {
-            date += constructDate(theDate[i][0], theDate[i][1]);
-            totalUnits--;
-        }
+        date += daysLeft + ' ' + dayStr + ' ';
     }
-    if(date == "") {
-        date = "0 seconds";
+    if(hoursLeft !== 0) {
+        var hourStr = 'hour';
+        if(hoursLeft !== 1) {
+            hourStr += 's';
+        }
+        date += hoursLeft + ' ' + hourStr + ' ';
     }
+    if(minutesLeft !== 0) {
+        var minuteStr = 'minute';
+        if(minutesLeft !== 1) {
+            minuteStr += 's';
+        }
+        date += minutesLeft + ' ' + minuteStr + ' ';
+    }
+    var secondStr = 'second';
+    if(secondsLeft !== 1) {
+        secondStr += 's';
+    }
+    var secondsLeftStr;
+    if($.isNumeric(forceDecimalCases) && forceDecimalCases >= 0) {
+        secondsLeftStr = secondsLeft.toFixed(forceDecimalCases);
+    } else {
+        secondsLeftStr = secondsLeft.toString();
+    }
+    date += secondsLeftStr + ' ' + secondStr;
     return date;
 }
 function numberOfDigits(theNumber) {
@@ -167,4 +161,7 @@ function drawRemoveButton(canvas) {
     ctx.moveTo(2, 13);
     ctx.lineTo(13, 2);
     ctx.stroke();
+}
+function round(num, dec) {
+    return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 }

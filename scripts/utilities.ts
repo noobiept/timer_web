@@ -76,7 +76,7 @@ var EVENT_KEY = {
  * Converts a date (in milliseconds) to a string (with the number of days/hours...)
  */
 
-function dateToString( dateMilliseconds: number )
+function dateToString( dateMilliseconds: number, forceDecimalCases?: number )
 {
     // :: convert to days/hours :: //
 
@@ -122,53 +122,75 @@ secondsLeft = dateMilliseconds / 1000;
 
     // :: construct the string :: //
 
-var theDate = [ ["day", daysLeft], ["hour", hoursLeft], ["minute", minutesLeft], ["second", secondsLeft] ];
+var date = '';
 
-var constructDate = function(dateTmp, numberOf)
+    // only show when there's something relevant to be shown 
+    // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
+if ( daysLeft !== 0 )
     {
-        // day to days, hour to hours...
-    if (numberOf !== 1)
+    var dayStr = 'day';
+
+    if ( daysLeft !== 1 )
         {
-        dateTmp += "s";
-        }   
+        dayStr += 's';
+        }
+
+    date += daysLeft + ' ' + dayStr + ' ';
+    }
+
+
+    // same for hours and minutes
+if ( hoursLeft !== 0 )
+    {
+    var hourStr = 'hour';
+
+    if ( hoursLeft !== 1 )
+        {
+        hourStr += 's';
+        }
     
-    return numberOf + " " + dateTmp + " ";
-    };
-
-    // limit the number of units to be shown (days/hours, or hours/minutes or minutes/seconds, and not days/hours/minutes for example)
-var totalUnits = 2;
-
-var date = "";
-
-
-var i;
-
-for (i = 0 ; i < theDate.length ; i++)
-    {
-        // reached the limit of the units
-    if (totalUnits === 0)
-        {
-        break;
-        }
-        
-        // only show when there's something relevant to be shown 
-        // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
-    if ( theDate[ i ][ 1 ] !== 0 )
-        {
-        date += constructDate( theDate[ i ][ 0 ], theDate[ i ][ 1 ] );
-        
-        totalUnits--;    
-        }
+    date += hoursLeft + ' ' + hourStr + ' ';
     }
 
 
-    // special case when we have 0 seconds
-if ( date == "" )
+if ( minutesLeft !== 0 )
     {
-    date = "0 seconds";
+    var minuteStr = 'minute';
+
+    if ( minutesLeft !== 1 )
+        {
+        minuteStr += 's';
+        }
+
+    date += minutesLeft + ' ' + minuteStr + ' ';
+    }
+
+    
+var secondStr = 'second';
+
+    // always show seconds, even if 0
+if ( secondsLeft !== 1 )
+    {
+    secondStr += 's';
     }
 
 
+var secondsLeftStr: string;
+
+    // and take care of the number of decimal cases
+if ( $.isNumeric( forceDecimalCases ) && forceDecimalCases >= 0 )
+    {
+    secondsLeftStr = secondsLeft.toFixed( forceDecimalCases );
+    }
+
+else
+    {
+    secondsLeftStr = secondsLeft.toString();
+    }
+
+date += secondsLeftStr + ' ' + secondStr;
+
+   
 return date;
 }
 
@@ -264,4 +286,14 @@ ctx.moveTo( 2, 13 );
 ctx.lineTo( 13, 2 );
 
 ctx.stroke();
+}
+
+
+/*
+    Rounds a number to a specified decimal case
+ */
+
+function round(num, dec)
+{
+return Math.round( num * Math.pow(10,dec) ) / Math.pow( 10,dec );
 }

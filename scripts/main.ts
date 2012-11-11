@@ -13,8 +13,6 @@
 
     to doo:
 
-        - poder remover os relogios
-
         - gravar na localStorage os titulos/timers adicionados etc
 
         - option to specify if we count 1, 2, 3, 4, ...
@@ -22,6 +20,8 @@
             or 1.00, 1.01, 1.02, 1.03, 1.04, ... 
 
  */
+
+/// <reference path="../d.ts/jquery-1.8.d.ts" />
 
 /// <reference path="stopwatch.ts" />
 /// <reference path="count_down.ts" />

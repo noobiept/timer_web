@@ -1,11 +1,18 @@
 /// <reference path="utilities.ts" />
+/// <reference path="popup_window.ts" />
 
 class StopWatch
 { 
     // private properties
 private COUNT: number = 0;
-private COUNT_ELEMENT: HTMLDivElement;
 
+private NUMBER_DECIMAL_CASES: number = 0;
+
+    // number of milliseconds between each tick
+private TIMER_INTERVAL: number = 1000;
+
+private COUNT_ELEMENT: HTMLDivElement;
+private START_STOP_ELEMENT: HTMLInputElement;
 private CONTAINER_ELEMENT: HTMLDivElement;
 
 private INTERVAL_F: number;
@@ -44,8 +51,6 @@ var count = <HTMLDivElement> document.createElement( 'div' );
 
 count.className = 'StopWatch-count';
 
-this.COUNT_ELEMENT = count;
-
     // :: Start/Stop :: //
 
 var startStop = <HTMLInputElement> document.createElement( 'input' );
@@ -70,6 +75,14 @@ reset.className = 'StopWatch-reset';
 reset.type = 'button';
 reset.value = 'Reset';
 
+    // :: Open Options :: //
+
+var options = <HTMLInputElement> document.createElement( 'input' );
+
+options.className = 'StopWatch-openOptions';
+options.type = 'button';
+options.value = 'Options';
+
     // :: Remove Button :: //
 
 var remove = <HTMLCanvasElement> document.createElement( 'canvas' );
@@ -91,16 +104,13 @@ container.appendChild( startStop );
 container.appendChild( restart );
 container.appendChild( reset );
 container.appendChild( remove );
-
-this.CONTAINER_ELEMENT = container;
+container.appendChild( options );
 
 var watchMainContainer = <HTMLDivElement> document.querySelector( '#StopWatch' );
 
 watchMainContainer.insertBefore( container, StopWatch.ADD_MORE_ELEMENT );
 
     // :: Set Events :: //
-
-this.updateWatch( this.getInitialValue() );
 
 startStop.onclick = () =>
     {
@@ -142,10 +152,27 @@ reset.onclick = () =>
     };
 
 
+options.onclick = () =>
+    {
+    this.openOptions();
+    };
+
+
 remove.onclick = () =>
     {
     this.remove();
     };
+
+
+    // :: save references to the html elements :: //
+
+this.COUNT_ELEMENT = count;
+this.START_STOP_ELEMENT = startStop;
+this.CONTAINER_ELEMENT = container;
+
+    // :: Update the watch :: //
+
+this.updateWatch( this.getInitialValue() );
 }
 
 
@@ -158,7 +185,7 @@ updateWatch( count: number )
 {
 this.COUNT = count;
 
-this.COUNT_ELEMENT.innerText = dateToString( count );
+this.COUNT_ELEMENT.innerText = dateToString( count, this.NUMBER_DECIMAL_CASES );
 }
 
 
@@ -179,7 +206,7 @@ this.RUNNING = true;
 window.clearInterval( this.INTERVAL_F );
 
 this.INTERVAL_F = window.setInterval(() => {
-    this.tick(); } , 1000 );
+    this.tick(); } , this.TIMER_INTERVAL );
 }
 
 
@@ -188,6 +215,64 @@ stopTimer()
 this.RUNNING = false;
 
 window.clearInterval( this.INTERVAL_F );
+}
+
+
+openOptions()
+{
+var options = <HTMLDivElement> document.createElement( 'div' );
+
+var roundedCases = document.createElement( 'div' );
+
+roundedCases.innerText = 'Number of decimal cases';
+
+var zero = document.createElement( 'div' );
+
+zero.innerText = 'Zero';
+zero.onclick = () =>
+    {
+    this.changeNumberDecimalCases( 0 );
+    };
+
+var one = document.createElement( 'div' );
+
+one.innerText = 'One';
+one.onclick = () =>
+    {
+    this.changeNumberDecimalCases( 1 );
+    };
+
+options.appendChild( roundedCases );
+options.appendChild( zero );
+options.appendChild( one );
+
+    //HERE use jqueryui position 
+new PopupWindow( options, 200, 200 ); 
+}
+
+
+changeNumberDecimalCases( num )
+{
+if ( num < 0 || num > 3 )
+    {
+    return;
+    }
+
+this.NUMBER_DECIMAL_CASES = num;
+
+this.TIMER_INTERVAL = 1000 / Math.pow( 10, num );
+
+this.START_STOP_ELEMENT.value = 'Stop';
+
+    // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc.. 
+var rounded = this.COUNT / 1000;    // change milliseconds to seconds, to be able to round
+
+    // round the number to the lowest integer that is close
+rounded = Math.floor( rounded );
+
+this.COUNT = rounded * 1000;    // and back to milliseconds
+
+this.startTimer();
 }
 
 
@@ -203,7 +288,7 @@ mainContainer.removeChild( this.CONTAINER_ELEMENT );
 
 tick()
 { 
-this.updateWatch( this.COUNT + 1000 );
+this.updateWatch( this.COUNT + this.TIMER_INTERVAL );
 }
 
 }
