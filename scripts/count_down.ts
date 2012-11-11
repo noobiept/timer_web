@@ -112,7 +112,7 @@ countDownContainer.insertBefore( container, CountDown.ADD_MORE_ELEMENT );
 
     // :: Set Events :: //
 
-this.updateWatchFromEntry();
+this.updateWatch( this.getInitialValue() );
 
 startStop.onclick = () =>
     {
@@ -157,7 +157,24 @@ reset.onclick = () =>
 remove.onclick = () =>
     {
     this.remove();
-    }
+    };
+
+entry.onkeypress = ( event ) =>
+    {
+    var key = event.which;
+
+        // start or restart the watch
+    if ( key == EVENT_KEY.enter )
+        {
+            //HERE same as when pressing the restart button
+        startStop.value = 'Stop';
+
+        this.updateWatchFromEntry();
+
+        this.startTimer();
+        }
+
+    };
 }
 
 
@@ -179,23 +196,6 @@ window.clearInterval( this.INTERVAL_F );
 }
 
 
-
-updateWatchFromEntry()
-{
-try
-    {
-    var value = this.stringToMilliseconds( this.ENTRY_ELEMENT.value );
-    }
-    
-catch( error )
-    { 
-    //HERE show a message
-    console.log( error );
-    return;
-    }
-
-this.updateWatch( value );
-}
 
 
 
@@ -272,6 +272,33 @@ this.COUNT = count;
 this.COUNT_ELEMENT.innerText = dateToString( this.COUNT );
 }
 
+
+/*
+    The initial value of the stopwatch when it is reset/restart/etc
+ */
+
+getInitialValue(): number
+{
+try
+    {
+    var value = this.stringToMilliseconds( this.ENTRY_ELEMENT.value );
+    }
+    
+catch( error )
+    { 
+    //HERE show a message
+    console.log( error );
+    return;
+    }
+
+return value;
+}
+
+
+updateWatchFromEntry()
+{
+this.updateWatch( this.getInitialValue() );
+}
 
 remove()
 { 

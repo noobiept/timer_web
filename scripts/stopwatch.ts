@@ -100,7 +100,7 @@ watchMainContainer.insertBefore( container, StopWatch.ADD_MORE_ELEMENT );
 
     // :: Set Events :: //
 
-this.updateWatch( 0 );
+this.updateWatch( this.getInitialValue() );
 
 startStop.onclick = () =>
     {
@@ -126,7 +126,7 @@ restart.onclick = () =>
     {
     startStop.value = 'Stop';
 
-    this.updateWatch( 0 );
+    this.updateWatch( this.getInitialValue() );
 
     this.startTimer();
     };
@@ -138,7 +138,7 @@ reset.onclick = () =>
 
     startStop.value = "Start";
 
-    this.updateWatch( 0 );
+    this.updateWatch( this.getInitialValue() );
     };
 
 
@@ -161,6 +161,15 @@ this.COUNT = count;
 this.COUNT_ELEMENT.innerText = dateToString( count );
 }
 
+
+/*
+    The initial value of the stopwatch when it is reset/restart/etc
+ */
+
+getInitialValue(): number
+{
+return 0;
+}
 
 
 startTimer()

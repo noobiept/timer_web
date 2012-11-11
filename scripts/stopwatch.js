@@ -36,7 +36,7 @@ var StopWatch = (function () {
         this.CONTAINER_ELEMENT = container;
         var watchMainContainer = document.querySelector('#StopWatch');
         watchMainContainer.insertBefore(container, StopWatch.ADD_MORE_ELEMENT);
-        this.updateWatch(0);
+        this.updateWatch(this.getInitialValue());
         startStop.onclick = function () {
             if(!_this.RUNNING) {
                 _this.startTimer();
@@ -48,13 +48,13 @@ var StopWatch = (function () {
         };
         restart.onclick = function () {
             startStop.value = 'Stop';
-            _this.updateWatch(0);
+            _this.updateWatch(_this.getInitialValue());
             _this.startTimer();
         };
         reset.onclick = function () {
             _this.stopTimer();
             startStop.value = "Start";
-            _this.updateWatch(0);
+            _this.updateWatch(_this.getInitialValue());
         };
         remove.onclick = function () {
             _this.remove();
@@ -71,6 +71,9 @@ var StopWatch = (function () {
     StopWatch.prototype.updateWatch = function (count) {
         this.COUNT = count;
         this.COUNT_ELEMENT.innerText = dateToString(count);
+    };
+    StopWatch.prototype.getInitialValue = function () {
+        return 0;
     };
     StopWatch.prototype.startTimer = function () {
         var _this = this;

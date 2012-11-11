@@ -42,7 +42,7 @@ var CountDown = (function () {
         this.CONTAINER_ELEMENT = container;
         var countDownContainer = document.querySelector('#CountDown');
         countDownContainer.insertBefore(container, CountDown.ADD_MORE_ELEMENT);
-        this.updateWatchFromEntry();
+        this.updateWatch(this.getInitialValue());
         startStop.onclick = function () {
             if(!_this.RUNNING) {
                 _this.startTimer();
@@ -65,6 +65,14 @@ var CountDown = (function () {
         remove.onclick = function () {
             _this.remove();
         };
+        entry.onkeypress = function (event) {
+            var key = event.which;
+            if(key == EVENT_KEY.enter) {
+                startStop.value = 'Stop';
+                _this.updateWatchFromEntry();
+                _this.startTimer();
+            }
+        };
     }
     CountDown.ADD_MORE_ELEMENT = null;
     CountDown.init = function init() {
@@ -85,15 +93,6 @@ var CountDown = (function () {
     CountDown.prototype.stopTimer = function () {
         this.RUNNING = false;
         window.clearInterval(this.INTERVAL_F);
-    };
-    CountDown.prototype.updateWatchFromEntry = function () {
-        try  {
-            var value = this.stringToMilliseconds(this.ENTRY_ELEMENT.value);
-        } catch (error) {
-            console.log(error);
-            return;
-        }
-        this.updateWatch(value);
     };
     CountDown.prototype.stringToMilliseconds = function (entryValue) {
         var pattern = /[0-9]+(?= *([smhd]))/gi;
@@ -118,6 +117,18 @@ var CountDown = (function () {
     CountDown.prototype.updateWatch = function (count) {
         this.COUNT = count;
         this.COUNT_ELEMENT.innerText = dateToString(this.COUNT);
+    };
+    CountDown.prototype.getInitialValue = function () {
+        try  {
+            var value = this.stringToMilliseconds(this.ENTRY_ELEMENT.value);
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+        return value;
+    };
+    CountDown.prototype.updateWatchFromEntry = function () {
+        this.updateWatch(this.getInitialValue());
     };
     CountDown.prototype.remove = function () {
         var mainContainer = document.querySelector('#CountDown');
