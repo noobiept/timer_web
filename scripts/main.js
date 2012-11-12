@@ -7,6 +7,12 @@ window.onload = function () {
     addCountDown.onclick = function () {
         new StopWatch(false, 'CountDown');
     };
-    new StopWatch(true, 'StopWatch');
-    new StopWatch(false, 'CountDown');
+    var loadSuccessful = load();
+    if(!loadSuccessful) {
+        new StopWatch(true, 'StopWatch');
+        new StopWatch(false, 'CountDown');
+    }
+};
+window.onunload = function () {
+    save();
 };

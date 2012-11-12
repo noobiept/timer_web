@@ -24,6 +24,7 @@
 /// <reference path="../d.ts/jquery-1.8.d.ts" />
 
 /// <reference path="stopwatch.ts" />
+/// <reference path="save_load.ts" />
 
 
 window.onload = function 
@@ -43,6 +44,19 @@ addCountDown.onclick = function()
     new StopWatch( false, 'CountDown' );
     }
 
-new StopWatch( true, 'StopWatch' );
-new StopWatch( false, 'CountDown' );
+
+var loadSuccessful = load();
+
+    // add some watches if its the first time the program is running
+if ( !loadSuccessful )
+    {
+    new StopWatch( true, 'StopWatch' );
+    new StopWatch( false, 'CountDown' );
+    }
+};
+
+
+window.onunload = function()
+{
+save();
 };

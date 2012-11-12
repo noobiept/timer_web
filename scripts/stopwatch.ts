@@ -4,29 +4,33 @@
 class StopWatch
 { 
     // private properties
-private COUNT: number = 0;
+COUNT: number = 0;
 
-private COUNT_UP: bool;
-private BASE_CSS_CLASS: string;
+COUNT_UP: bool;
+BASE_CSS_CLASS: string;
 
-private NUMBER_DECIMAL_CASES: number = 0;
+NUMBER_DECIMAL_CASES: number = 0;
 
     // number of milliseconds between each tick
-private TIMER_INTERVAL: number = 1000;
+TIMER_INTERVAL: number = 1000;
 
-private COUNT_ELEMENT: HTMLDivElement;
-private START_STOP_ELEMENT: HTMLInputElement;
-private RESTART_ELEMENT: HTMLInputElement;
-private RESET_ELEMENT: HTMLInputElement;
-private OPEN_OPTIONS_ELEMENT: HTMLInputElement;
-private REMOVE_ELEMENT: HTMLCanvasElement;
-private ENTRY_ELEMENT: HTMLInputElement;    // for count down mode only
-private CONTAINER_ELEMENT: HTMLDivElement;
+COUNT_ELEMENT: HTMLDivElement;
+START_STOP_ELEMENT: HTMLInputElement;
+RESTART_ELEMENT: HTMLInputElement;
+RESET_ELEMENT: HTMLInputElement;
+OPEN_OPTIONS_ELEMENT: HTMLInputElement;
+REMOVE_ELEMENT: HTMLCanvasElement;
+ENTRY_ELEMENT: HTMLInputElement;    // for count down mode only
+CONTAINER_ELEMENT: HTMLDivElement;
 
-private INTERVAL_F: number;
+INTERVAL_F: number;
 
     // tells when the stop watch is running or not
-private RUNNING = false;
+RUNNING = false;
+
+
+    // contains all the stopwatches created
+static ALL_STOPWATCHES = [];
     
 
 constructor( countUp: bool, baseCssClass: string )
@@ -216,6 +220,9 @@ this.CONTAINER_ELEMENT = container;
     // :: Update the watch :: //
 
 this.updateWatch( this.getInitialValue() );
+
+
+StopWatch.ALL_STOPWATCHES.push( this );
 }
 
 
@@ -340,6 +347,12 @@ this.startTimer();
 
 remove()
 {
+    // remove the reference
+var position = StopWatch.ALL_STOPWATCHES.indexOf( this );
+
+StopWatch.ALL_STOPWATCHES.splice( position, 1 );
+
+    // remove from the DOM
 var mainContainer = <HTMLDivElement> document.querySelector( '#' + this.BASE_CSS_CLASS + '-mainContainer' );
 
 mainContainer.removeChild( this.CONTAINER_ELEMENT );
@@ -413,6 +426,8 @@ if ( !foundPattern )
 
 return milliseconds;
 }
+
+
 
 
 

@@ -96,7 +96,9 @@ var StopWatch = (function () {
         this.ENTRY_ELEMENT = entry;
         this.CONTAINER_ELEMENT = container;
         this.updateWatch(this.getInitialValue());
+        StopWatch.ALL_STOPWATCHES.push(this);
     }
+    StopWatch.ALL_STOPWATCHES = [];
     StopWatch.prototype.updateWatch = function (count) {
         this.COUNT = count;
         this.COUNT_ELEMENT.innerText = dateToString(count, this.NUMBER_DECIMAL_CASES);
@@ -158,6 +160,8 @@ var StopWatch = (function () {
         this.startTimer();
     };
     StopWatch.prototype.remove = function () {
+        var position = StopWatch.ALL_STOPWATCHES.indexOf(this);
+        StopWatch.ALL_STOPWATCHES.splice(position, 1);
         var mainContainer = document.querySelector('#' + this.BASE_CSS_CLASS + '-mainContainer');
         mainContainer.removeChild(this.CONTAINER_ELEMENT);
     };
