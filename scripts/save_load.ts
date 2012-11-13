@@ -4,6 +4,7 @@ interface SaveStopWatch
     baseCssClass: string;
     count: number;
     running: bool;
+    started: bool;
     numberDecimalCases: number;
     entryValue: string;    // for CountDown only (null for the other type)
     countUp: bool;
@@ -35,6 +36,7 @@ for (var i = 0 ; i < all.length ; i++)
         baseCssClass: watch.BASE_CSS_CLASS,
         count: watch.COUNT,
         running: watch.RUNNING,
+        started: watch.STARTED,
         numberDecimalCases: watch.NUMBER_DECIMAL_CASES,
         entryValue: entryValue,
         countUp: watch.COUNT_UP
@@ -76,15 +78,17 @@ for (var i = 0 ; i < all.length ; i++)
         watch.ENTRY_ELEMENT.value = saveWatch.entryValue;
         }
 
-    watch.NUMBER_DECIMAL_CASES = saveWatch.numberDecimalCases;
+    watch.changeNumberDecimalCases( saveWatch.numberDecimalCases );
+    watch.STARTED = saveWatch.started;
+
     watch.updateWatch( saveWatch.count );
 
     if ( saveWatch.running )
         {
-        watch.START_STOP_ELEMENT.value = 'Stop';    //HERE refactor this
-        //HERE there's the case when a timer has started but was stopped (the startStop button has to have the value 'Continue'
         watch.startTimer();
         }
+
+    watch.updateStartStopButtonValue();
     }
 
 return true;

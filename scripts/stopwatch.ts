@@ -27,7 +27,9 @@ INTERVAL_F: number;
 
     // tells when the stop watch is running or not
 RUNNING = false;
-
+    
+    // tells if a clock has started (different than running, in the sense that it can be started and then paused, and restarted, which is different than being in its initial state)
+STARTED = false;
 
     // contains all the stopwatches created
 static ALL_STOPWATCHES = [];
@@ -135,6 +137,8 @@ watchMainContainer.appendChild( container );
 
 startStop.onclick = () =>
     {
+    this.STARTED = true;
+
         // start the watch
     if ( !this.RUNNING )
         {
@@ -155,6 +159,8 @@ startStop.onclick = () =>
 
 restart.onclick = () =>
     {
+    this.STARTED = true;
+
     startStop.value = 'Stop';
 
     this.updateWatch( this.getInitialValue() );
@@ -165,6 +171,8 @@ restart.onclick = () =>
 
 reset.onclick = () =>
     {
+    this.STARTED = false;
+
     this.stopTimer();
 
     startStop.value = "Start";
@@ -331,17 +339,33 @@ this.NUMBER_DECIMAL_CASES = num;
 
 this.TIMER_INTERVAL = 1000 / Math.pow( 10, num );
 
-this.START_STOP_ELEMENT.value = 'Stop';
 
     // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc.. 
-var rounded = this.COUNT / 1000;    // change milliseconds to seconds, to be able to round
+    // change milliseconds to seconds, to be able to round
+var rounded = this.COUNT / 1000;    
+
 
     // round the number to the lowest integer that is close
 rounded = Math.floor( rounded );
 
 this.COUNT = rounded * 1000;    // and back to milliseconds
 
-this.startTimer();
+
+this.updateWatch( this.COUNT );
+
+    // we have to reset the timer to have the changes take effect, but if the watch isn't running, we have to stop it
+if ( this.RUNNING )
+    {
+    this.startTimer();
+    }
+
+else
+    {
+    this.startTimer();
+
+        // just to make the change have effect
+    this.stopTimer();
+    }
 }
 
 
@@ -428,6 +452,31 @@ return milliseconds;
 }
 
 
+/*
+    Possible values:
+
+        - Start    
+        - Stop
+        - Continue
+ */
+
+updateStartStopButtonValue()
+{
+if ( !this.STARTED )
+    {
+    this.START_STOP_ELEMENT.value = 'Start';
+    }
+
+else if ( this.RUNNING )
+    {
+    this.START_STOP_ELEMENT.value = 'Stop';
+    }
+
+else
+    {
+    this.START_STOP_ELEMENT.value = 'Continue';
+    }
+}
 
 
 

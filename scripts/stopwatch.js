@@ -5,6 +5,7 @@ var StopWatch = (function () {
         this.NUMBER_DECIMAL_CASES = 0;
         this.TIMER_INTERVAL = 1000;
         this.RUNNING = false;
+        this.STARTED = false;
         this.COUNT_UP = countUp;
         this.BASE_CSS_CLASS = baseCssClass;
         var title = document.createElement('h2');
@@ -54,6 +55,7 @@ var StopWatch = (function () {
         var watchMainContainer = document.querySelector('#' + baseCssClass + '-mainContainer');
         watchMainContainer.appendChild(container);
         startStop.onclick = function () {
+            _this.STARTED = true;
             if(!_this.RUNNING) {
                 _this.startTimer();
                 startStop.value = "Stop";
@@ -63,11 +65,13 @@ var StopWatch = (function () {
             }
         };
         restart.onclick = function () {
+            _this.STARTED = true;
             startStop.value = 'Stop';
             _this.updateWatch(_this.getInitialValue());
             _this.startTimer();
         };
         reset.onclick = function () {
+            _this.STARTED = false;
             _this.stopTimer();
             startStop.value = "Start";
             _this.updateWatch(_this.getInitialValue());
@@ -153,11 +157,16 @@ var StopWatch = (function () {
         }
         this.NUMBER_DECIMAL_CASES = num;
         this.TIMER_INTERVAL = 1000 / Math.pow(10, num);
-        this.START_STOP_ELEMENT.value = 'Stop';
         var rounded = this.COUNT / 1000;
         rounded = Math.floor(rounded);
         this.COUNT = rounded * 1000;
-        this.startTimer();
+        this.updateWatch(this.COUNT);
+        if(this.RUNNING) {
+            this.startTimer();
+        } else {
+            this.startTimer();
+            this.stopTimer();
+        }
     };
     StopWatch.prototype.remove = function () {
         var position = StopWatch.ALL_STOPWATCHES.indexOf(this);
@@ -184,6 +193,17 @@ var StopWatch = (function () {
             throw "Didn't found the pattern";
         }
         return milliseconds;
+    };
+    StopWatch.prototype.updateStartStopButtonValue = function () {
+        if(!this.STARTED) {
+            this.START_STOP_ELEMENT.value = 'Start';
+        } else {
+            if(this.RUNNING) {
+                this.START_STOP_ELEMENT.value = 'Stop';
+            } else {
+                this.START_STOP_ELEMENT.value = 'Continue';
+            }
+        }
     };
     StopWatch.prototype.tick = function () {
         var nextCount;

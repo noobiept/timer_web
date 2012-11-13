@@ -14,6 +14,7 @@ function save() {
             baseCssClass: watch.BASE_CSS_CLASS,
             count: watch.COUNT,
             running: watch.RUNNING,
+            started: watch.STARTED,
             numberDecimalCases: watch.NUMBER_DECIMAL_CASES,
             entryValue: entryValue,
             countUp: watch.COUNT_UP
@@ -35,12 +36,13 @@ function load() {
         if(!saveWatch.countUp) {
             watch.ENTRY_ELEMENT.value = saveWatch.entryValue;
         }
-        watch.NUMBER_DECIMAL_CASES = saveWatch.numberDecimalCases;
+        watch.changeNumberDecimalCases(saveWatch.numberDecimalCases);
+        watch.STARTED = saveWatch.started;
         watch.updateWatch(saveWatch.count);
         if(saveWatch.running) {
-            watch.START_STOP_ELEMENT.value = 'Stop';
             watch.startTimer();
         }
+        watch.updateStartStopButtonValue();
     }
     return true;
 }
