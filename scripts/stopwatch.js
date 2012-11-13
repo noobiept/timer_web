@@ -96,6 +96,7 @@ var StopWatch = (function () {
         this.START_STOP_ELEMENT = startStop;
         this.RESTART_ELEMENT = restart;
         this.RESET_ELEMENT = reset;
+        this.OPEN_OPTIONS_ELEMENT = options;
         this.REMOVE_ELEMENT = remove;
         this.ENTRY_ELEMENT = entry;
         this.CONTAINER_ELEMENT = container;
@@ -149,7 +150,8 @@ var StopWatch = (function () {
         options.appendChild(roundedCases);
         options.appendChild(zero);
         options.appendChild(one);
-        new PopupWindow(options, 200, 200);
+        var offset = $(this.OPEN_OPTIONS_ELEMENT).offset();
+        new PopupWindow(options, offset.left + 70, offset.top);
     };
     StopWatch.prototype.changeNumberDecimalCases = function (num) {
         if(num < 0 || num > 3) {

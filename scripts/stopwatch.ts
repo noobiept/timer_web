@@ -219,6 +219,7 @@ this.COUNT_ELEMENT = count;
 this.START_STOP_ELEMENT = startStop;
 this.RESTART_ELEMENT = restart;
 this.RESET_ELEMENT = reset;
+this.OPEN_OPTIONS_ELEMENT = options;
 this.REMOVE_ELEMENT = remove;
 this.ENTRY_ELEMENT = entry;
 this.CONTAINER_ELEMENT = container;
@@ -323,8 +324,10 @@ options.appendChild( roundedCases );
 options.appendChild( zero );
 options.appendChild( one );
 
-    //HERE use jqueryui position 
-new PopupWindow( options, 200, 200 ); 
+    // position the popup window left to the openOptions button
+var offset = $( this.OPEN_OPTIONS_ELEMENT ).offset();
+
+new PopupWindow( options, offset.left + 70, offset.top ); 
 }
 
 
