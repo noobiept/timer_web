@@ -92,6 +92,7 @@ var StopWatch = (function () {
                 }
             };
         }
+        this.TITLE_ELEMENT = title;
         this.COUNT_ELEMENT = count;
         this.START_STOP_ELEMENT = startStop;
         this.RESTART_ELEMENT = restart;
@@ -147,9 +148,15 @@ var StopWatch = (function () {
         one.onclick = function () {
             _this.changeNumberDecimalCases(1);
         };
+        var two = document.createElement('div');
+        two.innerText = 'Two';
+        two.onclick = function () {
+            _this.changeNumberDecimalCases(2);
+        };
         options.appendChild(roundedCases);
         options.appendChild(zero);
         options.appendChild(one);
+        options.appendChild(two);
         var offset = $(this.OPEN_OPTIONS_ELEMENT).offset();
         new PopupWindow(options, offset.left + 70, offset.top);
     };
@@ -206,6 +213,12 @@ var StopWatch = (function () {
                 this.START_STOP_ELEMENT.value = 'Continue';
             }
         }
+    };
+    StopWatch.prototype.getTitle = function () {
+        return this.TITLE_ELEMENT.innerText;
+    };
+    StopWatch.prototype.setTitle = function (newTitle) {
+        this.TITLE_ELEMENT.innerText = newTitle;
     };
     StopWatch.prototype.tick = function () {
         var nextCount;

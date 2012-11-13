@@ -1,6 +1,7 @@
 
 interface SaveStopWatch
     {
+    title: string;
     baseCssClass: string;
     count: number;
     running: bool;
@@ -33,6 +34,7 @@ for (var i = 0 ; i < all.length ; i++)
         }
 
     saveWatch = {
+        title: watch.getTitle(),
         baseCssClass: watch.BASE_CSS_CLASS,
         count: watch.COUNT,
         running: watch.RUNNING,
@@ -71,6 +73,8 @@ for (var i = 0 ; i < all.length ; i++)
     saveWatch = all[ i ]; 
 
     watch = new StopWatch( saveWatch.countUp, saveWatch.baseCssClass );
+
+    watch.setTitle( saveWatch.title );
 
         // if its of the type count down, update the entry's value
     if ( !saveWatch.countUp )

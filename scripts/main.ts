@@ -13,11 +13,7 @@
 
     to doo:
 
-        - gravar na localStorage os titulos/timers adicionados etc
 
-        - option to specify if we count 1, 2, 3, 4, ...
-            or 1.0, 1.1, 1.2, 1.3, 1.4, ...
-            or 1.00, 1.01, 1.02, 1.03, 1.04, ... 
 
  */
 

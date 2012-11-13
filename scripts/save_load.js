@@ -11,6 +11,7 @@ function save() {
             entryValue = watch.ENTRY_ELEMENT.value;
         }
         saveWatch = {
+            title: watch.getTitle(),
             baseCssClass: watch.BASE_CSS_CLASS,
             count: watch.COUNT,
             running: watch.RUNNING,
@@ -33,6 +34,7 @@ function load() {
     for(var i = 0; i < all.length; i++) {
         saveWatch = all[i];
         watch = new StopWatch(saveWatch.countUp, saveWatch.baseCssClass);
+        watch.setTitle(saveWatch.title);
         if(!saveWatch.countUp) {
             watch.ENTRY_ELEMENT.value = saveWatch.entryValue;
         }

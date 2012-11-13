@@ -14,6 +14,7 @@ NUMBER_DECIMAL_CASES: number = 0;
     // number of milliseconds between each tick
 TIMER_INTERVAL: number = 1000;
 
+TITLE_ELEMENT: HTMLHeadingElement;
 COUNT_ELEMENT: HTMLDivElement;
 START_STOP_ELEMENT: HTMLInputElement;
 RESTART_ELEMENT: HTMLInputElement;
@@ -215,6 +216,7 @@ if ( !countUp )
 
     // :: save references to the html elements :: //
 
+this.TITLE_ELEMENT = title;
 this.COUNT_ELEMENT = count;
 this.START_STOP_ELEMENT = startStop;
 this.RESTART_ELEMENT = restart;
@@ -320,9 +322,18 @@ one.onclick = () =>
     this.changeNumberDecimalCases( 1 );
     };
 
+var two = document.createElement( 'div' );
+
+two.innerText = 'Two';
+two.onclick = () =>
+    {
+    this.changeNumberDecimalCases( 2 );
+    };
+
 options.appendChild( roundedCases );
 options.appendChild( zero );
 options.appendChild( one );
+options.appendChild( two );
 
     // position the popup window left to the openOptions button
 var offset = $( this.OPEN_OPTIONS_ELEMENT ).offset();
@@ -481,6 +492,18 @@ else
     }
 }
 
+
+
+getTitle(): string
+{
+return this.TITLE_ELEMENT.innerText;
+}
+
+
+setTitle( newTitle: string )
+{
+this.TITLE_ELEMENT.innerText = newTitle;
+}
 
 
 tick()
