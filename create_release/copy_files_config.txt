@@ -1,0 +1,14 @@
+[    
+    "libraries/",
+    
+    "scripts/main.js",
+    "scripts/popup_window.js",
+    "scripts/save_load.js",
+    "scripts/stopwatch.js",
+    "scripts/utilities.js",
+    
+    "home.html",
+    "manifest.json",
+    
+    "style.css"
+]

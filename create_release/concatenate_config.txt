@@ -1,0 +1,9 @@
+{
+    "..": [
+        "scripts/main.js", 
+        "scripts/stopwatch.js", 
+        "scripts/utilities.js", 
+        "scripts/popup_window.js", 
+        "scripts/save_load.js"
+    ]
+}
