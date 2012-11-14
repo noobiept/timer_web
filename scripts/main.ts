@@ -13,6 +13,7 @@
 
     to doo:
 
+        ~- ter um background-color diferente caso o relogio esteja inactivo, activo mas parado, activo a funcionar, e qd ja passou o limite (no countDown)
 
 
  */

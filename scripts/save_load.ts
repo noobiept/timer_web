@@ -12,6 +12,7 @@ interface SaveStopWatch
     }
 
 
+
 function save()
 {
 var all = StopWatch.ALL_STOPWATCHES;
@@ -89,10 +90,15 @@ for (var i = 0 ; i < all.length ; i++)
 
     if ( saveWatch.running )
         {
-        watch.startTimer();
+        watch.startWatch();
         }
 
-    watch.updateStartStopButtonValue();
+    else if ( saveWatch.started )
+        {
+        watch.stopWatch();
+        }
+    
+    watch.reachedLimit();
     }
 
 return true;

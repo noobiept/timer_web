@@ -42,9 +42,13 @@ function load() {
         watch.STARTED = saveWatch.started;
         watch.updateWatch(saveWatch.count);
         if(saveWatch.running) {
-            watch.startTimer();
+            watch.startWatch();
+        } else {
+            if(saveWatch.started) {
+                watch.stopWatch();
+            }
         }
-        watch.updateStartStopButtonValue();
+        watch.reachedLimit();
     }
     return true;
 }

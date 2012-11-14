@@ -1,6 +1,8 @@
 ﻿body
     {
     font-family: 'Segoe UI', sans-serif;
+
+    background-color: rgba(3, 127, 246, 0.1);
     }
 
 #title
@@ -14,7 +16,13 @@
     float: left;    
 
     margin-top: 20px;
+
     width: 50%;
+    }
+
+#StopWatch-mainContainer, #CountDown-mainContainer
+    {
+    padding: 20px;
     }
 
 
@@ -37,6 +45,12 @@
 #StopWatch-add, #CountDown-add
     {
     cursor: pointer;
+    background-color: rgba(3, 127, 246, 0.3);
+    
+    margin: 0 5px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 3px 0;
     }
 
 
@@ -59,4 +73,30 @@
     position: absolute;
     top: 2px;
     right: 8px;
+    }
+
+
+.StopWatch-container, .CountDown-container
+    {
+    border-radius: 5px;
+    }   
+
+.watch-active
+    {
+    background-color: rgba(0, 252, 0, 0.4);
+    }
+
+.watch-notActive
+    {
+    background-color: none;
+    }
+
+.watch-stopped
+    {
+    background-color: rgba(36, 19, 181, 0.4);
+    }
+
+.watch-finished
+    {
+    background-color: rgba(188, 0, 0, 0.4);
     }

@@ -115,6 +115,7 @@ if ( countUp === false )
 var container = <HTMLDivElement> document.createElement( 'div' );
 
 container.className = baseCssClass + '-container';
+$( container ).addClass( 'notActive' );
 
 container.appendChild( title );
 container.appendChild( count );
@@ -143,42 +144,26 @@ startStop.onclick = () =>
         // start the watch
     if ( !this.RUNNING )
         {
-        this.startTimer();
-   
-        startStop.value = "Stop";
+        this.startWatch();
         }
 
         // stop the watch
     else
         {
-        this.stopTimer();
-
-        startStop.value = "Continue";
+        this.stopWatch();
         }
     };
 
 
 restart.onclick = () =>
     {
-    this.STARTED = true;
-
-    startStop.value = 'Stop';
-
-    this.updateWatch( this.getInitialValue() );
-
-    this.startTimer();
+    this.restartWatch();
     };
 
 
 reset.onclick = () =>
     {
-    this.STARTED = false;
-
-    this.stopTimer();
-
-    startStop.value = "Start";
-
-    this.updateWatch( this.getInitialValue() );
+    this.resetWatch();
     };
 
 
@@ -203,12 +188,7 @@ if ( !countUp )
             // start or restart the watch
         if ( key == EVENT_KEY.enter )
             {
-                //HERE same as when pressing the restart button
-            startStop.value = 'Stop';
-
-            this.updateWatch( this.getInitialValue() );
-
-            this.startTimer();
+            this.restartWatch();
             }
         };
     }
@@ -237,6 +217,100 @@ StopWatch.ALL_STOPWATCHES.push( this );
 }
 
 
+/*
+    Removes the css classes from the container (which set a background-color depending on the state of the watch)
+
+    It then is set the correct one
+ */
+
+clearContainerCssClasses()
+{
+$( this.CONTAINER_ELEMENT ).removeClass( 'watch-active' );
+$( this.CONTAINER_ELEMENT ).removeClass( 'watch-notActive' );
+$( this.CONTAINER_ELEMENT ).removeClass( 'watch-stopped' );
+$( this.CONTAINER_ELEMENT ).removeClass( 'watch-finished' );
+}
+
+/*
+    Start the watch (from whatever value it was before)
+
+    To start from the beginning, use restartWatch()
+ */
+
+startWatch()
+{
+this.startTimer();  
+
+this.clearContainerCssClasses();
+
+    // if it reached the limit, let it have the background-color for that case, otherwise, the normal watch-active class
+if ( !this.reachedLimit() )
+    {
+    $( this.CONTAINER_ELEMENT ).addClass( 'watch-active' );
+    }
+
+   
+this.START_STOP_ELEMENT.value = "Stop";
+}
+
+/*
+    Stops the watch (but keeps the watch value, to be able to continue from the same time)
+ */
+
+stopWatch()
+{
+this.stopTimer();
+
+this.clearContainerCssClasses();
+
+    // if it reached the limit, let it have the background-color for that case, otherwise, the normal watch-active class
+if ( !this.reachedLimit() )
+    {
+    $( this.CONTAINER_ELEMENT ).addClass( 'watch-stopped' );
+    }
+
+this.START_STOP_ELEMENT.value = "Continue";
+}
+
+/*
+    Restarts the watch (watch value to its default, start watch again)
+ */
+
+restartWatch()
+{
+this.STARTED = true;
+
+this.START_STOP_ELEMENT.value = 'Stop';
+
+this.clearContainerCssClasses();
+
+$( this.CONTAINER_ELEMENT ).addClass( 'watch-active' );
+
+this.updateWatch( this.getInitialValue() );
+
+this.startTimer();
+}
+
+
+/*
+    Resets the watch (watch value to the default value, stop timer)
+ */
+
+resetWatch()
+{
+this.STARTED = false;
+
+this.stopTimer();
+
+this.START_STOP_ELEMENT.value = "Start";
+
+this.clearContainerCssClasses();
+
+$( this.CONTAINER_ELEMENT ).addClass( 'notActive' );
+
+this.updateWatch( this.getInitialValue() );
+}
+
 
 /*
     Updates the watch current number
@@ -247,6 +321,32 @@ updateWatch( count: number )
 this.COUNT = count;
 
 this.COUNT_ELEMENT.innerText = dateToString( count, this.NUMBER_DECIMAL_CASES );
+
+    // check if the CountDown watches finished (only relevant for CountDown watches)
+this.reachedLimit();
+}
+
+
+/*
+    For CountDown only, when it reaches the count limit (and if so, change the background-color)
+ */
+
+reachedLimit(): bool
+{
+if ( !this.COUNT_UP )
+    {
+    if ( this.COUNT < 0 )
+        {
+        this.clearContainerCssClasses();
+
+        $( this.CONTAINER_ELEMENT ).addClass( 'watch-finished' );
+        //HERE and maybe show some message...
+        
+        return true;
+        }
+    }
+
+return false;
 }
 
 
@@ -466,32 +566,6 @@ return milliseconds;
 }
 
 
-/*
-    Possible values:
-
-        - Start    
-        - Stop
-        - Continue
- */
-
-updateStartStopButtonValue()
-{
-if ( !this.STARTED )
-    {
-    this.START_STOP_ELEMENT.value = 'Start';
-    }
-
-else if ( this.RUNNING )
-    {
-    this.START_STOP_ELEMENT.value = 'Stop';
-    }
-
-else
-    {
-    this.START_STOP_ELEMENT.value = 'Continue';
-    }
-}
-
 
 
 getTitle(): string
@@ -519,6 +593,7 @@ else
     {
     nextCount = this.COUNT - this.TIMER_INTERVAL;
     }
+
 this.updateWatch( nextCount );
 }
 

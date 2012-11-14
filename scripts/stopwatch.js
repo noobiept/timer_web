@@ -42,6 +42,7 @@ var StopWatch = (function () {
         }
         var container = document.createElement('div');
         container.className = baseCssClass + '-container';
+        $(container).addClass('notActive');
         container.appendChild(title);
         container.appendChild(count);
         container.appendChild(startStop);
@@ -57,24 +58,16 @@ var StopWatch = (function () {
         startStop.onclick = function () {
             _this.STARTED = true;
             if(!_this.RUNNING) {
-                _this.startTimer();
-                startStop.value = "Stop";
+                _this.startWatch();
             } else {
-                _this.stopTimer();
-                startStop.value = "Continue";
+                _this.stopWatch();
             }
         };
         restart.onclick = function () {
-            _this.STARTED = true;
-            startStop.value = 'Stop';
-            _this.updateWatch(_this.getInitialValue());
-            _this.startTimer();
+            _this.restartWatch();
         };
         reset.onclick = function () {
-            _this.STARTED = false;
-            _this.stopTimer();
-            startStop.value = "Start";
-            _this.updateWatch(_this.getInitialValue());
+            _this.resetWatch();
         };
         options.onclick = function () {
             _this.openOptions();
@@ -86,9 +79,7 @@ var StopWatch = (function () {
             entry.onkeypress = function (event) {
                 var key = event.which;
                 if(key == EVENT_KEY.enter) {
-                    startStop.value = 'Stop';
-                    _this.updateWatch(_this.getInitialValue());
-                    _this.startTimer();
+                    _this.restartWatch();
                 }
             };
         }
@@ -105,9 +96,58 @@ var StopWatch = (function () {
         StopWatch.ALL_STOPWATCHES.push(this);
     }
     StopWatch.ALL_STOPWATCHES = [];
+    StopWatch.prototype.clearContainerCssClasses = function () {
+        $(this.CONTAINER_ELEMENT).removeClass('watch-active');
+        $(this.CONTAINER_ELEMENT).removeClass('watch-notActive');
+        $(this.CONTAINER_ELEMENT).removeClass('watch-stopped');
+        $(this.CONTAINER_ELEMENT).removeClass('watch-finished');
+    };
+    StopWatch.prototype.startWatch = function () {
+        this.startTimer();
+        this.clearContainerCssClasses();
+        if(!this.reachedLimit()) {
+            $(this.CONTAINER_ELEMENT).addClass('watch-active');
+        }
+        this.START_STOP_ELEMENT.value = "Stop";
+    };
+    StopWatch.prototype.stopWatch = function () {
+        this.stopTimer();
+        this.clearContainerCssClasses();
+        if(!this.reachedLimit()) {
+            $(this.CONTAINER_ELEMENT).addClass('watch-stopped');
+        }
+        this.START_STOP_ELEMENT.value = "Continue";
+    };
+    StopWatch.prototype.restartWatch = function () {
+        this.STARTED = true;
+        this.START_STOP_ELEMENT.value = 'Stop';
+        this.clearContainerCssClasses();
+        $(this.CONTAINER_ELEMENT).addClass('watch-active');
+        this.updateWatch(this.getInitialValue());
+        this.startTimer();
+    };
+    StopWatch.prototype.resetWatch = function () {
+        this.STARTED = false;
+        this.stopTimer();
+        this.START_STOP_ELEMENT.value = "Start";
+        this.clearContainerCssClasses();
+        $(this.CONTAINER_ELEMENT).addClass('notActive');
+        this.updateWatch(this.getInitialValue());
+    };
     StopWatch.prototype.updateWatch = function (count) {
         this.COUNT = count;
         this.COUNT_ELEMENT.innerText = dateToString(count, this.NUMBER_DECIMAL_CASES);
+        this.reachedLimit();
+    };
+    StopWatch.prototype.reachedLimit = function () {
+        if(!this.COUNT_UP) {
+            if(this.COUNT < 0) {
+                this.clearContainerCssClasses();
+                $(this.CONTAINER_ELEMENT).addClass('watch-finished');
+                return true;
+            }
+        }
+        return false;
     };
     StopWatch.prototype.getInitialValue = function () {
         var value = 0;
@@ -202,17 +242,6 @@ var StopWatch = (function () {
             throw "Didn't found the pattern";
         }
         return milliseconds;
-    };
-    StopWatch.prototype.updateStartStopButtonValue = function () {
-        if(!this.STARTED) {
-            this.START_STOP_ELEMENT.value = 'Start';
-        } else {
-            if(this.RUNNING) {
-                this.START_STOP_ELEMENT.value = 'Stop';
-            } else {
-                this.START_STOP_ELEMENT.value = 'Continue';
-            }
-        }
     };
     StopWatch.prototype.getTitle = function () {
         return this.TITLE_ELEMENT.innerText;
