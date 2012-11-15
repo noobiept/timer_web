@@ -1,9 +1,6 @@
 /*
     to doo:
 
-        - count down tem uma entry para por o numero inicial, e dps quando acabar tem uma mensagem, e conta o tempo desde k ja acabou 
-
-        - dateToString() doesn't work with negative numbers (in CountDown, when it passes the limit, its just seconds)
 
  */
 
@@ -11,6 +8,8 @@
     Dependencies:
 
         - jquery
+        - jqueryui:
+            - position
 
  */
 

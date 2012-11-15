@@ -78,6 +78,18 @@ var EVENT_KEY = {
 
 function dateToString( dateMilliseconds: number, forceDecimalCases?: number )
 {
+    // :: Deal with negative numbers :: //
+
+var isNegative = false;
+
+    // if its negative, we turn it positive for now, and then later add a minus sign
+if ( dateMilliseconds < 0 )
+    {
+    isNegative = true;
+
+    dateMilliseconds *= -1;
+    }
+
     // :: convert to days/hours :: //
 
     //in milliseconds
@@ -191,6 +203,12 @@ else
 date += secondsLeftStr + ' ' + secondStr;
 
    
+    // add the minus sign
+if ( isNegative )
+    {
+    date = '-' + date;
+    }
+
 return date;
 }
 

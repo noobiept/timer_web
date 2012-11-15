@@ -61,6 +61,11 @@ var EVENT_KEY = {
     f12: 123
 };
 function dateToString(dateMilliseconds, forceDecimalCases) {
+    var isNegative = false;
+    if(dateMilliseconds < 0) {
+        isNegative = true;
+        dateMilliseconds *= -1;
+    }
     var second = 1000;
     var minute = 60 * second;
     var hour = 60 * minute;
@@ -115,6 +120,9 @@ function dateToString(dateMilliseconds, forceDecimalCases) {
         secondsLeftStr = secondsLeft.toString();
     }
     date += secondsLeftStr + ' ' + secondStr;
+    if(isNegative) {
+        date = '-' + date;
+    }
     return date;
 }
 function numberOfDigits(theNumber) {
