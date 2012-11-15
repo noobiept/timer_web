@@ -1,6 +1,23 @@
 /// <reference path="utilities.ts" />
 /// <reference path="popup_window.ts" />
 
+
+interface StopWatchArguments
+    {
+        // required
+    countUp      : bool;
+    baseCssClass : string;
+
+        // optional arguments
+    started    ? : bool;
+    running    ? : bool;
+    count      ? : number;
+    title      ? : string;
+    entryValue ? : string;  // for CountDown only (null for the other type)
+    reachedLimit      ? : bool;
+    numberDecimalCases? : number;
+    }
+
 class StopWatch
 { 
     // private properties
@@ -21,8 +38,13 @@ RESTART_ELEMENT: HTMLInputElement;
 RESET_ELEMENT: HTMLInputElement;
 OPEN_OPTIONS_ELEMENT: HTMLInputElement;
 REMOVE_ELEMENT: HTMLCanvasElement;
-ENTRY_ELEMENT: HTMLInputElement;    // for count down mode only
 CONTAINER_ELEMENT: HTMLDivElement;
+
+    // for CountDown mode only
+ENTRY_ELEMENT: HTMLInputElement;
+REACHED_LIMIT_ELEMENT: HTMLDivElement;
+
+REACHED_LIMIT = false;
 
 INTERVAL_F: number;
 
@@ -36,8 +58,12 @@ STARTED = false;
 static ALL_STOPWATCHES = [];
     
 
-constructor( countUp: bool, baseCssClass: string )
+
+constructor( watchArguments: StopWatchArguments )
 {
+var countUp = watchArguments.countUp;
+var baseCssClass = watchArguments.baseCssClass;
+
 this.COUNT_UP = countUp;
 this.BASE_CSS_CLASS = baseCssClass;
 
@@ -47,7 +73,17 @@ var title = <HTMLHeadingElement> document.createElement( 'h2' );
 
 title.className = baseCssClass + '-title';
 title.contentEditable = 'true';
-title.innerText = separateWords( baseCssClass ) + ' Title';
+
+if ( watchArguments.title )
+    {
+    title.innerText = watchArguments.title;
+    }
+
+else
+    {
+    title.innerText = separateWords( baseCssClass ) + ' Title';
+    }
+
 
     // :: Count Element :: //
 
@@ -106,7 +142,16 @@ if ( countUp === false )
 
     entry.className = baseCssClass + '-entry';
     entry.type = 'text';
-    entry.value = '10s';
+    
+    if ( watchArguments.entryValue )
+        {
+        entry.value = watchArguments.entryValue;
+        }
+
+    else
+        {
+        entry.value = '10s';
+        }
     }
 
 
@@ -210,7 +255,29 @@ this.CONTAINER_ELEMENT = container;
 
     // :: Update the watch :: //
 
-this.updateWatch( this.getInitialValue() );
+if ( watchArguments.count )
+    {
+    this.updateWatch( watchArguments.count );
+    }
+
+else
+    {
+    this.updateWatch( this.getInitialValue() );
+    }
+
+
+if ( watchArguments.started )
+    {
+    if ( watchArguments.running )
+        {
+        this.startWatch();
+        }
+
+    else
+        {
+        this.stopWatch();
+        }
+    }
 
 
 StopWatch.ALL_STOPWATCHES.push( this );
@@ -239,13 +306,15 @@ $( this.CONTAINER_ELEMENT ).removeClass( 'watch-finished' );
 
 startWatch()
 {
+this.STARTED = true;
 this.startTimer();  
 
-this.clearContainerCssClasses();
 
     // if it reached the limit, let it have the background-color for that case, otherwise, the normal watch-active class
 if ( !this.reachedLimit() )
     {
+    this.clearContainerCssClasses();
+
     $( this.CONTAINER_ELEMENT ).addClass( 'watch-active' );
     }
 
@@ -259,13 +328,15 @@ this.START_STOP_ELEMENT.value = "Stop";
 
 stopWatch()
 {
+this.STARTED = true;
 this.stopTimer();
 
-this.clearContainerCssClasses();
 
     // if it reached the limit, let it have the background-color for that case, otherwise, the normal watch-active class
 if ( !this.reachedLimit() )
     {
+    this.clearContainerCssClasses();
+
     $( this.CONTAINER_ELEMENT ).addClass( 'watch-stopped' );
     }
 
@@ -299,6 +370,12 @@ this.startTimer();
 resetWatch()
 {
 this.STARTED = false;
+this.REACHED_LIMIT = false;
+
+if ( this.REACHED_LIMIT_ELEMENT )
+    {
+    this.CONTAINER_ELEMENT.removeChild( this.REACHED_LIMIT_ELEMENT );
+    }
 
 this.stopTimer();
 
@@ -335,13 +412,31 @@ reachedLimit(): bool
 {
 if ( !this.COUNT_UP )
     {
+        // no need to do anything
+    if ( this.REACHED_LIMIT )
+        {
+        return true;
+        }
+
     if ( this.COUNT < 0 )
         {
+        this.REACHED_LIMIT = true;
+
         this.clearContainerCssClasses();
 
         $( this.CONTAINER_ELEMENT ).addClass( 'watch-finished' );
-        //HERE and maybe show some message...
         
+            // :: show some message :: //
+
+        var reachedLimitMessage = <HTMLDivElement> document.createElement( 'div' );
+
+        reachedLimitMessage.className = this.BASE_CSS_CLASS + '-reachedLimitMessage';
+        reachedLimitMessage.innerText = '<-- Ended';
+
+        this.CONTAINER_ELEMENT.appendChild( reachedLimitMessage );
+        
+        this.REACHED_LIMIT_ELEMENT = reachedLimitMessage;
+
         return true;
         }
     }

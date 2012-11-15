@@ -93,7 +93,7 @@ var secondsLeft = 0;
 
 
     //count the days
-while (dateMilliseconds > day)
+while (dateMilliseconds >= day)
     {
     daysLeft++;
 
@@ -101,7 +101,7 @@ while (dateMilliseconds > day)
     }
 
     //count the hours
-while (dateMilliseconds > hour)
+while (dateMilliseconds >= hour)
     {
     hoursLeft++;
     
@@ -109,7 +109,7 @@ while (dateMilliseconds > hour)
     }
     
     //count the minutes
-while (dateMilliseconds > minute)
+while (dateMilliseconds >= minute)
     {
     minutesLeft++;
     

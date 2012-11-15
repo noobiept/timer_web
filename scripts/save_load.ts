@@ -1,17 +1,4 @@
 
-interface SaveStopWatch
-    {
-    title: string;
-    baseCssClass: string;
-    count: number;
-    running: bool;
-    started: bool;
-    numberDecimalCases: number;
-    entryValue: string;    // for CountDown only (null for the other type)
-    countUp: bool;
-    }
-
-
 
 function save()
 {
@@ -19,7 +6,7 @@ var all = StopWatch.ALL_STOPWATCHES;
 var watch: StopWatch;
 
 var saveAll = [];
-var saveWatch: SaveStopWatch;
+var saveWatch: StopWatchArguments;
 
 var entryValue;
 
@@ -42,7 +29,8 @@ for (var i = 0 ; i < all.length ; i++)
         started: watch.STARTED,
         numberDecimalCases: watch.NUMBER_DECIMAL_CASES,
         entryValue: entryValue,
-        countUp: watch.COUNT_UP
+        countUp: watch.COUNT_UP,
+        reachedLimit: watch.REACHED_LIMIT
         };
 
     saveAll.push( saveWatch );
@@ -58,14 +46,14 @@ localStorage.setObject( 'watches', saveAll );
 
 function load(): bool
 {
-var all: SaveStopWatch[] = localStorage.getObject( 'watches' );
+var all: StopWatchArguments[] = localStorage.getObject( 'watches' );
 
 if ( !all )
     {
     return false;
     }
 
-var saveWatch: SaveStopWatch;
+var saveWatch: StopWatchArguments;
 
 var watch: StopWatch;
 
@@ -73,32 +61,7 @@ for (var i = 0 ; i < all.length ; i++)
     {
     saveWatch = all[ i ]; 
 
-    watch = new StopWatch( saveWatch.countUp, saveWatch.baseCssClass );
-
-    watch.setTitle( saveWatch.title );
-
-        // if its of the type count down, update the entry's value
-    if ( !saveWatch.countUp )
-        {
-        watch.ENTRY_ELEMENT.value = saveWatch.entryValue;
-        }
-
-    watch.changeNumberDecimalCases( saveWatch.numberDecimalCases );
-    watch.STARTED = saveWatch.started;
-
-    watch.updateWatch( saveWatch.count );
-
-    if ( saveWatch.running )
-        {
-        watch.startWatch();
-        }
-
-    else if ( saveWatch.started )
-        {
-        watch.stopWatch();
-        }
-    
-    watch.reachedLimit();
+    watch = new StopWatch( saveWatch );
     }
 
 return true;

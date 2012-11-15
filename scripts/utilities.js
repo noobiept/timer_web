@@ -69,15 +69,15 @@ function dateToString(dateMilliseconds, forceDecimalCases) {
     var hoursLeft = 0;
     var daysLeft = 0;
     var secondsLeft = 0;
-    while(dateMilliseconds > day) {
+    while(dateMilliseconds >= day) {
         daysLeft++;
         dateMilliseconds -= day;
     }
-    while(dateMilliseconds > hour) {
+    while(dateMilliseconds >= hour) {
         hoursLeft++;
         dateMilliseconds -= hour;
     }
-    while(dateMilliseconds > minute) {
+    while(dateMilliseconds >= minute) {
         minutesLeft++;
         dateMilliseconds -= minute;
     }

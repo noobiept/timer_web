@@ -18,7 +18,8 @@ function save() {
             started: watch.STARTED,
             numberDecimalCases: watch.NUMBER_DECIMAL_CASES,
             entryValue: entryValue,
-            countUp: watch.COUNT_UP
+            countUp: watch.COUNT_UP,
+            reachedLimit: watch.REACHED_LIMIT
         };
         saveAll.push(saveWatch);
     }
@@ -33,22 +34,7 @@ function load() {
     var watch;
     for(var i = 0; i < all.length; i++) {
         saveWatch = all[i];
-        watch = new StopWatch(saveWatch.countUp, saveWatch.baseCssClass);
-        watch.setTitle(saveWatch.title);
-        if(!saveWatch.countUp) {
-            watch.ENTRY_ELEMENT.value = saveWatch.entryValue;
-        }
-        watch.changeNumberDecimalCases(saveWatch.numberDecimalCases);
-        watch.STARTED = saveWatch.started;
-        watch.updateWatch(saveWatch.count);
-        if(saveWatch.running) {
-            watch.startWatch();
-        } else {
-            if(saveWatch.started) {
-                watch.stopWatch();
-            }
-        }
-        watch.reachedLimit();
+        watch = new StopWatch(saveWatch);
     }
     return true;
 }

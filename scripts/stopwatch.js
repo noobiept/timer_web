@@ -1,17 +1,24 @@
 var StopWatch = (function () {
-    function StopWatch(countUp, baseCssClass) {
+    function StopWatch(watchArguments) {
         var _this = this;
         this.COUNT = 0;
         this.NUMBER_DECIMAL_CASES = 0;
         this.TIMER_INTERVAL = 1000;
+        this.REACHED_LIMIT = false;
         this.RUNNING = false;
         this.STARTED = false;
+        var countUp = watchArguments.countUp;
+        var baseCssClass = watchArguments.baseCssClass;
         this.COUNT_UP = countUp;
         this.BASE_CSS_CLASS = baseCssClass;
         var title = document.createElement('h2');
         title.className = baseCssClass + '-title';
         title.contentEditable = 'true';
-        title.innerText = separateWords(baseCssClass) + ' Title';
+        if(watchArguments.title) {
+            title.innerText = watchArguments.title;
+        } else {
+            title.innerText = separateWords(baseCssClass) + ' Title';
+        }
         var count = document.createElement('div');
         count.className = baseCssClass + '-count';
         var startStop = document.createElement('input');
@@ -38,7 +45,11 @@ var StopWatch = (function () {
             entry = document.createElement('input');
             entry.className = baseCssClass + '-entry';
             entry.type = 'text';
-            entry.value = '10s';
+            if(watchArguments.entryValue) {
+                entry.value = watchArguments.entryValue;
+            } else {
+                entry.value = '10s';
+            }
         }
         var container = document.createElement('div');
         container.className = baseCssClass + '-container';
@@ -92,7 +103,18 @@ var StopWatch = (function () {
         this.REMOVE_ELEMENT = remove;
         this.ENTRY_ELEMENT = entry;
         this.CONTAINER_ELEMENT = container;
-        this.updateWatch(this.getInitialValue());
+        if(watchArguments.count) {
+            this.updateWatch(watchArguments.count);
+        } else {
+            this.updateWatch(this.getInitialValue());
+        }
+        if(watchArguments.started) {
+            if(watchArguments.running) {
+                this.startWatch();
+            } else {
+                this.stopWatch();
+            }
+        }
         StopWatch.ALL_STOPWATCHES.push(this);
     }
     StopWatch.ALL_STOPWATCHES = [];
@@ -103,17 +125,19 @@ var StopWatch = (function () {
         $(this.CONTAINER_ELEMENT).removeClass('watch-finished');
     };
     StopWatch.prototype.startWatch = function () {
+        this.STARTED = true;
         this.startTimer();
-        this.clearContainerCssClasses();
         if(!this.reachedLimit()) {
+            this.clearContainerCssClasses();
             $(this.CONTAINER_ELEMENT).addClass('watch-active');
         }
         this.START_STOP_ELEMENT.value = "Stop";
     };
     StopWatch.prototype.stopWatch = function () {
+        this.STARTED = true;
         this.stopTimer();
-        this.clearContainerCssClasses();
         if(!this.reachedLimit()) {
+            this.clearContainerCssClasses();
             $(this.CONTAINER_ELEMENT).addClass('watch-stopped');
         }
         this.START_STOP_ELEMENT.value = "Continue";
@@ -128,6 +152,10 @@ var StopWatch = (function () {
     };
     StopWatch.prototype.resetWatch = function () {
         this.STARTED = false;
+        this.REACHED_LIMIT = false;
+        if(this.REACHED_LIMIT_ELEMENT) {
+            this.CONTAINER_ELEMENT.removeChild(this.REACHED_LIMIT_ELEMENT);
+        }
         this.stopTimer();
         this.START_STOP_ELEMENT.value = "Start";
         this.clearContainerCssClasses();
@@ -141,9 +169,18 @@ var StopWatch = (function () {
     };
     StopWatch.prototype.reachedLimit = function () {
         if(!this.COUNT_UP) {
+            if(this.REACHED_LIMIT) {
+                return true;
+            }
             if(this.COUNT < 0) {
+                this.REACHED_LIMIT = true;
                 this.clearContainerCssClasses();
                 $(this.CONTAINER_ELEMENT).addClass('watch-finished');
+                var reachedLimitMessage = document.createElement('div');
+                reachedLimitMessage.className = this.BASE_CSS_CLASS + '-reachedLimitMessage';
+                reachedLimitMessage.innerText = '<-- Ended';
+                this.CONTAINER_ELEMENT.appendChild(reachedLimitMessage);
+                this.REACHED_LIMIT_ELEMENT = reachedLimitMessage;
                 return true;
             }
         }
