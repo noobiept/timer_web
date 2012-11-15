@@ -4,7 +4,6 @@
         - count down tem uma entry para por o numero inicial, e dps quando acabar tem uma mensagem, e conta o tempo desde k ja acabou 
 
         - dateToString() doesn't work with negative numbers (in CountDown, when it passes the limit, its just seconds)
-        - use jqueryui's Position to position the reachedLimitMessage element
 
  */
 
@@ -16,6 +15,7 @@
  */
 
 /// <reference path="../d.ts/jquery-1.8.d.ts" />
+/// <reference path="../d.ts/jqueryui-1.9.d.ts" />
 
 /// <reference path="stopwatch.ts" />
 /// <reference path="save_load.ts" />

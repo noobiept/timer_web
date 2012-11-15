@@ -350,13 +350,25 @@ this.START_STOP_ELEMENT.value = "Continue";
 restartWatch()
 {
 this.STARTED = true;
+this.REACHED_LIMIT = false;
 
+    // remove the reachedLimit message
+if ( this.REACHED_LIMIT_ELEMENT )
+    {
+    this.CONTAINER_ELEMENT.removeChild( this.REACHED_LIMIT_ELEMENT );
+
+    this.REACHED_LIMIT_ELEMENT = null;
+    }
+
+    // update the startStop button text
 this.START_STOP_ELEMENT.value = 'Stop';
 
+    // set the active css class
 this.clearContainerCssClasses();
 
 $( this.CONTAINER_ELEMENT ).addClass( 'watch-active' );
 
+    // reset the watch
 this.updateWatch( this.getInitialValue() );
 
 this.startTimer();
@@ -375,6 +387,8 @@ this.REACHED_LIMIT = false;
 if ( this.REACHED_LIMIT_ELEMENT )
     {
     this.CONTAINER_ELEMENT.removeChild( this.REACHED_LIMIT_ELEMENT );
+    
+    this.REACHED_LIMIT_ELEMENT = null;
     }
 
 this.stopTimer();
@@ -418,7 +432,7 @@ if ( !this.COUNT_UP )
         return true;
         }
 
-    if ( this.COUNT < 0 )
+    if ( this.COUNT <= 0 )
         {
         this.REACHED_LIMIT = true;
 
@@ -435,6 +449,14 @@ if ( !this.COUNT_UP )
 
         this.CONTAINER_ELEMENT.appendChild( reachedLimitMessage );
         
+        $( reachedLimitMessage ).position({
+        
+            my: 'left',
+            at: 'center',
+            of: this.COUNT_ELEMENT
+
+            });
+
         this.REACHED_LIMIT_ELEMENT = reachedLimitMessage;
 
         return true;
