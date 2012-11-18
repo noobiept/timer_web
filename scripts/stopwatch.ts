@@ -266,6 +266,14 @@ else
     }
 
 
+    // And the number of decimal cases
+
+if ( $.isNumeric( watchArguments.numberDecimalCases ) )
+    {
+    this.changeNumberDecimalCases( watchArguments.numberDecimalCases );
+    }
+
+
 if ( watchArguments.started )
     {
     if ( watchArguments.running )

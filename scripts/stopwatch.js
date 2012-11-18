@@ -108,6 +108,9 @@ var StopWatch = (function () {
         } else {
             this.updateWatch(this.getInitialValue());
         }
+        if($.isNumeric(watchArguments.numberDecimalCases)) {
+            this.changeNumberDecimalCases(watchArguments.numberDecimalCases);
+        }
         if(watchArguments.started) {
             if(watchArguments.running) {
                 this.startWatch();
