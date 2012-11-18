@@ -1,6 +1,8 @@
 /*
     to doo:
 
+        - PopupWindow has too much opacity, doesnt work when there's text behind
+        - it isnt loading the decimalCases
 
  */
 

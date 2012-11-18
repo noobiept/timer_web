@@ -5,10 +5,17 @@
     background-color: rgba(3, 127, 246, 0.05);
     }
 
-#title
+
+#donate
     {
-    text-align: center;
+    position: absolute;
+
+    top: 5px;
+    right: 10px;
     }
+
+    
+    /* :: Timers :: */
 
 
 #StopWatch, #CountDown
@@ -66,30 +73,6 @@
     }
 
 
-
-
-.PopupWindow-container
-    {
-    position : absolute;
-
-    min-width: 200px;
-    min-height: 100px;
-
-    background-color: #636363;
-
-    padding-top: 22px;
-    }
-
-
-.PopupWindow-close
-    {
-    cursor: pointer;
-    position: absolute;
-    top: 2px;
-    right: 8px;
-    }
-
-
 .StopWatch-container, .CountDown-container
     {
     border-radius: 5px;
@@ -129,10 +112,65 @@
     position: absolute;
     }
 
-#donate
-    {
-    position: absolute;
 
-    top: 5px;
-    right: 10px;
+
+    /* :: Options Window :: */
+
+.PopupWindow-container
+    {
+    position : absolute;
+
+    min-width: 200px;
+    min-height: 100px;
+
+    background-color: rgba(0, 0, 255, 0.1);
+
+    padding-top: 10px;
+    border-radius: 5px;
+    }
+
+
+.PopupWindow-close
+    {
+    cursor: pointer;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    }
+
+
+.Options-decimalCase
+    {
+    margin: 5px;
+    }
+
+.Options-decimalCase-title
+    {
+    margin-bottom: 4px;
+    }
+
+
+.Options-decimalCase-value
+    {
+    float: left;
+
+    background-color: rgba(3, 127, 246, 0.1);
+    
+    cursor: pointer;
+    padding: 5px 15px;
+    }
+
+.Options-decimalCase-value:hover
+    {
+    background-color: rgba(3, 127, 246, 0.2);
+    }
+
+.Options-decimalCase-selected
+    {
+    background-color: rgba(3, 127, 246, 0.4);   /* Same as the add buttons */
+    }
+
+.Options-decimalCase-selected:hover
+    {
+    background-color: rgba(3, 127, 246, 0.5);
     }

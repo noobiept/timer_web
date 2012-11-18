@@ -1,5 +1,5 @@
 /// <reference path="utilities.ts" />
-/// <reference path="popup_window.ts" />
+/// <reference path="options.ts" />
 
 
 interface StopWatchArguments
@@ -214,7 +214,7 @@ reset.onclick = () =>
 
 options.onclick = () =>
     {
-    this.openOptions();
+    new Options( this );
     };
 
 
@@ -514,49 +514,6 @@ this.RUNNING = false;
 window.clearInterval( this.INTERVAL_F );
 }
 
-
-openOptions()
-{
-var options = <HTMLDivElement> document.createElement( 'div' );
-
-var roundedCases = document.createElement( 'div' );
-
-roundedCases.innerText = 'Number of decimal cases';
-
-var zero = document.createElement( 'div' );
-
-zero.innerText = 'Zero';
-zero.onclick = () =>
-    {
-    this.changeNumberDecimalCases( 0 );
-    };
-
-var one = document.createElement( 'div' );
-
-one.innerText = 'One';
-one.onclick = () =>
-    {
-    this.changeNumberDecimalCases( 1 );
-    };
-
-var two = document.createElement( 'div' );
-
-two.innerText = 'Two';
-two.onclick = () =>
-    {
-    this.changeNumberDecimalCases( 2 );
-    };
-
-options.appendChild( roundedCases );
-options.appendChild( zero );
-options.appendChild( one );
-options.appendChild( two );
-
-    // position the popup window left to the openOptions button
-var offset = $( this.OPEN_OPTIONS_ELEMENT ).offset();
-
-new PopupWindow( options, offset.left + 70, offset.top ); 
-}
 
 
 changeNumberDecimalCases( num )
