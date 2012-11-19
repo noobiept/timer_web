@@ -1,5 +1,6 @@
 /// <reference path="utilities.ts" />
 /// <reference path="options.ts" />
+/// <reference path="message.ts" />
 
 
 interface StopWatchArguments
@@ -14,8 +15,9 @@ interface StopWatchArguments
     count      ? : number;
     title      ? : string;
     entryValue ? : string;  // for CountDown only (null for the other type)
-    reachedLimit      ? : bool;
-    numberDecimalCases? : number;
+    initValueCountDown ? : number;   // for CountDown only
+    reachedLimit       ? : bool;
+    numberDecimalCases ? : number;
     }
 
 class StopWatch
@@ -25,6 +27,10 @@ COUNT: number = 0;
 
 COUNT_UP: bool;
 BASE_CSS_CLASS: string;
+
+    // default value when a new timer is added (or when an error occurs)
+static DEFAULT_STOP_WATCH_VALUE = 0;
+static DEFAULT_COUNT_DOWN_VALUE = 10000;    // 10s
 
 NUMBER_DECIMAL_CASES: number = 0;
 
@@ -42,7 +48,8 @@ CONTAINER_ELEMENT: HTMLDivElement;
 
     // for CountDown mode only
 ENTRY_ELEMENT: HTMLInputElement;
-REACHED_LIMIT_ELEMENT: HTMLDivElement;
+REACHED_LIMIT_MESSAGE: Message;
+INIT_VALUE_COUNTDOWN: number = StopWatch.DEFAULT_COUNT_DOWN_VALUE;    // the value which is set (where it started to count down)
 
 REACHED_LIMIT = false;
 
@@ -66,6 +73,11 @@ var baseCssClass = watchArguments.baseCssClass;
 
 this.COUNT_UP = countUp;
 this.BASE_CSS_CLASS = baseCssClass;
+
+if ( watchArguments.initValueCountDown )
+    {
+    this.INIT_VALUE_COUNTDOWN = watchArguments.initValueCountDown;
+    }
 
     // :: Title :: //
 
@@ -262,7 +274,15 @@ if ( watchArguments.count )
 
 else
     {
-    this.updateWatch( this.getInitialValue() );
+    if ( watchArguments.countUp )
+        {
+        this.updateWatch( StopWatch.DEFAULT_STOP_WATCH_VALUE );
+        }
+
+    else
+        {
+        this.updateWatch( StopWatch.DEFAULT_COUNT_DOWN_VALUE );
+        }
     }
 
 
@@ -357,15 +377,36 @@ this.START_STOP_ELEMENT.value = "Continue";
 
 restartWatch()
 {
+try
+    {
+    var initValue = this.getInitialValue();
+    }
+
+catch( error )
+    {
+    console.log( error );
+
+    var message = new Message( this.CONTAINER_ELEMENT, '<-- Error: ' + error,
+        {
+            my: 'left+80px',
+            at: 'center',
+            of: this.ENTRY_ELEMENT,
+            collision: 'fit'
+        }, 2000);
+    
+        // bring the last valid value that was set (this error only occurs in the CountDown watches)
+    initValue = this.INIT_VALUE_COUNTDOWN;
+    }
+
 this.STARTED = true;
 this.REACHED_LIMIT = false;
 
     // remove the reachedLimit message
-if ( this.REACHED_LIMIT_ELEMENT )
+if ( this.REACHED_LIMIT_MESSAGE )
     {
-    this.CONTAINER_ELEMENT.removeChild( this.REACHED_LIMIT_ELEMENT );
+    this.REACHED_LIMIT_MESSAGE.remove();
 
-    this.REACHED_LIMIT_ELEMENT = null;
+    this.REACHED_LIMIT_MESSAGE = null;
     }
 
     // update the startStop button text
@@ -376,8 +417,11 @@ this.clearContainerCssClasses();
 
 $( this.CONTAINER_ELEMENT ).addClass( 'watch-active' );
 
+
     // reset the watch
-this.updateWatch( this.getInitialValue() );
+
+this.updateWatch( initValue );
+
 
 this.startTimer();
 }
@@ -389,14 +433,44 @@ this.startTimer();
 
 resetWatch()
 {
+try
+    {
+    var initValue = this.getInitialValue();
+    }
+
+catch( error )
+    {
+    console.log( error );
+
+    var message = new Message( this.CONTAINER_ELEMENT, '<-- Error: ' + error,
+        {
+            my: 'left+80px',
+            at: 'center',
+            of: this.ENTRY_ELEMENT,
+            collision: 'fit'
+        }, 2000);
+    
+
+    if ( this.COUNT_UP )
+        {
+        initValue = StopWatch.DEFAULT_STOP_WATCH_VALUE;
+        }
+
+    else
+        {
+        initValue = this.INIT_VALUE_COUNTDOWN;
+        }
+    }
+
+
 this.STARTED = false;
 this.REACHED_LIMIT = false;
 
-if ( this.REACHED_LIMIT_ELEMENT )
+if ( this.REACHED_LIMIT_MESSAGE )
     {
-    this.CONTAINER_ELEMENT.removeChild( this.REACHED_LIMIT_ELEMENT );
+    this.REACHED_LIMIT_MESSAGE.remove();
     
-    this.REACHED_LIMIT_ELEMENT = null;
+    this.REACHED_LIMIT_MESSAGE = null;
     }
 
 this.stopTimer();
@@ -407,7 +481,7 @@ this.clearContainerCssClasses();
 
 $( this.CONTAINER_ELEMENT ).addClass( 'notActive' );
 
-this.updateWatch( this.getInitialValue() );
+this.updateWatch( initValue );
 }
 
 
@@ -450,22 +524,14 @@ if ( !this.COUNT_UP )
         
             // :: show some message :: //
 
-        var reachedLimitMessage = <HTMLDivElement> document.createElement( 'div' );
-
-        reachedLimitMessage.className = this.BASE_CSS_CLASS + '-reachedLimitMessage';
-        reachedLimitMessage.innerText = '<-- Ended';
-
-        this.CONTAINER_ELEMENT.appendChild( reachedLimitMessage );
-        
-        $( reachedLimitMessage ).position({
-        
+        var reachedLimitMessage = new Message(this.CONTAINER_ELEMENT, '<-- Ended', 
+        { 
             my: 'left',
             at: 'center',
-            of: this.COUNT_ELEMENT
+            of: this.COUNT_ELEMENT 
+        });
 
-            });
-
-        this.REACHED_LIMIT_ELEMENT = reachedLimitMessage;
+        this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
 
         return true;
         }
@@ -487,18 +553,12 @@ var value = 0;
     // when counting down, go get the value from the entry
 if ( !this.COUNT_UP )
     {
-    try
-        {
-        value = this.stringToMilliseconds( this.ENTRY_ELEMENT.value );
-        }
+    value = this.stringToMilliseconds( this.ENTRY_ELEMENT.value );
     
-    catch( error )
-        { 
-        //HERE show a message
-        console.log( error );
-        return;
-        }
+    this.INIT_VALUE_COUNTDOWN = value;
     }
+
+
 
 return value;
 }
@@ -586,7 +646,7 @@ stringToMilliseconds( entryValue: string ): number
 {
 /*
  * 
- * search for a number with at least one digit, then possibly a space and a letter
+ * search for a number with at least one digit, then possibly a space and a letter (works only for positive numbers)
  * 
  *  s - second . m - minute , h - hour , d - day
  *  returns two strings (if it finds), one with the number and other with the letter 

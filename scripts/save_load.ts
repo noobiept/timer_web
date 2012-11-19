@@ -22,15 +22,16 @@ for (var i = 0 ; i < all.length ; i++)
         }
 
     saveWatch = {
-        title: watch.getTitle(),
-        baseCssClass: watch.BASE_CSS_CLASS,
-        count: watch.COUNT,
-        running: watch.RUNNING,
-        started: watch.STARTED,
-        numberDecimalCases: watch.NUMBER_DECIMAL_CASES,
-        entryValue: entryValue,
-        countUp: watch.COUNT_UP,
-        reachedLimit: watch.REACHED_LIMIT
+        title              : watch.getTitle(),
+        baseCssClass       : watch.BASE_CSS_CLASS,
+        count              : watch.COUNT,
+        running            : watch.RUNNING,
+        started            : watch.STARTED,
+        numberDecimalCases : watch.NUMBER_DECIMAL_CASES,
+        entryValue         : entryValue,
+        initValueCountDown : watch.INIT_VALUE_COUNTDOWN,
+        countUp            : watch.COUNT_UP,
+        reachedLimit       : watch.REACHED_LIMIT
         };
 
     saveAll.push( saveWatch );

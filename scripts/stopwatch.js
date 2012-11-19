@@ -4,6 +4,7 @@ var StopWatch = (function () {
         this.COUNT = 0;
         this.NUMBER_DECIMAL_CASES = 0;
         this.TIMER_INTERVAL = 1000;
+        this.INIT_VALUE_COUNTDOWN = StopWatch.DEFAULT_COUNT_DOWN_VALUE;
         this.REACHED_LIMIT = false;
         this.RUNNING = false;
         this.STARTED = false;
@@ -11,6 +12,9 @@ var StopWatch = (function () {
         var baseCssClass = watchArguments.baseCssClass;
         this.COUNT_UP = countUp;
         this.BASE_CSS_CLASS = baseCssClass;
+        if(watchArguments.initValueCountDown) {
+            this.INIT_VALUE_COUNTDOWN = watchArguments.initValueCountDown;
+        }
         var title = document.createElement('h2');
         title.className = baseCssClass + '-title';
         title.contentEditable = 'true';
@@ -106,7 +110,11 @@ var StopWatch = (function () {
         if(watchArguments.count) {
             this.updateWatch(watchArguments.count);
         } else {
-            this.updateWatch(this.getInitialValue());
+            if(watchArguments.countUp) {
+                this.updateWatch(StopWatch.DEFAULT_STOP_WATCH_VALUE);
+            } else {
+                this.updateWatch(StopWatch.DEFAULT_COUNT_DOWN_VALUE);
+            }
         }
         if($.isNumeric(watchArguments.numberDecimalCases)) {
             this.changeNumberDecimalCases(watchArguments.numberDecimalCases);
@@ -120,6 +128,8 @@ var StopWatch = (function () {
         }
         StopWatch.ALL_STOPWATCHES.push(this);
     }
+    StopWatch.DEFAULT_STOP_WATCH_VALUE = 0;
+    StopWatch.DEFAULT_COUNT_DOWN_VALUE = 10000;
     StopWatch.ALL_STOPWATCHES = [];
     StopWatch.prototype.clearContainerCssClasses = function () {
         $(this.CONTAINER_ELEMENT).removeClass('watch-active');
@@ -146,30 +156,58 @@ var StopWatch = (function () {
         this.START_STOP_ELEMENT.value = "Continue";
     };
     StopWatch.prototype.restartWatch = function () {
+        try  {
+            var initValue = this.getInitialValue();
+        } catch (error) {
+            console.log(error);
+            var message = new Message(this.CONTAINER_ELEMENT, '<-- Error: ' + error, {
+                my: 'left+80px',
+                at: 'center',
+                of: this.ENTRY_ELEMENT,
+                collision: 'fit'
+            }, 2000);
+            initValue = this.INIT_VALUE_COUNTDOWN;
+        }
         this.STARTED = true;
         this.REACHED_LIMIT = false;
-        if(this.REACHED_LIMIT_ELEMENT) {
-            this.CONTAINER_ELEMENT.removeChild(this.REACHED_LIMIT_ELEMENT);
-            this.REACHED_LIMIT_ELEMENT = null;
+        if(this.REACHED_LIMIT_MESSAGE) {
+            this.REACHED_LIMIT_MESSAGE.remove();
+            this.REACHED_LIMIT_MESSAGE = null;
         }
         this.START_STOP_ELEMENT.value = 'Stop';
         this.clearContainerCssClasses();
         $(this.CONTAINER_ELEMENT).addClass('watch-active');
-        this.updateWatch(this.getInitialValue());
+        this.updateWatch(initValue);
         this.startTimer();
     };
     StopWatch.prototype.resetWatch = function () {
+        try  {
+            var initValue = this.getInitialValue();
+        } catch (error) {
+            console.log(error);
+            var message = new Message(this.CONTAINER_ELEMENT, '<-- Error: ' + error, {
+                my: 'left+80px',
+                at: 'center',
+                of: this.ENTRY_ELEMENT,
+                collision: 'fit'
+            }, 2000);
+            if(this.COUNT_UP) {
+                initValue = StopWatch.DEFAULT_STOP_WATCH_VALUE;
+            } else {
+                initValue = this.INIT_VALUE_COUNTDOWN;
+            }
+        }
         this.STARTED = false;
         this.REACHED_LIMIT = false;
-        if(this.REACHED_LIMIT_ELEMENT) {
-            this.CONTAINER_ELEMENT.removeChild(this.REACHED_LIMIT_ELEMENT);
-            this.REACHED_LIMIT_ELEMENT = null;
+        if(this.REACHED_LIMIT_MESSAGE) {
+            this.REACHED_LIMIT_MESSAGE.remove();
+            this.REACHED_LIMIT_MESSAGE = null;
         }
         this.stopTimer();
         this.START_STOP_ELEMENT.value = "Start";
         this.clearContainerCssClasses();
         $(this.CONTAINER_ELEMENT).addClass('notActive');
-        this.updateWatch(this.getInitialValue());
+        this.updateWatch(initValue);
     };
     StopWatch.prototype.updateWatch = function (count) {
         this.COUNT = count;
@@ -185,16 +223,12 @@ var StopWatch = (function () {
                 this.REACHED_LIMIT = true;
                 this.clearContainerCssClasses();
                 $(this.CONTAINER_ELEMENT).addClass('watch-finished');
-                var reachedLimitMessage = document.createElement('div');
-                reachedLimitMessage.className = this.BASE_CSS_CLASS + '-reachedLimitMessage';
-                reachedLimitMessage.innerText = '<-- Ended';
-                this.CONTAINER_ELEMENT.appendChild(reachedLimitMessage);
-                $(reachedLimitMessage).position({
+                var reachedLimitMessage = new Message(this.CONTAINER_ELEMENT, '<-- Ended', {
                     my: 'left',
                     at: 'center',
                     of: this.COUNT_ELEMENT
                 });
-                this.REACHED_LIMIT_ELEMENT = reachedLimitMessage;
+                this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
                 return true;
             }
         }
@@ -203,12 +237,8 @@ var StopWatch = (function () {
     StopWatch.prototype.getInitialValue = function () {
         var value = 0;
         if(!this.COUNT_UP) {
-            try  {
-                value = this.stringToMilliseconds(this.ENTRY_ELEMENT.value);
-            } catch (error) {
-                console.log(error);
-                return;
-            }
+            value = this.stringToMilliseconds(this.ENTRY_ELEMENT.value);
+            this.INIT_VALUE_COUNTDOWN = value;
         }
         return value;
     };

@@ -107,7 +107,7 @@
     }
 
 
-.CountDown-reachedLimitMessage
+.Message
     {
     position: absolute;
     }
@@ -123,7 +123,7 @@
     min-width: 200px;
     min-height: 100px;
 
-    background-color: rgba(0, 0, 255, 0.1);
+    background-color: rgb(220, 220, 255);
 
     padding-top: 10px;
     border-radius: 5px;

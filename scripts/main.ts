@@ -1,8 +1,6 @@
 /*
     to doo:
 
-        - PopupWindow has too much opacity, doesnt work when there's text behind
-
  */
 
 /*

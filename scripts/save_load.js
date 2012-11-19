@@ -18,6 +18,7 @@ function save() {
             started: watch.STARTED,
             numberDecimalCases: watch.NUMBER_DECIMAL_CASES,
             entryValue: entryValue,
+            initValueCountDown: watch.INIT_VALUE_COUNTDOWN,
             countUp: watch.COUNT_UP,
             reachedLimit: watch.REACHED_LIMIT
         };
