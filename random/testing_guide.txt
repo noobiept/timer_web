@@ -1,0 +1,73 @@
+Timer Testing Guide
+
+
+- donate button works
+
+
+
+StopWatch:
+
+    - Can add new StopWatch
+    - can remove it
+    - Clicking Start:
+        - the watch starts, with the correct decimal cases
+        - the start button changes its value to Stop
+        - background changes to active css class
+        
+    - Clicking Stop:
+    
+        - stops watch
+        - the start button changes its value to Continue
+        - background to stopped css class
+        
+    - Clicking Continue:
+    
+        - starts again the watch with the same count number
+        - background back to active
+        
+    - Clicking Restart:
+    
+        - back to 0 seconds
+        - background color to active
+        - start button's value goes to 'Stop'
+        - watch is running
+        
+    - Clicking Reset:
+    
+        - watch to 0 seconds
+        - background to not active
+        - watch is not active
+        - start button value to 'Start'
+
+    - Clicking Options:
+    
+        - opens the options window next to the options button
+        
+    - Options Window:
+    
+        - test changing the number of decimal cases
+        
+        
+        
+CountDown (test the StopWatch's entries too):
+
+    - Can add new CountDown
+    
+    - Once the time is up, the background-color stays the same (the finished css class)
+    
+    - Entry:
+        - pressing enter does the same as restart
+        - Invalid string restarts with the previous time set
+        - shows the message when a invalid time is set
+        
+    - shows a message when the time is up
+    
+    
+    
+Load/Save:
+
+    - the stop watches
+    - the count value
+    - the title
+    - the state (if its running, stopped, ...)
+    - loads the correct background-color and startStopButton's value
