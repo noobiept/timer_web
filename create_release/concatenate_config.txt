@@ -4,6 +4,8 @@
         "scripts/stopwatch.js", 
         "scripts/utilities.js", 
         "scripts/popup_window.js", 
-        "scripts/save_load.js"
+        "scripts/save_load.js", 
+        "scripts/options.js", 
+        "scripts/message.js"
     ]
 }

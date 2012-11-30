@@ -6,6 +6,9 @@
     "scripts/save_load.js",
     "scripts/stopwatch.js",
     "scripts/utilities.js",
+
+    "random/icon128.png",
+    "random/icon16.png",
     
     "home.html",
     "manifest.json",
