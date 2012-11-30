@@ -93,7 +93,7 @@ if ( watchArguments.title )
 
 else
     {
-    title.innerText = separateWords( baseCssClass ) + ' Title';
+    title.innerText = separateWords( baseCssClass ) + ' (click to edit)';
     }
 
 

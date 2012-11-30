@@ -21,7 +21,7 @@ var StopWatch = (function () {
         if(watchArguments.title) {
             title.innerText = watchArguments.title;
         } else {
-            title.innerText = separateWords(baseCssClass) + ' Title';
+            title.innerText = separateWords(baseCssClass) + ' (click to edit)';
         }
         var count = document.createElement('div');
         count.className = baseCssClass + '-count';

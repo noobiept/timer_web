@@ -1,7 +1,10 @@
 /*
     to doo:
 
-        - icon
+        - adicionar publicidade
+        - adicionar som qdo acaba countdown
+        - por tb no site
+        - click to edit: retirar o texto quando se clica.. e se n se escrever nada, voltar a por o 'click to edit'
 
  */
 
