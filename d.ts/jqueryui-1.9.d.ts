@@ -324,7 +324,7 @@ interface MenuEvents {
     select?: MenuEvent;
 }
 
-interface Menu extends Widget, MenuOptions, MenuEvents {
+interface Menu1 extends Widget, MenuOptions, MenuEvents {
 }
 
 
@@ -716,7 +716,7 @@ interface UI {
     buttonset: Button;
     datepicker: Datepicker;
     dialog: Dialog;
-    menu: Menu;
+    menu: Menu1;
     progressbar: Progressbar;
     slider: Slider;
     spinner: Spinner;

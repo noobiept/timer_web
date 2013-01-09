@@ -6,12 +6,29 @@
     }
 
 
-#donate
+    /* :: Menu :: */
+
+#menu
     {
     position: absolute;
+    top: 0;
+    right: 15px;
+    }
 
-    top: 5px;
-    right: 10px;
+#menu > *
+    {
+    float: left;
+    padding: 5px 10px;
+    }
+
+#donate
+    {
+    padding-top: 8px;  /* align with the other menu elements */
+    }
+
+#sound
+    {
+    cursor: pointer;
     }
 
     

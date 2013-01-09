@@ -25,6 +25,7 @@ function save() {
         saveAll.push(saveWatch);
     }
     localStorage.setObject('watches', saveAll);
+    localStorage.setObject('options', OPTIONS);
 }
 function load() {
     var all = localStorage.getObject('watches');
@@ -36,6 +37,12 @@ function load() {
     for(var i = 0; i < all.length; i++) {
         saveWatch = all[i];
         watch = new StopWatch(saveWatch);
+    }
+    var options = localStorage.getObject('options');
+    if(options) {
+        if(typeof options.sound === 'boolean') {
+            OPTIONS.sound = options.sound;
+        }
     }
     return true;
 }

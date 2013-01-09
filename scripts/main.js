@@ -1,4 +1,18 @@
+var OPTIONS = {
+    sound: true
+};
 window.onload = function () {
+    var loadSuccessful = load();
+    if(!loadSuccessful) {
+        new StopWatch({
+            countUp: true,
+            baseCssClass: 'StopWatch'
+        });
+        new StopWatch({
+            countUp: false,
+            baseCssClass: 'CountDown'
+        });
+    }
     var addStopWatch = document.querySelector('#StopWatch-add');
     addStopWatch.onclick = function () {
         new StopWatch({
@@ -13,17 +27,7 @@ window.onload = function () {
             baseCssClass: 'CountDown'
         });
     };
-    var loadSuccessful = load();
-    if(!loadSuccessful) {
-        new StopWatch({
-            countUp: true,
-            baseCssClass: 'StopWatch'
-        });
-        new StopWatch({
-            countUp: false,
-            baseCssClass: 'CountDown'
-        });
-    }
+    Menu.init();
 };
 window.onunload = function () {
     save();

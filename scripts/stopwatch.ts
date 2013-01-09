@@ -1,6 +1,7 @@
 /// <reference path="utilities.ts" />
 /// <reference path="options.ts" />
 /// <reference path="message.ts" />
+/// <reference path="sound.ts" />
 
 
 interface StopWatchArguments
@@ -18,6 +19,7 @@ interface StopWatchArguments
     initValueCountDown ? : number;   // for CountDown only
     reachedLimit       ? : bool;
     numberDecimalCases ? : number;
+    
     }
 
 class StopWatch
@@ -58,6 +60,9 @@ INTERVAL_F: number;
     // tells when the stop watch is running or not
 RUNNING = false;
     
+    // tells when we're still on the constructor
+LOADING: bool;
+
     // tells if a clock has started (different than running, in the sense that it can be started and then paused, and restarted, which is different than being in its initial state)
 STARTED = false;
 
@@ -68,6 +73,8 @@ static ALL_STOPWATCHES = [];
 
 constructor( watchArguments: StopWatchArguments )
 {
+this.LOADING = true;
+
 var countUp = watchArguments.countUp;
 var baseCssClass = watchArguments.baseCssClass;
 
@@ -309,6 +316,8 @@ if ( watchArguments.started )
 
 
 StopWatch.ALL_STOPWATCHES.push( this );
+
+this.LOADING = false;
 }
 
 
@@ -532,6 +541,13 @@ if ( !this.COUNT_UP )
         });
 
         this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
+
+
+        if ( !this.LOADING && OPTIONS.sound )
+            {
+                // play the sound
+            new Sound( '../sounds/sound1.ogg' ); 
+            }
 
         return true;
         }

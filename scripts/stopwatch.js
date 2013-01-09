@@ -8,6 +8,7 @@ var StopWatch = (function () {
         this.REACHED_LIMIT = false;
         this.RUNNING = false;
         this.STARTED = false;
+        this.LOADING = true;
         var countUp = watchArguments.countUp;
         var baseCssClass = watchArguments.baseCssClass;
         this.COUNT_UP = countUp;
@@ -127,6 +128,7 @@ var StopWatch = (function () {
             }
         }
         StopWatch.ALL_STOPWATCHES.push(this);
+        this.LOADING = false;
     }
     StopWatch.DEFAULT_STOP_WATCH_VALUE = 0;
     StopWatch.DEFAULT_COUNT_DOWN_VALUE = 10000;
@@ -229,6 +231,9 @@ var StopWatch = (function () {
                     of: this.COUNT_ELEMENT
                 });
                 this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
+                if(!this.LOADING && OPTIONS.sound) {
+                    new Sound('../sounds/sound1.ogg');
+                }
                 return true;
             }
         }

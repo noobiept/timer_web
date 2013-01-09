@@ -2,6 +2,8 @@
 
 function save()
 {
+    // :: Save Watches :: //
+
 var all = StopWatch.ALL_STOPWATCHES;
 var watch: StopWatch;
 
@@ -38,6 +40,10 @@ for (var i = 0 ; i < all.length ; i++)
     }
 
 localStorage.setObject( 'watches', saveAll );
+
+    // :: Save Options :: //
+
+localStorage.setObject( 'options', OPTIONS );
 }
 
 
@@ -47,6 +53,7 @@ localStorage.setObject( 'watches', saveAll );
 
 function load(): bool
 {
+    // load the watches
 var all: StopWatchArguments[] = localStorage.getObject( 'watches' );
 
 if ( !all )
@@ -63,6 +70,19 @@ for (var i = 0 ; i < all.length ; i++)
     saveWatch = all[ i ]; 
 
     watch = new StopWatch( saveWatch );
+    }
+
+
+    // load the options
+
+var options = localStorage.getObject( 'options' );
+
+if ( options )
+    {
+    if ( typeof options.sound === 'boolean' )
+        {
+        OPTIONS.sound = options.sound;
+        }
     }
 
 return true;
