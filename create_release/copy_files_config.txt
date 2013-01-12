@@ -9,6 +9,8 @@
 
     "random/icon128.png",
     "random/icon16.png",
+
+    "sounds/sound1.ogg",
     
     "home.html",
     "manifest.json",
