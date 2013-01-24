@@ -1,3 +1,5 @@
+# python3
+
 import argparse
 import json
 import shutil
@@ -6,40 +8,50 @@ import os
 import os.path
 
 
-def copyFiles( configPath, resultingFolder ):
+def copyFiles( config ):
 
     """
-        Format of configuration file:
+        config:
+            if a string, its the path to the configuration file
+            otherwise is an object/dict
 
-        [
-            "pathToFile.py",
-            "pathToFolder",         # copies recursively all the contents of the folder
-        ]
+        Format of configuration file/object:
+
+        {
+            "resultingFolder": "something",
+            "basePath": "something",
+            "files":
+                [
+                "pathToFile.py",
+                "pathToFolder/",         # copies recursively all the contents of the folder
+                ]
+        }
     """
 
-    CURRENT_DIRECTORY = os.path.dirname( os.path.abspath(__file__) )
+        # means its the path to the configuration file
+        # otherwise, its already as an object/dictionary
+    if isinstance( config, str ):
+
+        with open( config, 'r', encoding='utf-8' ) as f:
+                # parse the json file into an object/dictionary
+            config = json.loads( f.read() )
 
 
-    resultingFolder = os.path.join( CURRENT_DIRECTORY, resultingFolder )
 
-        #HERE -- ter uma opcao or something
-    baseDirectory = os.path.abspath( os.path.join(CURRENT_DIRECTORY, '..') )
+    currentDirectory = os.path.dirname( os.path.abspath(__file__) )
+
+        # to where we are going to copy stuff
+    resultingFolder = os.path.join( currentDirectory, config['resultingFolder'] )
+
+        # from where the paths in the configuration are based from (they're relative to this)
+    baseDirectory = os.path.abspath( os.path.join(currentDirectory, config['basePath']) )
 
 
-
-    configFile = open( configPath, 'r' )
-    
-        # parse the json file into an object
-    configJson = json.loads( configFile.read() )
-
-    configFile.close()
-
-       # configJson is a list
-    for fileOrFolder in configJson:
-
+       # go through all the files in the configuration
+    for fileOrFolder in config['files']:
 
             # a file or a folder
-        if isinstance( fileOrFolder, str ) or isinstance( fileOrFolder, unicode ):
+        if isinstance( fileOrFolder, str ):
 
             sourceFileOrFolder = os.path.join( baseDirectory, fileOrFolder )
 
@@ -56,12 +68,10 @@ def copyFiles( configPath, resultingFolder ):
 
             # an error
         else:
-            raise Exception( "Wrong type in JSON: Has to be a string or a dict." )
+            raise Exception( "Wrong type in JSON: Has to be a string: {}.".format( fileOrFolder ) )
 
 
 
-
-            
 
     
 
@@ -137,9 +147,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser( description = 'Copy files according to a configuration file.' )
 
     parser.add_argument( 'configPath', help = "path to the configuration file.", nargs="?", default="copy_files_config.txt" )
-    parser.add_argument( 'resultingFolder', help = "name of the folder that is created in the current path and contains the copies.", nargs="?", default="website" )
 
     args = parser.parse_args()
 
 
-    copyFiles( args.configPath, args.resultingFolder )
+    copyFiles( args.configPath )

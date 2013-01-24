@@ -32,7 +32,7 @@ def go( htmlFile, copyFilesConfig, concatenateConfig ):
 
     os.makedirs( resultingFolder )
 
-    copy_files.copyFiles( copyFilesConfig, resultingFolder )
+    copy_files.copyFiles( copyFilesConfig )
 
     generate_config.generate( htmlFile, concatenateConfig )
     

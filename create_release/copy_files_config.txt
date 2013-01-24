@@ -1,19 +1,24 @@
-[    
-    "libraries/",
-    
-    "scripts/main.js",
-    "scripts/popup_window.js",
-    "scripts/save_load.js",
-    "scripts/stopwatch.js",
-    "scripts/utilities.js",
+{
+    "resultingFolder": "timer",
+    "basePath": "..",
+    "files":
+        [    
+            "libraries/",
+            
+            "scripts/main.js",
+            "scripts/popup_window.js",
+            "scripts/save_load.js",
+            "scripts/stopwatch.js",
+            "scripts/utilities.js",
 
-    "random/icon128.png",
-    "random/icon16.png",
+            "random/icon128.png",
+            "random/icon16.png",
 
-    "sounds/sound1.ogg",
-    
-    "home.html",
-    "manifest.json",
-    
-    "style.css"
-]
+            "sounds/sound1.ogg",
+            
+            "home.html",
+            "manifest.json",
+            
+            "style.css"
+        ]
+}
