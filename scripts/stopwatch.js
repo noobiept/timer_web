@@ -56,6 +56,9 @@ var StopWatch = (function () {
                 entry.value = '10s';
             }
         }
+        var dragHandle = document.createElement('canvas');
+        dragHandle.className = baseCssClass + '-dragHandle';
+        drawDragHandle(dragHandle);
         var container = document.createElement('div');
         container.className = baseCssClass + '-container';
         $(container).addClass('notActive');
@@ -65,12 +68,18 @@ var StopWatch = (function () {
         container.appendChild(restart);
         container.appendChild(reset);
         container.appendChild(remove);
+        container.appendChild(dragHandle);
         container.appendChild(options);
         if(!countUp) {
             container.appendChild(entry);
         }
-        var watchMainContainer = document.querySelector('#' + baseCssClass + '-mainContainer');
-        watchMainContainer.appendChild(container);
+        var mainContainer;
+        if(this.COUNT_UP) {
+            mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
+        } else {
+            mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
+        }
+        mainContainer.appendChild(container);
         startStop.onclick = function () {
             _this.STARTED = true;
             if(!_this.RUNNING) {
@@ -107,7 +116,9 @@ var StopWatch = (function () {
         this.OPEN_OPTIONS_ELEMENT = options;
         this.REMOVE_ELEMENT = remove;
         this.ENTRY_ELEMENT = entry;
+        this.DRAG_HANDLE = dragHandle;
         this.CONTAINER_ELEMENT = container;
+        container.watchObject = this;
         if(watchArguments.count) {
             this.updateWatch(watchArguments.count);
         } else {
@@ -133,6 +144,24 @@ var StopWatch = (function () {
     StopWatch.DEFAULT_STOP_WATCH_VALUE = 0;
     StopWatch.DEFAULT_COUNT_DOWN_VALUE = 10000;
     StopWatch.ALL_STOPWATCHES = [];
+    StopWatch.MAIN_CONTAINERS = {
+        countUp: null,
+        countDown: null
+    };
+    StopWatch.init = function init() {
+        StopWatch.MAIN_CONTAINERS.countUp = document.querySelector('#CountUp-mainContainer');
+        StopWatch.MAIN_CONTAINERS.countDown = document.querySelector('#CountDown-mainContainer');
+        $(StopWatch.MAIN_CONTAINERS.countDown).sortable({
+            handle: '.CountDown-dragHandle',
+            axis: 'y',
+            opacity: 0.7
+        });
+        $(StopWatch.MAIN_CONTAINERS.countUp).sortable({
+            handle: '.CountUp-dragHandle',
+            axis: 'y',
+            opacity: 0.7
+        });
+    };
     StopWatch.prototype.clearContainerCssClasses = function () {
         $(this.CONTAINER_ELEMENT).removeClass('watch-active');
         $(this.CONTAINER_ELEMENT).removeClass('watch-notActive');
@@ -279,7 +308,12 @@ var StopWatch = (function () {
     StopWatch.prototype.remove = function () {
         var position = StopWatch.ALL_STOPWATCHES.indexOf(this);
         StopWatch.ALL_STOPWATCHES.splice(position, 1);
-        var mainContainer = document.querySelector('#' + this.BASE_CSS_CLASS + '-mainContainer');
+        var mainContainer;
+        if(this.COUNT_UP) {
+            mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
+        } else {
+            mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
+        }
         mainContainer.removeChild(this.CONTAINER_ELEMENT);
     };
     StopWatch.prototype.stringToMilliseconds = function (entryValue) {

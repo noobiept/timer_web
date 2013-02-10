@@ -35,26 +35,26 @@
     /* :: Timers :: */
 
 
-#StopWatch, #CountDown
+#CountUp, #CountDown
     {
     float: left;    
 
     width: 50%;
     }
 
-#StopWatch-mainContainer, #CountDown-mainContainer
+#CountUp-mainContainer, #CountDown-mainContainer
     {
     padding: 20px;
     }
 
 
-.StopWatch-container, .CountDown-container
+.CountUp-container, .CountDown-container
     {
     position: relative;
     }
 
 
-.StopWatch-remove, .CountDown-remove
+.CountUp-remove, .CountDown-remove
     {
     position: absolute;
     
@@ -63,6 +63,18 @@
 
     cursor: pointer;
     }
+
+
+.CountUp-dragHandle, .CountDown-dragHandle 
+    {
+    position: absolute;
+
+    top: 48px;
+    left: 5px;
+
+    cursor: pointer;
+    }
+
 
 .addWatch
     {
@@ -90,7 +102,7 @@
     }
 
 
-.StopWatch-container, .CountDown-container
+.CountUp-container, .CountDown-container
     {
     border-radius: 5px;
 

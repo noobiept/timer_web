@@ -23,12 +23,13 @@ interface StopWatchArguments
     }
 
 class StopWatch
-{ 
+{
     // private properties
 COUNT: number = 0;
 
 COUNT_UP: bool;
 BASE_CSS_CLASS: string;
+
 
     // default value when a new timer is added (or when an error occurs)
 static DEFAULT_STOP_WATCH_VALUE = 0;
@@ -46,6 +47,7 @@ RESTART_ELEMENT: HTMLInputElement;
 RESET_ELEMENT: HTMLInputElement;
 OPEN_OPTIONS_ELEMENT: HTMLInputElement;
 REMOVE_ELEMENT: HTMLCanvasElement;
+DRAG_HANDLE: HTMLCanvasElement;
 CONTAINER_ELEMENT: HTMLDivElement;
 
     // for CountDown mode only
@@ -66,9 +68,47 @@ LOADING: bool;
     // tells if a clock has started (different than running, in the sense that it can be started and then paused, and restarted, which is different than being in its initial state)
 STARTED = false;
 
+    
     // contains all the stopwatches created
 static ALL_STOPWATCHES = [];
     
+
+
+static MAIN_CONTAINERS = {
+    countUp: null,
+    countDown: null
+    };
+
+/*
+    Has to be called before constructing any objects
+ */
+
+static init()
+{
+StopWatch.MAIN_CONTAINERS.countUp = document.querySelector( '#CountUp-mainContainer' );
+StopWatch.MAIN_CONTAINERS.countDown = document.querySelector( '#CountDown-mainContainer' );
+
+
+    // setup the drag and drop of the watches (its independent for each type)
+
+$( StopWatch.MAIN_CONTAINERS.countDown ).sortable({
+
+    handle: '.CountDown-dragHandle',
+    axis: 'y',
+    opacity: 0.7
+    
+    });
+
+
+$( StopWatch.MAIN_CONTAINERS.countUp ).sortable({
+
+    handle: '.CountUp-dragHandle',
+    axis: 'y',
+    opacity: 0.7
+
+    });
+}
+
 
 
 constructor( watchArguments: StopWatchArguments )
@@ -174,6 +214,15 @@ if ( countUp === false )
     }
 
 
+    // :: Drag Handle :: //
+
+var dragHandle = <HTMLCanvasElement> document.createElement( 'canvas' );
+
+dragHandle.className = baseCssClass + '-dragHandle';
+
+drawDragHandle( dragHandle );
+
+
     // :: Container :: //
 
 var container = <HTMLDivElement> document.createElement( 'div' );
@@ -187,6 +236,7 @@ container.appendChild( startStop );
 container.appendChild( restart );
 container.appendChild( reset );
 container.appendChild( remove );
+container.appendChild( dragHandle );
 container.appendChild( options );
 
 if ( !countUp )
@@ -195,9 +245,20 @@ if ( !countUp )
     }
 
 
-var watchMainContainer = <HTMLDivElement> document.querySelector( '#' + baseCssClass + '-mainContainer' );
+var mainContainer;
 
-watchMainContainer.appendChild( container );
+if ( this.COUNT_UP )
+    {
+    mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
+    }
+
+else
+    {
+    mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
+    }
+
+
+mainContainer.appendChild( container );
 
     // :: Set Events :: //
 
@@ -268,8 +329,11 @@ this.RESET_ELEMENT = reset;
 this.OPEN_OPTIONS_ELEMENT = options;
 this.REMOVE_ELEMENT = remove;
 this.ENTRY_ELEMENT = entry;
+this.DRAG_HANDLE = dragHandle;
 this.CONTAINER_ELEMENT = container;
 
+    // save a reference to this object in the container html element
+container.watchObject = this;
 
 
     // :: Update the watch :: //
@@ -316,6 +380,7 @@ if ( watchArguments.started )
 
 
 StopWatch.ALL_STOPWATCHES.push( this );
+
 
 this.LOADING = false;
 }
@@ -647,9 +712,21 @@ remove()
 var position = StopWatch.ALL_STOPWATCHES.indexOf( this );
 
 StopWatch.ALL_STOPWATCHES.splice( position, 1 );
-
+    
+    
     // remove from the DOM
-var mainContainer = <HTMLDivElement> document.querySelector( '#' + this.BASE_CSS_CLASS + '-mainContainer' );
+var mainContainer;
+
+if ( this.COUNT_UP )
+    {
+    mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
+    }
+
+else
+    {
+    mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
+    }
+
 
 mainContainer.removeChild( this.CONTAINER_ELEMENT );
 }
@@ -736,6 +813,7 @@ setTitle( newTitle: string )
 {
 this.TITLE_ELEMENT.innerText = newTitle;
 }
+
 
 
 tick()

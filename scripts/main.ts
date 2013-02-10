@@ -5,6 +5,7 @@
         - por tb no site
         - click to edit: retirar o texto quando se clica.. e se n se escrever nada, voltar a por o 'click to edit'
 
+
  */
 
 /*
@@ -13,6 +14,7 @@
         - jquery
         - jqueryui:
             - position
+            - sortable
 
     Bell Sound:
 
@@ -36,23 +38,26 @@ var OPTIONS = {
 
 window.onload = function 
 {
+StopWatch.init();
+
 var loadSuccessful = load();
+
 
     // add some watches if its the first time the program is running
 if ( !loadSuccessful )
     {
-    new StopWatch( { countUp: true, baseCssClass:  'StopWatch' } );
+    new StopWatch( { countUp: true, baseCssClass:  'CountUp' } );
     new StopWatch( { countUp: false, baseCssClass:  'CountDown' } );
     }
 
 
     // setup the buttons events
 
-var addStopWatch = <HTMLDivElement> document.querySelector( '#StopWatch-add' );
+var addCountUp = <HTMLDivElement> document.querySelector( '#CountUp-add' );
 
-addStopWatch.onclick = function()
+addCountUp.onclick = function()
     {
-    new StopWatch( { countUp: true, baseCssClass: 'StopWatch' } );
+    new StopWatch( { countUp: true, baseCssClass: 'CountUp' } );
     };
 
 

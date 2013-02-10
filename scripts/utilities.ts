@@ -307,6 +307,39 @@ ctx.stroke();
 }
 
 
+function drawDragHandle( canvas: HTMLCanvasElement )
+{
+var width = 700;
+var height = 15;
+
+canvas.width = width;
+canvas.height = height;
+
+    
+var ctx = canvas.getContext( '2d' );
+
+ctx.beginPath();
+
+var x, y;
+var step = 5;
+var radius = 1;
+
+for (x = 0 ; x < width ; x += step)
+    {
+    for (y = 0 ; y < height ; y += step)
+        {
+        ctx.beginPath();
+
+            // make a circle
+        ctx.arc( x + 1, y + 1, radius, 0, Math.PI * 2, true );
+
+        ctx.fill();
+        }
+    }
+}
+
+
+
 /*
     Rounds a number to a specified decimal case
  */
@@ -330,3 +363,5 @@ str = str.replace( /^s*/, '' );
 
 return str;
 }
+
+

@@ -2,22 +2,23 @@ var OPTIONS = {
     sound: true
 };
 window.onload = function () {
+    StopWatch.init();
     var loadSuccessful = load();
     if(!loadSuccessful) {
         new StopWatch({
             countUp: true,
-            baseCssClass: 'StopWatch'
+            baseCssClass: 'CountUp'
         });
         new StopWatch({
             countUp: false,
             baseCssClass: 'CountDown'
         });
     }
-    var addStopWatch = document.querySelector('#StopWatch-add');
-    addStopWatch.onclick = function () {
+    var addCountUp = document.querySelector('#CountUp-add');
+    addCountUp.onclick = function () {
         new StopWatch({
             countUp: true,
-            baseCssClass: 'StopWatch'
+            baseCssClass: 'CountUp'
         });
     };
     var addCountDown = document.querySelector('#CountDown-add');

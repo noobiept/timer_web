@@ -50,14 +50,10 @@ var Options = (function () {
         var element;
         if(newCase == 0) {
             element = this.ZERO_DECIMAL_CASE;
-        } else {
-            if(newCase == 1) {
-                element = this.ONE_DECIMAL_CASE;
-            } else {
-                if(newCase == 2) {
-                    element = this.TWO_DECIMAL_CASE;
-                }
-            }
+        } else if(newCase == 1) {
+            element = this.ONE_DECIMAL_CASE;
+        } else if(newCase == 2) {
+            element = this.TWO_DECIMAL_CASE;
         }
         $(this.SELECTED_DECIMAL_CASE).removeClass('Options-decimalCase-selected');
         $(element).addClass('Options-decimalCase-selected');

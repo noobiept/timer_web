@@ -135,30 +135,22 @@ function numberOfDigits(theNumber) {
 }
 function timeToMilliseconds(time, type) {
     switch(type) {
-        case "s": {
+        case "s":
             time *= 1000;
             break;
-
-        }
-        case "m": {
+        case "m":
             time *= 60 * 1000;
             break;
-
-        }
-        case "h": {
+        case "h":
             time *= 60 * 60 * 1000;
             break;
-
-        }
-        case "d": {
+        case "d":
             time *= 24 * 60 * 60 * 1000;
             break;
-
-        }
     }
     return time;
 }
-; ;
+;
 function drawRemoveButton(canvas) {
     canvas.width = 15;
     canvas.height = 15;
@@ -169,6 +161,24 @@ function drawRemoveButton(canvas) {
     ctx.moveTo(2, 13);
     ctx.lineTo(13, 2);
     ctx.stroke();
+}
+function drawDragHandle(canvas) {
+    var width = 700;
+    var height = 15;
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    var x, y;
+    var step = 5;
+    var radius = 1;
+    for(x = 0; x < width; x += step) {
+        for(y = 0; y < height; y += step) {
+            ctx.beginPath();
+            ctx.arc(x + 1, y + 1, radius, 0, Math.PI * 2, true);
+            ctx.fill();
+        }
+    }
 }
 function round(num, dec) {
     return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
