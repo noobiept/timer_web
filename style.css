@@ -54,6 +54,12 @@
     }
 
 
+.CountUp-title, .CountDown-title
+    {
+    padding-left: 30px;
+    }   
+
+
 .CountUp-remove, .CountDown-remove
     {
     position: absolute;
@@ -69,10 +75,18 @@
     {
     position: absolute;
 
-    top: 48px;
+    top: 12px;
     left: 5px;
 
     cursor: pointer;
+    opacity: 0.3;
+    }
+
+.CountUp-dragHandle:hover, .CountDown-dragHandle:hover
+    {
+    opacity: 1;
+    transform: scale( 2 );
+    -webkit-transform: scale( 1.2 );
     }
 
 

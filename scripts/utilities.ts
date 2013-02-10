@@ -309,8 +309,8 @@ ctx.stroke();
 
 function drawDragHandle( canvas: HTMLCanvasElement )
 {
-var width = 700;
-var height = 15;
+var width = 15;
+var height = 20;
 
 canvas.width = width;
 canvas.height = height;
