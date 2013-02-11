@@ -462,7 +462,7 @@ catch( error )
 
     var message = new Message( this.CONTAINER_ELEMENT, '<-- Error: ' + error,
         {
-            my: 'left+80px',
+            my: 'left+110px',
             at: 'center',
             of: this.ENTRY_ELEMENT,
             collision: 'fit'
@@ -518,7 +518,7 @@ catch( error )
 
     var message = new Message( this.CONTAINER_ELEMENT, '<-- Error: ' + error,
         {
-            my: 'left+80px',
+            my: 'left+110px',
             at: 'center',
             of: this.ENTRY_ELEMENT,
             collision: 'fit'
