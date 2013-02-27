@@ -40,7 +40,7 @@ NUMBER_DECIMAL_CASES: number = 0;
     // number of milliseconds between each tick
 TIMER_INTERVAL: number = 1000;
 
-TITLE_ELEMENT: HTMLHeadingElement;
+TITLE_ELEMENT: HTMLDivElement;
 COUNT_ELEMENT: HTMLDivElement;
 START_STOP_ELEMENT: HTMLInputElement;
 RESTART_ELEMENT: HTMLInputElement;
@@ -134,19 +134,18 @@ if ( watchArguments.initValueCountDown )
 
     // :: Title :: //
 
-var title = <HTMLHeadingElement> document.createElement( 'h2' );
+var title = <HTMLDivElement> document.createElement( 'div' );
 
 title.className = baseCssClass + '-title';
 title.contentEditable = 'true';
 
+title.setAttribute( 'data-placeholder', separateWords( baseCssClass ) + ' (click to edit)' );
+
 if ( watchArguments.title )
     {
     title.innerText = watchArguments.title;
-    }
 
-else
-    {
-    title.innerText = separateWords( baseCssClass ) + ' (click to edit)';
+    updatePlaceholder( title );
     }
 
 

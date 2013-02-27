@@ -19,13 +19,13 @@ var StopWatch = (function () {
         if(watchArguments.initValueCountDown) {
             this.INIT_VALUE_COUNTDOWN = watchArguments.initValueCountDown;
         }
-        var title = document.createElement('h2');
+        var title = document.createElement('div');
         title.className = baseCssClass + '-title';
         title.contentEditable = 'true';
+        title.setAttribute('data-placeholder', separateWords(baseCssClass) + ' (click to edit)');
         if(watchArguments.title) {
             title.innerText = watchArguments.title;
-        } else {
-            title.innerText = separateWords(baseCssClass) + ' (click to edit)';
+            updatePlaceholder(title);
         }
         var count = document.createElement('div');
         count.className = baseCssClass + '-count';

@@ -3,8 +3,9 @@
 
         - adicionar publicidade
         - por tb no site
-        - click to edit: retirar o texto quando se clica.. e se n se escrever nada, voltar a por o 'click to edit'
-
+        - em vez de ter o tipo de timer separado (coluna esquerda/direita), simplesmente adicionar um timer e poder alterar o tipo, e dar o drag/drop em toda a zona
+        
+            https://github.com/McPants/jquery.shapeshift
 
  */
 
@@ -12,9 +13,11 @@
     Dependencies:
 
         - jquery
-        - jqueryui:
-            - position
-            - sortable
+            - jqueryui:
+                - position
+                - sortable
+
+            - div placeholder - https://github.com/sprucemedia/jQuery.divPlaceholder.js
 
     Bell Sound:
 
@@ -36,7 +39,7 @@ var OPTIONS = {
     };
 
 
-window.onload = function 
+window.onload = function()
 {
 StopWatch.init();
 
