@@ -144,8 +144,6 @@ title.setAttribute( 'data-placeholder', separateWords( baseCssClass ) + ' (click
 if ( watchArguments.title )
     {
     title.innerText = watchArguments.title;
-
-    updatePlaceholder( title );
     }
 
 
@@ -386,6 +384,10 @@ if ( watchArguments.started )
 
 StopWatch.ALL_STOPWATCHES.push( this );
 
+
+    // so that the placeholder updates (according to whether there's text in the title or not)
+    // it needs to be called after the element was added to the DOM
+$( title ).trigger('change');
 
 this.LOADING = false;
 }

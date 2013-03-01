@@ -25,7 +25,6 @@ var StopWatch = (function () {
         title.setAttribute('data-placeholder', separateWords(baseCssClass) + ' (click to edit)');
         if(watchArguments.title) {
             title.innerText = watchArguments.title;
-            updatePlaceholder(title);
         }
         var count = document.createElement('div');
         count.className = baseCssClass + '-count';
@@ -142,6 +141,7 @@ var StopWatch = (function () {
             }
         }
         StopWatch.ALL_STOPWATCHES.push(this);
+        $(title).trigger('change');
         this.LOADING = false;
     }
     StopWatch.DEFAULT_STOP_WATCH_VALUE = 0;
@@ -320,7 +320,7 @@ var StopWatch = (function () {
         mainContainer.removeChild(this.CONTAINER_ELEMENT);
     };
     StopWatch.prototype.stringToMilliseconds = function (entryValue) {
-        var pattern = /[0-9]+(?= *([smhd]))/gi;
+        var pattern = /[0-9]+(?= *([smhd]))/ig;
         var matches = pattern.exec(entryValue);
         var milliseconds = 0;
         var foundPattern = false;

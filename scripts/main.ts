@@ -7,6 +7,9 @@
         
             https://github.com/McPants/jquery.shapeshift
 
+        - retirar os mooar, e ter no menu em cima butoes para adicionar o watch (countdown e countup). ter este menu sempre visivel (mm k se faca scroll)
+        - ter opcao no watch para alterar o seu tipo
+
  */
 
 /*
@@ -22,7 +25,7 @@
     Bell Sound:
 
         http://www.freesound.org/people/dADDoiT/sounds/57070/   (Creative Commons 0 License)
-    
+        
 
  */
 
@@ -79,4 +82,23 @@ Menu.init();
 window.onunload = function()
 {
 save();
+};
+
+
+
+window.onkeyup = function( event )
+{
+var key = event.keyCode;
+
+    // alt + u: add count up
+if ( event.altKey && key == EVENT_KEY.q )
+    {
+    new StopWatch({ countUp: true, baseCssClass: 'CountUp' });
+    }
+
+    // alt + d: add count down
+else if ( event.altKey && key == EVENT_KEY.w )
+    {
+    new StopWatch({ countUp: false, baseCssClass: 'CountDown' });
+    }
 };

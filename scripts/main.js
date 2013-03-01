@@ -33,3 +33,17 @@ window.onload = function () {
 window.onunload = function () {
     save();
 };
+window.onkeyup = function (event) {
+    var key = event.keyCode;
+    if(event.altKey && key == EVENT_KEY.q) {
+        new StopWatch({
+            countUp: true,
+            baseCssClass: 'CountUp'
+        });
+    } else if(event.altKey && key == EVENT_KEY.w) {
+        new StopWatch({
+            countUp: false,
+            baseCssClass: 'CountDown'
+        });
+    }
+};
