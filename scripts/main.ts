@@ -8,7 +8,9 @@
             https://github.com/McPants/jquery.shapeshift
 
         - retirar os mooar, e ter no menu em cima butoes para adicionar o watch (countdown e countup). ter este menu sempre visivel (mm k se faca scroll)
-        - ter opcao no watch para alterar o seu tipo
+
+        - drag handler desalinhado no portatil..
+
 
  */
 

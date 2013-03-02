@@ -118,7 +118,7 @@ this.LOADING = true;
 var countUp = watchArguments.countUp;
 var baseCssClass = watchArguments.baseCssClass;
 
-    // v1.1 into v1.2 compatibility
+    //HERE v1.1 into v1.2 compatibility
 if ( baseCssClass === 'StopWatch' )
     {
     baseCssClass = 'CountUp';
@@ -674,7 +674,7 @@ window.clearInterval( this.INTERVAL_F );
 
 changeNumberDecimalCases( num )
 {
-if ( num < 0 || num > 3 )
+if ( (num < 0 || num > 3) || (num == this.NUMBER_DECIMAL_CASES) )
     {
     return;
     }
@@ -711,6 +711,8 @@ else
     this.stopTimer();
     }
 }
+
+
 
 
 remove()
