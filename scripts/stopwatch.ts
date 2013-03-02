@@ -74,10 +74,7 @@ static ALL_STOPWATCHES = [];
     
 
 
-static MAIN_CONTAINERS = {
-    countUp: null,
-    countDown: null
-    };
+static MAIN_CONTAINER = null;
 
 /*
     Has to be called before constructing any objects
@@ -85,27 +82,15 @@ static MAIN_CONTAINERS = {
 
 static init()
 {
-StopWatch.MAIN_CONTAINERS.countUp = document.querySelector( '#CountUp-mainContainer' );
-StopWatch.MAIN_CONTAINERS.countDown = document.querySelector( '#CountDown-mainContainer' );
+StopWatch.MAIN_CONTAINER = document.querySelector( '#mainContainer' );
 
+    // setup the drag and drop of the watches
 
-    // setup the drag and drop of the watches (its independent for each type)
+$( StopWatch.MAIN_CONTAINER ).sortable({
 
-$( StopWatch.MAIN_CONTAINERS.countDown ).sortable({
-
-    handle: '.CountDown-dragHandle',
-    axis: 'y',
+    handle: '.StopWatch-dragHandle',
     opacity: 0.7
     
-    });
-
-
-$( StopWatch.MAIN_CONTAINERS.countUp ).sortable({
-
-    handle: '.CountUp-dragHandle',
-    axis: 'y',
-    opacity: 0.7
-
     });
 }
 
@@ -221,7 +206,7 @@ if ( countUp === false )
 
 var dragHandle = <HTMLCanvasElement> document.createElement( 'canvas' );
 
-dragHandle.className = baseCssClass + '-dragHandle';
+dragHandle.className = 'StopWatch-dragHandle';
 
 drawDragHandle( dragHandle );
 
@@ -248,20 +233,7 @@ if ( !countUp )
     }
 
 
-var mainContainer;
-
-if ( this.COUNT_UP )
-    {
-    mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
-    }
-
-else
-    {
-    mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
-    }
-
-
-mainContainer.appendChild( container );
+StopWatch.MAIN_CONTAINER.appendChild( container );
 
     // :: Set Events :: //
 
@@ -387,7 +359,7 @@ StopWatch.ALL_STOPWATCHES.push( this );
 
     // so that the placeholder updates (according to whether there's text in the title or not)
     // it needs to be called after the element was added to the DOM
-$( title ).trigger('change');
+$( title ).trigger( 'change' );
 
 this.LOADING = false;
 }
@@ -724,20 +696,7 @@ StopWatch.ALL_STOPWATCHES.splice( position, 1 );
     
     
     // remove from the DOM
-var mainContainer;
-
-if ( this.COUNT_UP )
-    {
-    mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
-    }
-
-else
-    {
-    mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
-    }
-
-
-mainContainer.removeChild( this.CONTAINER_ELEMENT );
+StopWatch.MAIN_CONTAINER.removeChild( this.CONTAINER_ELEMENT );
 }
 
 

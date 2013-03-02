@@ -6,17 +6,9 @@ function save()
 
     // get the watchObject of both watches types (we're getting them from the DOM instead of directly from the StopWatch.ALL_STOPWATCHES because of the drag and drop, which can change the order)
 var all = [];
-var watch: StopWatch;
-
-var mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
 var i;
 
-for (i = 0 ; i < mainContainer.childNodes.length ; i++)
-    {
-    all.push( mainContainer.childNodes[ i ].watchObject );  
-    }
-
-mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
+var mainContainer = StopWatch.MAIN_CONTAINER;
 
 for (i = 0 ; i < mainContainer.childNodes.length ; i++)
     {
@@ -28,8 +20,9 @@ var saveAll = [];
 var saveWatch: StopWatchArguments;
 
 var entryValue;
+var watch: StopWatch;
 
-for (var i = 0 ; i < all.length ; i++)
+for (i = 0 ; i < all.length ; i++)
     {
     watch = all[ i ];
     

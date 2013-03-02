@@ -1,19 +1,15 @@
 function save() {
     var all = [];
-    var watch;
-    var mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
     var i;
-    for(i = 0; i < mainContainer.childNodes.length; i++) {
-        all.push(mainContainer.childNodes[i].watchObject);
-    }
-    mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
+    var mainContainer = StopWatch.MAIN_CONTAINER;
     for(i = 0; i < mainContainer.childNodes.length; i++) {
         all.push(mainContainer.childNodes[i].watchObject);
     }
     var saveAll = [];
     var saveWatch;
     var entryValue;
-    for(var i = 0; i < all.length; i++) {
+    var watch;
+    for(i = 0; i < all.length; i++) {
         watch = all[i];
         entryValue = null;
         if(watch.ENTRY_ELEMENT) {

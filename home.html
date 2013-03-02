@@ -32,37 +32,29 @@
 </head>
 <body>
 
-    <div id="menu">
+    <div id="Menu">
 
-        <div id="sound">Sound: <span id="soundState">On</span></div>
-
-        <div id="donate">
-
-            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-                <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="L9K94YG7TD7GW">
-                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-            </form>
-
+        <div id="Menu-left">
+            <div id="Menu-addCountUp" title="alt + q">Add Count Up</div>
+            <div id="Menu-addCountDown" title="alt + w">Add Count Down</div>
         </div>
 
+        <div id="Menu-right">
+
+            <div id="Menu-sound">Sound: <span id="Menu-soundState">On</span></div>
+
+            <div id="Menu-donate">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="L9K94YG7TD7GW">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+            </div>
+        </div>
     </div>
     
-
-    <div id="CountUp">
-    
-        <div id="CountUp-mainContainer"></div>
-        <div id="CountUp-add" class="addWatch">Moaar!</div>
-        
-    </div>
-
-    <div id="CountDown">
-
-        <div id="CountDown-mainContainer"></div>
-        <div id="CountDown-add" class="addWatch">Moaar!</div>
-
-    </div>
+    <div id="mainContainer"></div>
 
 </body>
 </html>

@@ -59,7 +59,7 @@ var StopWatch = (function () {
             }
         }
         var dragHandle = document.createElement('canvas');
-        dragHandle.className = baseCssClass + '-dragHandle';
+        dragHandle.className = 'StopWatch-dragHandle';
         drawDragHandle(dragHandle);
         var container = document.createElement('div');
         container.className = baseCssClass + '-container';
@@ -75,13 +75,7 @@ var StopWatch = (function () {
         if(!countUp) {
             container.appendChild(entry);
         }
-        var mainContainer;
-        if(this.COUNT_UP) {
-            mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
-        } else {
-            mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
-        }
-        mainContainer.appendChild(container);
+        StopWatch.MAIN_CONTAINER.appendChild(container);
         startStop.onclick = function () {
             _this.STARTED = true;
             if(!_this.RUNNING) {
@@ -147,21 +141,11 @@ var StopWatch = (function () {
     StopWatch.DEFAULT_STOP_WATCH_VALUE = 0;
     StopWatch.DEFAULT_COUNT_DOWN_VALUE = 10000;
     StopWatch.ALL_STOPWATCHES = [];
-    StopWatch.MAIN_CONTAINERS = {
-        countUp: null,
-        countDown: null
-    };
+    StopWatch.MAIN_CONTAINER = null;
     StopWatch.init = function init() {
-        StopWatch.MAIN_CONTAINERS.countUp = document.querySelector('#CountUp-mainContainer');
-        StopWatch.MAIN_CONTAINERS.countDown = document.querySelector('#CountDown-mainContainer');
-        $(StopWatch.MAIN_CONTAINERS.countDown).sortable({
-            handle: '.CountDown-dragHandle',
-            axis: 'y',
-            opacity: 0.7
-        });
-        $(StopWatch.MAIN_CONTAINERS.countUp).sortable({
-            handle: '.CountUp-dragHandle',
-            axis: 'y',
+        StopWatch.MAIN_CONTAINER = document.querySelector('#mainContainer');
+        $(StopWatch.MAIN_CONTAINER).sortable({
+            handle: '.StopWatch-dragHandle',
             opacity: 0.7
         });
     };
@@ -311,13 +295,7 @@ var StopWatch = (function () {
     StopWatch.prototype.remove = function () {
         var position = StopWatch.ALL_STOPWATCHES.indexOf(this);
         StopWatch.ALL_STOPWATCHES.splice(position, 1);
-        var mainContainer;
-        if(this.COUNT_UP) {
-            mainContainer = StopWatch.MAIN_CONTAINERS.countUp;
-        } else {
-            mainContainer = StopWatch.MAIN_CONTAINERS.countDown;
-        }
-        mainContainer.removeChild(this.CONTAINER_ELEMENT);
+        StopWatch.MAIN_CONTAINER.removeChild(this.CONTAINER_ELEMENT);
     };
     StopWatch.prototype.stringToMilliseconds = function (entryValue) {
         var pattern = /[0-9]+(?= *([smhd]))/ig;

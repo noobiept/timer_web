@@ -8,49 +8,87 @@
 
     /* :: Menu :: */
 
-#menu
+#Menu
     {
-    position: absolute;
-    top: 0;
+    position: fixed;
+    top: 5px;
+    left: 1%;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 2px;
+
+    height: 50px;
+    width: 98%;
+    z-index: 10;
+    }
+
+#Menu-left
+    {
+    position: fixed;
+    top: 12px;
+    left: 15px;
+    }
+
+#Menu-right
+    {
+    position: fixed;
+    top: 12px;
     right: 15px;
     }
 
-#menu > *
+#Menu-left > *, #Menu-right > *
     {
     float: left;
-    padding: 5px 10px;
+    padding: 9px 15px;
+    margin-left: 5px;
     }
 
-#donate
+
+#Menu-donate
     {
     padding-top: 8px;  /* align with the other menu elements */
     }
 
-#sound
+#Menu-sound, #Menu-left > *
     {
     cursor: pointer;
+    border-radius: 2px;
+
+    transition-property: background-color;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
+
+    -webkit-transition-property: background-color;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: linear;
     }
 
-    
+#Menu-left > *:hover, #Menu-sound:hover
+    {
+    background-color: rgba(3, 127, 246, 0.3);
+    }
+
+
+.addWatch:hover
+    {
+    background-color: rgba(3, 127, 246, 0.4);
+    }
+
+
     /* :: Timers :: */
 
-
-#CountUp, #CountDown
+#mainContainer
     {
-    float: left;    
-
-    width: 50%;
-    }
-
-#CountUp-mainContainer, #CountDown-mainContainer
-    {
+    clear: both;
     padding: 20px;
+    margin-top: 50px;
     }
 
 
 .CountUp-container, .CountDown-container
     {
     position: relative;
+    float: left;
+    width: 50%;
     }
 
 
@@ -83,7 +121,7 @@
     }
 
 
-.CountUp-dragHandle, .CountDown-dragHandle 
+.StopWatch-dragHandle
     {
     position: absolute;
 
@@ -94,38 +132,13 @@
     opacity: 0.3;
     }
 
-.CountUp-dragHandle:hover, .CountDown-dragHandle:hover
+.StopWatch-dragHandle:hover
     {
     opacity: 1;
     transform: scale( 2 );
     -webkit-transform: scale( 1.2 );
     }
 
-
-.addWatch
-    {
-    cursor: pointer;
-    background-color: rgba(3, 127, 246, 0.3);
-    
-    margin: 0 5px;
-    border-radius: 5px;
-    text-align: center;
-    padding: 3px 0;
-
-    transition-property: background-color;
-    transition-duration: 1s;
-    transition-timing-function: ease-in;
-
-    -webkit-transition-property: background-color;
-    -webkit-transition-duration: 0.2s;
-    -webkit-transition-timing-function: linear;
-    }
-
-
-.addWatch:hover
-    {
-    background-color: rgba(3, 127, 246, 0.4);
-    }
 
 
 .CountUp-container, .CountDown-container

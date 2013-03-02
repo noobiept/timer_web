@@ -3,14 +3,12 @@
 
         - adicionar publicidade
         - por tb no site
-        - em vez de ter o tipo de timer separado (coluna esquerda/direita), simplesmente adicionar um timer e poder alterar o tipo, e dar o drag/drop em toda a zona
-        
-            https://github.com/McPants/jquery.shapeshift
 
-        - retirar os mooar, e ter no menu em cima butoes para adicionar o watch (countdown e countup). ter este menu sempre visivel (mm k se faca scroll)
+        - https://github.com/McPants/jquery.shapeshift
 
         - drag handler desalinhado no portatil..
 
+        - quando se adiciona um watch, fazer foco no que foi adicionado (scroll ate ser visivel)
 
  */
 
@@ -61,7 +59,7 @@ if ( !loadSuccessful )
 
     // setup the buttons events
 
-var addCountUp = <HTMLDivElement> document.querySelector( '#CountUp-add' );
+var addCountUp = <HTMLDivElement> document.querySelector( '#Menu-addCountUp' );
 
 addCountUp.onclick = function()
     {
@@ -69,7 +67,7 @@ addCountUp.onclick = function()
     };
 
 
-var addCountDown = <HTMLDivElement> document.querySelector( '#CountDown-add' );
+var addCountDown = <HTMLDivElement> document.querySelector( '#Menu-addCountDown' );
 
 addCountDown.onclick = function()
     {
@@ -92,13 +90,13 @@ window.onkeyup = function( event )
 {
 var key = event.keyCode;
 
-    // alt + u: add count up
+    // alt + q: add count up
 if ( event.altKey && key == EVENT_KEY.q )
     {
     new StopWatch({ countUp: true, baseCssClass: 'CountUp' });
     }
 
-    // alt + d: add count down
+    // alt + w: add count down
 else if ( event.altKey && key == EVENT_KEY.w )
     {
     new StopWatch({ countUp: false, baseCssClass: 'CountDown' });

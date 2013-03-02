@@ -2,8 +2,8 @@ var Menu;
 (function (Menu) {
     var SOUND_ELEMENT;
     function init() {
-        var sound = document.querySelector('#sound');
-        SOUND_ELEMENT = document.querySelector('#soundState');
+        var sound = document.querySelector('#Menu-sound');
+        SOUND_ELEMENT = document.querySelector('#Menu-soundState');
         sound.onclick = function () {
             if(OPTIONS.sound) {
                 setSound(false);

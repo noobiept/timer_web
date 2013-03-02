@@ -7,8 +7,8 @@ var SOUND_ELEMENT: HTMLSpanElement;
 
 export function init()
 { 
-var sound = <HTMLDivElement> document.querySelector( '#sound' );
-SOUND_ELEMENT = <HTMLSpanElement> document.querySelector( '#soundState' );
+var sound = <HTMLDivElement> document.querySelector( '#Menu-sound' );
+SOUND_ELEMENT = <HTMLSpanElement> document.querySelector( '#Menu-soundState' );
 
 sound.onclick = function()
     {
@@ -43,7 +43,6 @@ else
     SOUND_ELEMENT.innerHTML = 'Off';
     }
 }
-
 
 
 
