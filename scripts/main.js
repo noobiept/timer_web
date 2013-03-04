@@ -14,20 +14,6 @@ window.onload = function () {
             baseCssClass: 'CountDown'
         });
     }
-    var addCountUp = document.querySelector('#Menu-addCountUp');
-    addCountUp.onclick = function () {
-        new StopWatch({
-            countUp: true,
-            baseCssClass: 'CountUp'
-        });
-    };
-    var addCountDown = document.querySelector('#Menu-addCountDown');
-    addCountDown.onclick = function () {
-        new StopWatch({
-            countUp: false,
-            baseCssClass: 'CountDown'
-        });
-    };
     Menu.init();
 };
 window.onunload = function () {

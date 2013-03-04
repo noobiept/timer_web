@@ -137,6 +137,7 @@ var StopWatch = (function () {
         StopWatch.ALL_STOPWATCHES.push(this);
         $(title).trigger('change');
         this.LOADING = false;
+        return this;
     }
     StopWatch.DEFAULT_STOP_WATCH_VALUE = 0;
     StopWatch.DEFAULT_COUNT_DOWN_VALUE = 10000;

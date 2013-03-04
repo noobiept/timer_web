@@ -188,3 +188,10 @@ function separateWords(str) {
     str = str.replace(/^s*/, '');
     return str;
 }
+function isVisible(element) {
+    var rect = element.getBoundingClientRect();
+    if(rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.innerHeight && rect.right <= window.innerWidth) {
+        return true;
+    }
+    return false;
+}

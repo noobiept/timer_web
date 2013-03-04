@@ -362,6 +362,8 @@ StopWatch.ALL_STOPWATCHES.push( this );
 $( title ).trigger( 'change' );
 
 this.LOADING = false;
+
+return this;
 }
 
 

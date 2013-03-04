@@ -2,6 +2,39 @@ var Menu;
 (function (Menu) {
     var SOUND_ELEMENT;
     function init() {
+        var watchObject;
+        var addCountUp = document.querySelector('#Menu-addCountUp');
+        addCountUp.onclick = function () {
+            watchObject = new StopWatch({
+                countUp: true,
+                baseCssClass: 'CountUp'
+            });
+            if(isVisible(watchObject.CONTAINER_ELEMENT)) {
+                watchObject.TITLE_ELEMENT.focus();
+            } else {
+                $(document.body).animate({
+                    'scrollTop': $(watchObject.CONTAINER_ELEMENT).offset().top
+                }, 200, function () {
+                    watchObject.TITLE_ELEMENT.focus();
+                });
+            }
+        };
+        var addCountDown = document.querySelector('#Menu-addCountDown');
+        addCountDown.onclick = function () {
+            watchObject = new StopWatch({
+                countUp: false,
+                baseCssClass: 'CountDown'
+            });
+            if(isVisible(watchObject.CONTAINER_ELEMENT)) {
+                watchObject.TITLE_ELEMENT.focus();
+            } else {
+                $(document.body).animate({
+                    'scrollTop': $(watchObject.CONTAINER_ELEMENT).offset().top
+                }, 200, function () {
+                    watchObject.TITLE_ELEMENT.focus();
+                });
+            }
+        };
         var sound = document.querySelector('#Menu-sound');
         SOUND_ELEMENT = document.querySelector('#Menu-soundState');
         sound.onclick = function () {
@@ -12,6 +45,9 @@ var Menu;
             }
         };
         setSound(OPTIONS.sound);
+        var menuEntryHeight = $(addCountUp).outerHeight();
+        var menuHeight = menuEntryHeight + 8;
+        $('#Menu').css('height', menuHeight + 'px');
     }
     Menu.init = init;
     function setSound(onOff) {

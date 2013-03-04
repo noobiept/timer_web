@@ -4,11 +4,12 @@
         - adicionar publicidade
         - por tb no site
 
-        - https://github.com/McPants/jquery.shapeshift
-
         - drag handler desalinhado no portatil..
 
-        - quando se adiciona um watch, fazer foco no que foi adicionado (scroll ate ser visivel)
+        - the height of the #Menu has to be calculated according to the font-size of the text (try options->font size->med/large)
+        - and dragHandler being unaligned is probably related?..
+
+        - ctrl + enter no title para adicionar novo watch?..
 
  */
 
@@ -56,23 +57,6 @@ if ( !loadSuccessful )
     new StopWatch( { countUp: false, baseCssClass:  'CountDown' } );
     }
 
-
-    // setup the buttons events
-
-var addCountUp = <HTMLDivElement> document.querySelector( '#Menu-addCountUp' );
-
-addCountUp.onclick = function()
-    {
-    new StopWatch( { countUp: true, baseCssClass: 'CountUp' } );
-    };
-
-
-var addCountDown = <HTMLDivElement> document.querySelector( '#Menu-addCountDown' );
-
-addCountDown.onclick = function()
-    {
-    new StopWatch( { countUp: false, baseCssClass: 'CountDown' } );
-    }
 
 
 Menu.init();
