@@ -115,7 +115,7 @@ var StopWatch = (function () {
         this.DRAG_HANDLE = dragHandle;
         this.CONTAINER_ELEMENT = container;
         container.watchObject = this;
-        if(watchArguments.count) {
+        if($.isNumeric(watchArguments.count)) {
             this.updateWatch(watchArguments.count);
         } else {
             if(watchArguments.countUp) {

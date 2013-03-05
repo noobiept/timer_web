@@ -313,7 +313,7 @@ container.watchObject = this;
 
     // :: Update the watch :: //
 
-if ( watchArguments.count )
+if ( $.isNumeric( watchArguments.count ) )
     {
     this.updateWatch( watchArguments.count );
     }
