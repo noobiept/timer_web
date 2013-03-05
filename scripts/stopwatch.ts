@@ -356,10 +356,23 @@ if ( watchArguments.started )
 
 StopWatch.ALL_STOPWATCHES.push( this );
 
+    // :: Other :: //
 
     // so that the placeholder updates (according to whether there's text in the title or not)
     // it needs to be called after the element was added to the DOM
 $( title ).trigger( 'change' );
+
+
+    // with different font-sizes (for example in chrome, settings -> font size -> medium/large), it makes the drag handle element not being position correctly
+    // so we position it here with code
+var titleHeight = $( title ).innerHeight();
+var dragHeight = dragHandle.height;
+
+var dragTop = (titleHeight - dragHeight) / 2 + 1;
+
+$( dragHandle ).css( 'top', dragTop + 'px' );
+
+
 
 this.LOADING = false;
 

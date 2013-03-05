@@ -4,11 +4,6 @@
         - adicionar publicidade
         - por tb no site
 
-        - drag handler desalinhado no portatil..
-
-        - the height of the #Menu has to be calculated according to the font-size of the text (try options->font size->med/large)
-        - and dragHandler being unaligned is probably related?..
-
         - ctrl + enter no title para adicionar novo watch?..
 
  */

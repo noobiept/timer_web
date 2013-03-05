@@ -136,6 +136,10 @@ var StopWatch = (function () {
         }
         StopWatch.ALL_STOPWATCHES.push(this);
         $(title).trigger('change');
+        var titleHeight = $(title).innerHeight();
+        var dragHeight = dragHandle.height;
+        var dragTop = (titleHeight - dragHeight) / 2 + 1;
+        $(dragHandle).css('top', dragTop + 'px');
         this.LOADING = false;
         return this;
     }

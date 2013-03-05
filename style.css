@@ -127,7 +127,7 @@
     {
     position: absolute;
 
-    top: 12px;
+    top: 12px;  /* this is done in code, to position correctly with different font sizes (see at the end of the StopWatch constructor) */
     left: 5px;
 
     cursor: pointer;
