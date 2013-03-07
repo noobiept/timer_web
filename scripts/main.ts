@@ -6,9 +6,6 @@
 
         - ctrl + enter no title para adicionar novo watch?..
 
-
-        - the message saying a count down ended is not aligned when the title is wrapped (more than 1 line of text). try loading again to see problem
-
  */
 
 /*

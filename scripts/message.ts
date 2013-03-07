@@ -14,7 +14,7 @@ message.className = 'Message';
 message.innerText = text;
 
 parent.appendChild( message );
-        
+
 $( message ).position( positionOptions );
 
 this.PARENT_ELEMENT = parent;

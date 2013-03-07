@@ -136,9 +136,10 @@ var StopWatch = (function () {
         }
         StopWatch.ALL_STOPWATCHES.push(this);
         $(title).trigger('change');
-        var titleHeight = $(title).innerHeight();
+        var titleFontSize = parseInt($(title).css('font-size'));
+        var oneLineHeight = titleFontSize * 1.35;
         var dragHeight = dragHandle.height;
-        var dragTop = (titleHeight - dragHeight) / 2 + 1;
+        var dragTop = (oneLineHeight - dragHeight) / 2 + 1;
         $(dragHandle).css('top', dragTop + 'px');
         this.LOADING = false;
         return this;
@@ -238,6 +239,7 @@ var StopWatch = (function () {
         this.reachedLimit();
     };
     StopWatch.prototype.reachedLimit = function () {
+        var watchObject = this;
         if(!this.COUNT_UP) {
             if(this.REACHED_LIMIT) {
                 return true;
@@ -246,12 +248,25 @@ var StopWatch = (function () {
                 this.REACHED_LIMIT = true;
                 this.clearContainerCssClasses();
                 $(this.CONTAINER_ELEMENT).addClass('watch-finished');
-                var reachedLimitMessage = new Message(this.CONTAINER_ELEMENT, '<-- Ended', {
-                    my: 'left',
-                    at: 'center',
-                    of: this.COUNT_ELEMENT
-                });
-                this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
+                if(this.LOADING) {
+                    window.setTimeout(function () {
+                        var reachedLimitMessage = new Message(watchObject.CONTAINER_ELEMENT, '<-- Ended', {
+                            my: 'left',
+                            at: 'center',
+                            of: watchObject.COUNT_ELEMENT,
+                            collision: 'fit'
+                        });
+                        watchObject.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
+                    }, 30);
+                } else {
+                    var reachedLimitMessage = new Message(this.CONTAINER_ELEMENT, '<-- Ended', {
+                        my: 'left',
+                        at: 'center',
+                        of: this.COUNT_ELEMENT,
+                        collision: 'fit'
+                    });
+                    this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
+                }
                 if(!this.LOADING && OPTIONS.sound) {
                     new Sound('../sounds/sound1.ogg');
                 }

@@ -365,10 +365,15 @@ $( title ).trigger( 'change' );
 
     // with different font-sizes (for example in chrome, settings -> font size -> medium/large), it makes the drag handle element not being position correctly
     // so we position it here with code
-var titleHeight = $( title ).innerHeight();
+    // we're aligning just for the first line
+var titleFontSize = parseInt( $( title ).css('font-size') );
+
+    // trying to get the height of the element from the font-size
+var oneLineHeight = titleFontSize * 1.35;
+
 var dragHeight = dragHandle.height;
 
-var dragTop = (titleHeight - dragHeight) / 2 + 1;
+var dragTop = (oneLineHeight - dragHeight) / 2 + 1;
 
 $( dragHandle ).css( 'top', dragTop + 'px' );
 
@@ -574,6 +579,8 @@ this.reachedLimit();
 
 reachedLimit(): bool
 {
+var watchObject = this;
+
 if ( !this.COUNT_UP )
     {
         // no need to do anything
@@ -592,20 +599,41 @@ if ( !this.COUNT_UP )
         
             // :: show some message :: //
 
-        var reachedLimitMessage = new Message(this.CONTAINER_ELEMENT, '<-- Ended', 
-        { 
-            my: 'left',
-            at: 'center',
-            of: this.COUNT_ELEMENT 
-        });
+        if ( this.LOADING )
+            {
+            window.setTimeout( function()
+                {
+                var reachedLimitMessage = new Message(watchObject.CONTAINER_ELEMENT, '<-- Ended',
+                    {
+                        my: 'left',
+                        at: 'center',
+                        of: watchObject.COUNT_ELEMENT,
+                        collision: 'fit'
+                    });
 
-        this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
+                watchObject.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
+                }, 30);
+            }
+
+        else
+            {
+            var reachedLimitMessage = new Message(this.CONTAINER_ELEMENT, '<-- Ended',
+                {
+                    my: 'left',
+                    at: 'center',
+                    of: this.COUNT_ELEMENT,
+                    collision: 'fit'
+                });
+
+            this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
+            }
+
 
 
         if ( !this.LOADING && OPTIONS.sound )
             {
                 // play the sound
-            new Sound( '../sounds/sound1.ogg' ); 
+            new Sound( '../sounds/sound1.ogg' );
             }
 
         return true;
