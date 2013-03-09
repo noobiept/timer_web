@@ -26,8 +26,13 @@ var StopWatch = (function () {
         if(watchArguments.title) {
             title.innerText = watchArguments.title;
         }
-        var count = document.createElement('div');
+        var count = document.createElement('span');
         count.className = baseCssClass + '-count';
+        var countMessage = document.createElement('span');
+        countMessage.className = baseCssClass + '-countMessage';
+        var countContainer = document.createElement('div');
+        countContainer.appendChild(count);
+        countContainer.appendChild(countMessage);
         var startStop = document.createElement('input');
         startStop.className = baseCssClass + '-startStop';
         startStop.type = 'button';
@@ -65,7 +70,7 @@ var StopWatch = (function () {
         container.className = baseCssClass + '-container';
         $(container).addClass('notActive');
         container.appendChild(title);
-        container.appendChild(count);
+        container.appendChild(countContainer);
         container.appendChild(startStop);
         container.appendChild(restart);
         container.appendChild(reset);
@@ -106,6 +111,7 @@ var StopWatch = (function () {
         }
         this.TITLE_ELEMENT = title;
         this.COUNT_ELEMENT = count;
+        this.COUNT_MESSAGE_ELEMENT = countMessage;
         this.START_STOP_ELEMENT = startStop;
         this.RESTART_ELEMENT = restart;
         this.RESET_ELEMENT = reset;
@@ -194,10 +200,7 @@ var StopWatch = (function () {
         }
         this.STARTED = true;
         this.REACHED_LIMIT = false;
-        if(this.REACHED_LIMIT_MESSAGE) {
-            this.REACHED_LIMIT_MESSAGE.remove();
-            this.REACHED_LIMIT_MESSAGE = null;
-        }
+        this.COUNT_MESSAGE_ELEMENT.innerText = '';
         this.START_STOP_ELEMENT.value = 'Stop';
         this.clearContainerCssClasses();
         $(this.CONTAINER_ELEMENT).addClass('watch-active');
@@ -223,10 +226,7 @@ var StopWatch = (function () {
         }
         this.STARTED = false;
         this.REACHED_LIMIT = false;
-        if(this.REACHED_LIMIT_MESSAGE) {
-            this.REACHED_LIMIT_MESSAGE.remove();
-            this.REACHED_LIMIT_MESSAGE = null;
-        }
+        this.COUNT_MESSAGE_ELEMENT.innerText = '';
         this.stopTimer();
         this.START_STOP_ELEMENT.value = "Start";
         this.clearContainerCssClasses();
@@ -248,25 +248,7 @@ var StopWatch = (function () {
                 this.REACHED_LIMIT = true;
                 this.clearContainerCssClasses();
                 $(this.CONTAINER_ELEMENT).addClass('watch-finished');
-                if(this.LOADING) {
-                    window.setTimeout(function () {
-                        var reachedLimitMessage = new Message(watchObject.CONTAINER_ELEMENT, '<-- Ended', {
-                            my: 'left',
-                            at: 'center',
-                            of: watchObject.COUNT_ELEMENT,
-                            collision: 'fit'
-                        });
-                        watchObject.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
-                    }, 30);
-                } else {
-                    var reachedLimitMessage = new Message(this.CONTAINER_ELEMENT, '<-- Ended', {
-                        my: 'left',
-                        at: 'center',
-                        of: this.COUNT_ELEMENT,
-                        collision: 'fit'
-                    });
-                    this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
-                }
+                this.COUNT_MESSAGE_ELEMENT.innerText = '<-- Ended';
                 if(!this.LOADING && OPTIONS.sound) {
                     new Sound('../sounds/sound1.ogg');
                 }

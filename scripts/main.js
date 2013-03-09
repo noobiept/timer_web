@@ -21,15 +21,18 @@ window.onunload = function () {
 };
 window.onkeyup = function (event) {
     var key = event.keyCode;
+    var watchObject;
     if(event.altKey && key == EVENT_KEY.q) {
-        new StopWatch({
+        watchObject = new StopWatch({
             countUp: true,
             baseCssClass: 'CountUp'
         });
+        watchObject.TITLE_ELEMENT.focus();
     } else if(event.altKey && key == EVENT_KEY.w) {
-        new StopWatch({
+        watchObject = new StopWatch({
             countUp: false,
             baseCssClass: 'CountDown'
         });
+        watchObject.TITLE_ELEMENT.focus();
     }
 };

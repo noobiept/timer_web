@@ -41,7 +41,9 @@ NUMBER_DECIMAL_CASES: number = 0;
 TIMER_INTERVAL: number = 1000;
 
 TITLE_ELEMENT: HTMLDivElement;
-COUNT_ELEMENT: HTMLDivElement;
+COUNT_ELEMENT: HTMLSpanElement;
+COUNT_MESSAGE_ELEMENT: HTMLSpanElement;
+
 START_STOP_ELEMENT: HTMLInputElement;
 RESTART_ELEMENT: HTMLInputElement;
 RESET_ELEMENT: HTMLInputElement;
@@ -52,7 +54,6 @@ CONTAINER_ELEMENT: HTMLDivElement;
 
     // for CountDown mode only
 ENTRY_ELEMENT: HTMLInputElement;
-REACHED_LIMIT_MESSAGE: Message;
 INIT_VALUE_COUNTDOWN: number = StopWatch.DEFAULT_COUNT_DOWN_VALUE;    // the value which is set (where it started to count down)
 
 REACHED_LIMIT = false;
@@ -134,9 +135,21 @@ if ( watchArguments.title )
 
     // :: Count Element :: //
 
-var count = <HTMLDivElement> document.createElement( 'div' );
+var count = <HTMLSpanElement> document.createElement( 'span' );
 
 count.className = baseCssClass + '-count';
+
+
+    // to display messages (for example when count down finishes)
+var countMessage = <HTMLSpanElement> document.createElement( 'span' );
+
+countMessage.className = baseCssClass + '-countMessage';
+
+var countContainer = <HTMLDivElement> document.createElement( 'div' );
+
+countContainer.appendChild( count );
+countContainer.appendChild( countMessage );
+
 
     // :: Start/Stop :: //
 
@@ -219,7 +232,7 @@ container.className = baseCssClass + '-container';
 $( container ).addClass( 'notActive' );
 
 container.appendChild( title );
-container.appendChild( count );
+container.appendChild( countContainer );
 container.appendChild( startStop );
 container.appendChild( restart );
 container.appendChild( reset );
@@ -298,6 +311,7 @@ if ( !countUp )
 
 this.TITLE_ELEMENT = title;
 this.COUNT_ELEMENT = count;
+this.COUNT_MESSAGE_ELEMENT = countMessage;
 this.START_STOP_ELEMENT = startStop;
 this.RESTART_ELEMENT = restart;
 this.RESET_ELEMENT = reset;
@@ -475,12 +489,8 @@ this.STARTED = true;
 this.REACHED_LIMIT = false;
 
     // remove the reachedLimit message
-if ( this.REACHED_LIMIT_MESSAGE )
-    {
-    this.REACHED_LIMIT_MESSAGE.remove();
+this.COUNT_MESSAGE_ELEMENT.innerText = '';
 
-    this.REACHED_LIMIT_MESSAGE = null;
-    }
 
     // update the startStop button text
 this.START_STOP_ELEMENT.value = 'Stop';
@@ -539,12 +549,8 @@ catch( error )
 this.STARTED = false;
 this.REACHED_LIMIT = false;
 
-if ( this.REACHED_LIMIT_MESSAGE )
-    {
-    this.REACHED_LIMIT_MESSAGE.remove();
-    
-    this.REACHED_LIMIT_MESSAGE = null;
-    }
+    // clear any possible messages that could be displayed
+this.COUNT_MESSAGE_ELEMENT.innerText = '';
 
 this.stopTimer();
 
@@ -599,35 +605,7 @@ if ( !this.COUNT_UP )
         
             // :: show some message :: //
 
-        if ( this.LOADING )
-            {
-            window.setTimeout( function()
-                {
-                var reachedLimitMessage = new Message(watchObject.CONTAINER_ELEMENT, '<-- Ended',
-                    {
-                        my: 'left',
-                        at: 'center',
-                        of: watchObject.COUNT_ELEMENT,
-                        collision: 'fit'
-                    });
-
-                watchObject.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
-                }, 30);
-            }
-
-        else
-            {
-            var reachedLimitMessage = new Message(this.CONTAINER_ELEMENT, '<-- Ended',
-                {
-                    my: 'left',
-                    at: 'center',
-                    of: this.COUNT_ELEMENT,
-                    collision: 'fit'
-                });
-
-            this.REACHED_LIMIT_MESSAGE = reachedLimitMessage;
-            }
-
+        this.COUNT_MESSAGE_ELEMENT.innerText = '<-- Ended';
 
 
         if ( !this.LOADING && OPTIONS.sound )

@@ -127,6 +127,11 @@
     padding: 0 15px;
     }
 
+.CountUp-countMessage, .CountDown-countMessage
+    {
+    margin-left: 150px;
+    }
+
 
 .CountUp-remove, .CountDown-remove
     {
