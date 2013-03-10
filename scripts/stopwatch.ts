@@ -1,6 +1,5 @@
 /// <reference path="utilities.ts" />
 /// <reference path="options.ts" />
-/// <reference path="message.ts" />
 /// <reference path="sound.ts" />
 
 
@@ -55,6 +54,9 @@ CONTAINER_ELEMENT: HTMLDivElement;
     // for CountDown mode only
 ENTRY_ELEMENT: HTMLInputElement;
 INIT_VALUE_COUNTDOWN: number = StopWatch.DEFAULT_COUNT_DOWN_VALUE;    // the value which is set (where it started to count down)
+
+ENTRY_MESSAGE_ELEMENT: HTMLSpanElement;
+ENTRY_MESSAGE_TIMEOUT_F;    // reference to the window.setTimeout(), to be able to cancel it if necessary
 
 REACHED_LIMIT = false;
 
@@ -194,6 +196,7 @@ drawRemoveButton( remove );
     // :: Entry :: //
 
 var entry = null;
+var entryMessage = null;
 
     // when count down mode, add an entry to set the starting time
 if ( countUp === false )
@@ -212,6 +215,10 @@ if ( countUp === false )
         {
         entry.value = '10s';
         }
+
+        // the message, when an error occurs (like not a valid time)
+    entryMessage = <HTMLSpanElement> document.createElement( 'span' );
+    entryMessage.className = baseCssClass + '-entryMessage';
     }
 
 
@@ -243,6 +250,7 @@ container.appendChild( options );
 if ( !countUp )
     {
     container.appendChild( entry );
+    container.appendChild( entryMessage );
     }
 
 
@@ -318,6 +326,7 @@ this.RESET_ELEMENT = reset;
 this.OPEN_OPTIONS_ELEMENT = options;
 this.REMOVE_ELEMENT = remove;
 this.ENTRY_ELEMENT = entry;
+this.ENTRY_MESSAGE_ELEMENT = entryMessage;
 this.DRAG_HANDLE = dragHandle;
 this.CONTAINER_ELEMENT = container;
 
@@ -464,6 +473,8 @@ this.START_STOP_ELEMENT.value = "Continue";
 
 restartWatch()
 {
+var watchObject = this;
+
 try
     {
     var initValue = this.getInitialValue();
@@ -473,14 +484,19 @@ catch( error )
     {
     console.log( error );
 
-    var message = new Message( this.CONTAINER_ELEMENT, '<-- Error: ' + error,
+        // clear any possible previous timeout
+    window.clearTimeout( this.ENTRY_MESSAGE_TIMEOUT_F );
+
+    this.ENTRY_MESSAGE_ELEMENT.innerText = '<-- Error: ' + error;
+
+
+        // clear the message after some time
+    this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout( function()
         {
-            my: 'left+110px',
-            at: 'center',
-            of: this.ENTRY_ELEMENT,
-            collision: 'fit'
-        }, 2000);
-    
+        watchObject.ENTRY_MESSAGE_ELEMENT.innerText = '';
+
+        }, 2000 );
+
         // bring the last valid value that was set (this error only occurs in the CountDown watches)
     initValue = this.INIT_VALUE_COUNTDOWN;
     }
@@ -516,6 +532,8 @@ this.startTimer();
 
 resetWatch()
 {
+var watchObject = this;
+
 try
     {
     var initValue = this.getInitialValue();
@@ -525,14 +543,18 @@ catch( error )
     {
     console.log( error );
 
-    var message = new Message( this.CONTAINER_ELEMENT, '<-- Error: ' + error,
+        // clear any possible previous timeout
+    window.clearTimeout( this.ENTRY_MESSAGE_TIMEOUT_F );
+
+    this.ENTRY_MESSAGE_ELEMENT.innerText = '<-- Error: ' + error;
+
+        // clear the message after some time
+    this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout( function()
         {
-            my: 'left+110px',
-            at: 'center',
-            of: this.ENTRY_ELEMENT,
-            collision: 'fit'
-        }, 2000);
-    
+        watchObject.ENTRY_MESSAGE_ELEMENT.innerText = '';
+
+        }, 2000 );
+
 
     if ( this.COUNT_UP )
         {

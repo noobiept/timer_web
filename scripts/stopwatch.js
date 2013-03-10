@@ -53,6 +53,7 @@ var StopWatch = (function () {
         remove.className = baseCssClass + '-remove';
         drawRemoveButton(remove);
         var entry = null;
+        var entryMessage = null;
         if(countUp === false) {
             entry = document.createElement('input');
             entry.className = baseCssClass + '-entry';
@@ -62,6 +63,8 @@ var StopWatch = (function () {
             } else {
                 entry.value = '10s';
             }
+            entryMessage = document.createElement('span');
+            entryMessage.className = baseCssClass + '-entryMessage';
         }
         var dragHandle = document.createElement('canvas');
         dragHandle.className = 'StopWatch-dragHandle';
@@ -79,6 +82,7 @@ var StopWatch = (function () {
         container.appendChild(options);
         if(!countUp) {
             container.appendChild(entry);
+            container.appendChild(entryMessage);
         }
         StopWatch.MAIN_CONTAINER.appendChild(container);
         startStop.onclick = function () {
@@ -118,6 +122,7 @@ var StopWatch = (function () {
         this.OPEN_OPTIONS_ELEMENT = options;
         this.REMOVE_ELEMENT = remove;
         this.ENTRY_ELEMENT = entry;
+        this.ENTRY_MESSAGE_ELEMENT = entryMessage;
         this.DRAG_HANDLE = dragHandle;
         this.CONTAINER_ELEMENT = container;
         container.watchObject = this;
@@ -186,15 +191,15 @@ var StopWatch = (function () {
         this.START_STOP_ELEMENT.value = "Continue";
     };
     StopWatch.prototype.restartWatch = function () {
+        var watchObject = this;
         try  {
             var initValue = this.getInitialValue();
         } catch (error) {
             console.log(error);
-            var message = new Message(this.CONTAINER_ELEMENT, '<-- Error: ' + error, {
-                my: 'left+110px',
-                at: 'center',
-                of: this.ENTRY_ELEMENT,
-                collision: 'fit'
+            window.clearTimeout(this.ENTRY_MESSAGE_TIMEOUT_F);
+            this.ENTRY_MESSAGE_ELEMENT.innerText = '<-- Error: ' + error;
+            this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout(function () {
+                watchObject.ENTRY_MESSAGE_ELEMENT.innerText = '';
             }, 2000);
             initValue = this.INIT_VALUE_COUNTDOWN;
         }
@@ -208,15 +213,15 @@ var StopWatch = (function () {
         this.startTimer();
     };
     StopWatch.prototype.resetWatch = function () {
+        var watchObject = this;
         try  {
             var initValue = this.getInitialValue();
         } catch (error) {
             console.log(error);
-            var message = new Message(this.CONTAINER_ELEMENT, '<-- Error: ' + error, {
-                my: 'left+110px',
-                at: 'center',
-                of: this.ENTRY_ELEMENT,
-                collision: 'fit'
+            window.clearTimeout(this.ENTRY_MESSAGE_TIMEOUT_F);
+            this.ENTRY_MESSAGE_ELEMENT.innerText = '<-- Error: ' + error;
+            this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout(function () {
+                watchObject.ENTRY_MESSAGE_ELEMENT.innerText = '';
             }, 2000);
             if(this.COUNT_UP) {
                 initValue = StopWatch.DEFAULT_STOP_WATCH_VALUE;

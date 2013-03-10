@@ -132,6 +132,11 @@
     margin-left: 150px;
     }
 
+.CountUp-entryMessage, .CountDown-entryMessage
+    {
+    margin-left: 10px;
+    }
+
 
 .CountUp-remove, .CountDown-remove
     {
@@ -185,12 +190,6 @@
 .watch-finished
     {
     background-color: rgba(188, 0, 0, 0.15);
-    }
-
-
-.Message
-    {
-    position: absolute;
     }
 
 
