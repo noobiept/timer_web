@@ -1,6 +1,6 @@
 "use strict";
 var PopupWindow = (function () {
-    function PopupWindow(content, x, y, afterAppend_f) {
+    function PopupWindow(popupArguments) {
         var _this = this;
         this.keyboardEvents = function (event) {
             var key = event.keyCode;
@@ -28,21 +28,25 @@ var PopupWindow = (function () {
             _this.remove();
         };
         container.appendChild(close);
-        container.appendChild(content);
-        $(container).css('left', x + 'px');
-        $(container).css('top', y + 'px');
+        container.appendChild(popupArguments.content);
+        $(container).css('left', popupArguments.x + 'px');
+        $(container).css('top', popupArguments.y + 'px');
         document.body.appendChild(container);
         this.KEY_DOWN_F = function (event) {
             _this.keyboardEvents(event);
         };
         $(window).bind('keyup', this.KEY_DOWN_F);
-        if(typeof afterAppend_f !== 'undefined' && afterAppend_f !== null) {
-            afterAppend_f();
+        if(typeof popupArguments.afterAppend !== 'undefined' && popupArguments.afterAppend !== null) {
+            popupArguments.afterAppend();
         }
+        this.ON_REMOVE = popupArguments.onRemove;
     }
     PopupWindow.prototype.remove = function () {
         document.body.removeChild(this.CONTAINER_ELEMENT);
         window.removeEventListener('keyup', this.KEY_DOWN_F);
+        if(this.ON_REMOVE) {
+            this.ON_REMOVE();
+        }
     };
     return PopupWindow;
 })();

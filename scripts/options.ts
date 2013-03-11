@@ -17,7 +17,18 @@ TWO_DECIMAL_CASE: HTMLDivElement;
 
 WATCH_OBJECT: StopWatch;
 
-constructor( watchObject: StopWatch )
+POPUP_WINDOW_OBJECT: PopupWindow;
+
+ON_CLOSE: () => any;
+
+/*
+    Arguments:
+
+        watchObject : the object of the stop watch this belongs to
+        onRemove    : a function to be called when the window is closed
+ */
+
+constructor( watchObject: StopWatch, onRemove?: () => any )
 {
 this.WATCH_OBJECT = watchObject;
 
@@ -88,7 +99,17 @@ var optionsOffset = $( watchObject.OPEN_OPTIONS_ELEMENT ).offset();
     // and on the same level as the title
 var titleOffset = $( watchObject.TITLE_ELEMENT ).offset();
 
-new PopupWindow( decimalCaseContainer, optionsOffset.left + 70, titleOffset.top );
+
+this.POPUP_WINDOW_OBJECT = new PopupWindow({
+
+    content  : decimalCaseContainer,
+    x        : optionsOffset.left + 70,
+    y        : titleOffset.top,
+    onRemove : onRemove
+
+    });
+
+return this;
 }
 
 
@@ -127,6 +148,17 @@ $( element ).addClass( 'Options-selected' );
 
 this.SELECTED_DECIMAL_CASE = element;
 }
+
+
+/*
+    Remove/close the options window
+ */
+
+remove()
+{
+this.POPUP_WINDOW_OBJECT.remove();
+}
+
 
 
 }

@@ -288,9 +288,28 @@ reset.onclick = () =>
     };
 
 
+var isOptionsOpened = false;
+var optionsWindowObject = null;
+
 options.onclick = () =>
     {
-    new Options( this );
+    if ( isOptionsOpened )
+        {
+        isOptionsOpened = false;
+
+        optionsWindowObject.remove();
+        }
+
+    else
+        {
+        isOptionsOpened = true;
+
+        optionsWindowObject = new Options( this,
+            function()
+            {
+            isOptionsOpened = false;
+            });
+        }
     };
 
 

@@ -99,8 +99,18 @@ var StopWatch = (function () {
         reset.onclick = function () {
             _this.resetWatch();
         };
+        var isOptionsOpened = false;
+        var optionsWindowObject = null;
         options.onclick = function () {
-            new Options(_this);
+            if(isOptionsOpened) {
+                isOptionsOpened = false;
+                optionsWindowObject.remove();
+            } else {
+                isOptionsOpened = true;
+                optionsWindowObject = new Options(_this, function () {
+                    isOptionsOpened = false;
+                });
+            }
         };
         remove.onclick = function () {
             _this.remove();

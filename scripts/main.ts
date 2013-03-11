@@ -7,10 +7,6 @@
         - ctrl + enter no title para adicionar novo watch?..
 
 
-        - the message that tells a count down ended, gets unaligned, when for example the watch is loaded with the title with 2 lines, and we remove some text until its just one line
-
-        have the ended as a span element?....
-
         - its redundant to have different css classes for both types of watches (ends up selecting both everytime), simplify that
  */
 

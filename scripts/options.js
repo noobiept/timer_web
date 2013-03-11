@@ -1,5 +1,5 @@
 var Options = (function () {
-    function Options(watchObject) {
+    function Options(watchObject, onRemove) {
         var _this = this;
         this.WATCH_OBJECT = watchObject;
         var caseDescription = document.createElement('div');
@@ -38,7 +38,13 @@ var Options = (function () {
         decimalCaseContainer.appendChild(casesValuesContainer);
         var optionsOffset = $(watchObject.OPEN_OPTIONS_ELEMENT).offset();
         var titleOffset = $(watchObject.TITLE_ELEMENT).offset();
-        new PopupWindow(decimalCaseContainer, optionsOffset.left + 70, titleOffset.top);
+        this.POPUP_WINDOW_OBJECT = new PopupWindow({
+            content: decimalCaseContainer,
+            x: optionsOffset.left + 70,
+            y: titleOffset.top,
+            onRemove: onRemove
+        });
+        return this;
     }
     Options.prototype.selectDecimalCase = function (newCase) {
         this.WATCH_OBJECT.changeNumberDecimalCases(newCase);
@@ -53,6 +59,9 @@ var Options = (function () {
         $(this.SELECTED_DECIMAL_CASE).removeClass('Options-selected');
         $(element).addClass('Options-selected');
         this.SELECTED_DECIMAL_CASE = element;
+    };
+    Options.prototype.remove = function () {
+        this.POPUP_WINDOW_OBJECT.remove();
     };
     return Options;
 })();

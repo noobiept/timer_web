@@ -3,12 +3,25 @@
 
 /// <reference path="utilities.ts" />
 
+
+interface PopupWindowArguments
+    {
+    content       : HTMLElement;
+    x             : number;
+    y             : number;
+    afterAppend ? : () => any;
+    onRemove ?    : () => any;
+    }
+
+
 class PopupWindow
 {
 
 CONTAINER_ELEMENT: HTMLDivElement;
 
 KEY_DOWN_F: ( event: KeyboardEvent ) => any;
+
+ON_REMOVE: () => any;
 
 /*
     Arguments:
@@ -19,7 +32,7 @@ KEY_DOWN_F: ( event: KeyboardEvent ) => any;
 
  */
 
-constructor( content: HTMLElement, x: number, y: number, afterAppend_f?: () => any )
+constructor( popupArguments: PopupWindowArguments )
 {
 var container = <HTMLDivElement> document.createElement('div');
 
@@ -61,12 +74,12 @@ close.onclick = () =>
     // append stuff
 
 container.appendChild( close );
-container.appendChild( content );
-      
+container.appendChild( popupArguments.content );
+
     // position the element
 
-$( container ).css('left', x + 'px');
-$( container ).css('top', y + 'px');
+$( container ).css('left', popupArguments.x + 'px');
+$( container ).css('top', popupArguments.y + 'px');
 
 document.body.appendChild( container );
 
@@ -81,10 +94,12 @@ this.KEY_DOWN_F = ( event ) =>
 $( window ).bind( 'keyup', this.KEY_DOWN_F );
 
 
-if (typeof afterAppend_f !== 'undefined' && afterAppend_f !== null)
+if (typeof popupArguments.afterAppend !== 'undefined' && popupArguments.afterAppend !== null)
     {
-    afterAppend_f();
+    popupArguments.afterAppend();
     }
+
+this.ON_REMOVE = popupArguments.onRemove;
 }
 
 
@@ -94,6 +109,11 @@ document.body.removeChild( this.CONTAINER_ELEMENT );
 
 //$( window ).unbind('keyup', this.keyDown_f);
 window.removeEventListener( 'keyup', this.KEY_DOWN_F );
+
+if ( this.ON_REMOVE )
+    {
+    this.ON_REMOVE();
+    }
 };
 
 
