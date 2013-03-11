@@ -1,7 +1,10 @@
 Timer Testing Guide
 
 
-- donate button works
+Menu:
+    - donate button works
+    - adding the watches (and if it scrolls down, if the watch being added isn't currently visible)
+    - if the sound option works
 
 
 
@@ -42,11 +45,14 @@ StopWatch:
     - Clicking Options:
     
         - opens the options window next to the options button
+        - clicking again, closes the window (it toggles the window)
+        - check if closing the window with the 'x' button on the window, and then try to open again
         
     - Options Window:
     
         - test changing the number of decimal cases
         
+    - test drag and drop
         
         
 CountDown (test the StopWatch's entries too):
@@ -71,3 +77,10 @@ Load/Save:
     - the title
     - the state (if its running, stopped, ...)
     - loads the correct background-color and startStopButton's value
+    
+    
+Keyboard shortcuts:
+
+    - alt + q : adds a count up watch
+    - alt + w : adds a count down watch
+    
