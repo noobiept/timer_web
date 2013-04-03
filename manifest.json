@@ -4,7 +4,7 @@
     "description": "A simple timer with a count down, and count up watch.",
     
     "icons": { "128": "random/icon128.png", "16": "random/icon16.png" },
-    "app": { "launch": { "local_path": "home.html" } },
+    "app": { "launch": { "local_path": "index.html" } },
     
     "manifest_version": 2
 }

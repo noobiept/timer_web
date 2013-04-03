@@ -1,9 +1,13 @@
-function save() {
+function save(logout) {
     var all = [];
     var i;
     var mainContainer = StopWatch.MAIN_CONTAINER;
+    var node;
     for(i = 0; i < mainContainer.childNodes.length; i++) {
-        all.push(mainContainer.childNodes[i].watchObject);
+        node = mainContainer.childNodes[i];
+        if(node.tagName == 'DIV') {
+            all.push(mainContainer.childNodes[i].watchObject);
+        }
     }
     var saveAll = [];
     var saveWatch;
@@ -29,24 +33,61 @@ function save() {
         };
         saveAll.push(saveWatch);
     }
-    localStorage.setObject('watches', saveAll);
-    localStorage.setObject('options', OPTIONS);
+    if(TYPE == 'server') {
+        var data = {
+            data: JSON.stringify(saveAll),
+            options: JSON.stringify(OPTIONS)
+        };
+        if(logout === true) {
+            data.logout = 1;
+        }
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '/logout_timer/',
+            data: data,
+            complete: function (jqXHR, textStatus) {
+                $(location).attr('href', '/');
+            }
+        });
+    } else {
+        localStorage.setObject('watches', saveAll);
+        localStorage.setObject('options', OPTIONS);
+    }
 }
 function load() {
-    var all = localStorage.getObject('watches');
-    if(!all) {
+    var stuffJson;
+    var optionsJson;
+    if(TYPE == 'server') {
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '/load_timer/',
+            success: function (jqXHR, textStatus) {
+                var stuff = jqXHR;
+                stuffJson = JSON.parse(stuff.data);
+                optionsJson = JSON.parse(stuff.options);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+            }
+        });
+    } else {
+        stuffJson = localStorage.getObject('watches');
+        optionsJson = localStorage.getObject('options');
+    }
+    if(!stuffJson) {
         return false;
     }
     var saveWatch;
     var watch;
-    for(var i = 0; i < all.length; i++) {
-        saveWatch = all[i];
+    for(var i = 0; i < stuffJson.length; i++) {
+        saveWatch = stuffJson[i];
         watch = new StopWatch(saveWatch);
     }
-    var options = localStorage.getObject('options');
-    if(options) {
-        if(typeof options.sound === 'boolean') {
-            OPTIONS.sound = options.sound;
+    if(optionsJson) {
+        if(typeof optionsJson.sound === 'boolean') {
+            OPTIONS.sound = optionsJson.sound;
         }
     }
     return true;
@@ -58,3 +99,32 @@ Storage.prototype.getObject = function (key) {
     var value = this.getItem(key);
     return value && JSON.parse(value);
 };
+jQuery(document).ajaxSend(function (event, xhr, settings) {
+    function getCookie(name) {
+        var cookieValue = null;
+        if(document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for(var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if(cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    function sameOrigin(url) {
+        var host = document.location.host;
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') || (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') || !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    function safeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    if(!safeMethod(settings.type) && sameOrigin(settings.url)) {
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    }
+});

@@ -44,6 +44,10 @@ var OPTIONS = {
     };
 
 
+    // 'application' or 'server'
+var TYPE = 'application';
+
+
 window.onload = function()
 {
 StopWatch.init();

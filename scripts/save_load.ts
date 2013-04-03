@@ -1,6 +1,6 @@
 
 
-function save()
+function save( logout ?: bool )
 {
     // :: Save Watches :: //
 
@@ -9,10 +9,16 @@ var all = [];
 var i;
 
 var mainContainer = StopWatch.MAIN_CONTAINER;
+var node;
 
 for (i = 0 ; i < mainContainer.childNodes.length ; i++)
     {
-    all.push( mainContainer.childNodes[ i ].watchObject );
+    node = mainContainer.childNodes[ i ];
+
+    if ( node.tagName == 'DIV' )
+        {
+        all.push( mainContainer.childNodes[ i ].watchObject );
+        }
     }
 
 
@@ -49,11 +55,48 @@ for (i = 0 ; i < all.length ; i++)
     saveAll.push( saveWatch );
     }
 
-localStorage.setObject( 'watches', saveAll );
 
-    // :: Save Options :: //
 
-localStorage.setObject( 'options', OPTIONS );
+if ( TYPE == 'server' )
+    {
+    /*
+        fields:
+            data
+            options
+            logout
+     */
+
+    var data = {
+        data: JSON.stringify( saveAll ),
+        options: JSON.stringify( OPTIONS )
+        };
+
+    if ( logout === true )
+        {
+            // doesn't matter the value, just by having the property works
+        data.logout = 1;
+        }
+
+    $.ajax({
+
+        type        : 'POST',
+        async       : false,
+        url         : '/logout_timer/',
+        data        : data,
+        complete    : function( jqXHR, textStatus )
+            {
+            $( location ).attr( 'href', '/' );
+            }
+        });
+    }
+
+    // save to localStorage
+else
+    {
+    localStorage.setObject( 'watches', saveAll );
+
+    localStorage.setObject( 'options', OPTIONS );
+    }
 }
 
 
@@ -63,10 +106,41 @@ localStorage.setObject( 'options', OPTIONS );
 
 function load(): bool
 {
-    // load the watches
-var all: StopWatchArguments[] = localStorage.getObject( 'watches' );
+var stuffJson;
+var optionsJson;
 
-if ( !all )
+
+if ( TYPE == 'server' )
+    {
+    $.ajax({
+
+        type: 'POST',
+        async: false,
+        url: '/load_timer/',
+        success: function( jqXHR, textStatus )
+            {
+            var stuff = jqXHR;
+
+            stuffJson = JSON.parse( stuff.data );
+            optionsJson = JSON.parse( stuff.options );
+            },
+
+        error: function( jqXHR, textStatus, errorThrown )
+            {
+            console.log( jqXHR, textStatus, errorThrown );
+            }
+        });
+    }
+
+    // load from the localStorage
+else
+    {
+    stuffJson = localStorage.getObject( 'watches' );
+    optionsJson = localStorage.getObject( 'options' );
+    }
+
+
+if ( !stuffJson )
     {
     return false;
     }
@@ -75,9 +149,9 @@ var saveWatch: StopWatchArguments;
 
 var watch: StopWatch;
 
-for (var i = 0 ; i < all.length ; i++)
+for (var i = 0 ; i < stuffJson.length ; i++)
     {
-    saveWatch = all[ i ]; 
+    saveWatch = stuffJson[ i ];
 
     watch = new StopWatch( saveWatch );
     }
@@ -85,13 +159,11 @@ for (var i = 0 ; i < all.length ; i++)
 
     // load the options
 
-var options = localStorage.getObject( 'options' );
-
-if ( options )
+if ( optionsJson )
     {
-    if ( typeof options.sound === 'boolean' )
+    if ( typeof optionsJson.sound === 'boolean' )
         {
-        OPTIONS.sound = options.sound;
+        OPTIONS.sound = optionsJson.sound;
         }
     }
 
@@ -124,3 +196,48 @@ var value = this.getItem( key );
 
 return value && JSON.parse( value );
 };
+
+
+
+
+
+/*
+ * For jquery ajax to work (server only)
+ */
+
+jQuery(document).ajaxSend(function(event, xhr, settings) {
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    function sameOrigin(url) {
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    function safeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    }
+});

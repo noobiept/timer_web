@@ -1,6 +1,7 @@
 var OPTIONS = {
     sound: true
 };
+var TYPE = 'application';
 window.onload = function () {
     StopWatch.init();
     var loadSuccessful = load();
