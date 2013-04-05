@@ -53,13 +53,13 @@
     cursor: pointer;
     border-radius: 2px;
 
-    transition-property: background-color;
-    transition-duration: 1s;
-    transition-timing-function: ease-in;
-
     -webkit-transition-property: background-color;
     -webkit-transition-duration: 0.2s;
     -webkit-transition-timing-function: linear;
+
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
     }
 
 #Menu-left > *:hover, #Menu-sound:hover
@@ -101,13 +101,13 @@
 
     border-radius: 5px;
 
-    transition-property: background-color;
-    transition-duration: 1s;
-    transition-timing-function: ease-in;
-
     -webkit-transition-property: background-color;
     -webkit-transition-duration: 0.2s;
     -webkit-transition-timing-function: linear;
+
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
     }
 
 

@@ -135,6 +135,7 @@ if ( watchArguments.title )
     }
 
 
+
     // :: Count Element :: //
 
 var count = <HTMLSpanElement> document.createElement( 'span' );

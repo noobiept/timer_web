@@ -17,7 +17,7 @@ window.onload = function () {
     }
     Menu.init();
 };
-window.onunload = function () {
+window.onbeforeunload = function () {
     save();
 };
 window.onkeyup = function (event) {

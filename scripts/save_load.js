@@ -45,10 +45,7 @@ function save(logout) {
             type: 'POST',
             async: false,
             url: '/logout_timer/',
-            data: data,
-            complete: function (jqXHR, textStatus) {
-                $(location).attr('href', '/');
-            }
+            data: data
         });
     } else {
         localStorage.setObject('watches', saveAll);

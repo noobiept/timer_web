@@ -82,11 +82,7 @@ if ( TYPE == 'server' )
         type        : 'POST',
         async       : false,
         url         : '/logout_timer/',
-        data        : data,
-        complete    : function( jqXHR, textStatus )
-            {
-            $( location ).attr( 'href', '/' );
-            }
+        data        : data
         });
     }
 
