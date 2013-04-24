@@ -45,7 +45,7 @@ def createTemplate( indexPath, appName, copyToPath ):
         # add a <script> at the end of the <head>
     newScript = soup.new_tag( 'script' )
 
-    newScript.string = "var TYPE = 'server';"
+    newScript.string = "var TYPE = 'server';\nvar STATIC_URL = '{{ STATIC_URL }}';"
 
     soup.find( 'head' ).append( newScript )
 

@@ -2,6 +2,7 @@ var OPTIONS = {
     sound: true
 };
 var TYPE = 'application';
+var STATIC_URL = '';
 window.onload = function () {
     StopWatch.init();
     var loadSuccessful = load();

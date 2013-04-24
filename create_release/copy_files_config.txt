@@ -10,7 +10,7 @@
 
             "sounds/sound1.ogg",
             
-            "home.html",
+            "index.html",
             "manifest.json",
             
             "style.css"

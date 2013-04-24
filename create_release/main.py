@@ -176,7 +176,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser( description='Create the release of the website plus the applications associated' )
 
     
-    parser.add_argument( 'htmlFile', help='Path to the home.html.', nargs='?', default='../home.html' )
+    parser.add_argument( 'htmlFile', help='Path to the home.html.', nargs='?', default='../index.html' )
 
     parser.add_argument( 'copyFilesConfig', help='Path to the config file with the files to copy', nargs='?', default='copy_files_config.txt' )
 

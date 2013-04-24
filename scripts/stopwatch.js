@@ -265,7 +265,13 @@ var StopWatch = (function () {
                 $(this.CONTAINER_ELEMENT).addClass('watch-finished');
                 this.COUNT_MESSAGE_ELEMENT.innerText = '<-- Ended';
                 if(!this.LOADING && OPTIONS.sound) {
-                    new Sound('../sounds/sound1.ogg');
+                    var soundPath;
+                    if(TYPE == 'server') {
+                        soundPath = STATIC_URL + 'timer/sounds/sound1.ogg';
+                    } else {
+                        soundPath = '../sounds/sound1.ogg';
+                    }
+                    new Sound(soundPath);
                 }
                 return true;
             }

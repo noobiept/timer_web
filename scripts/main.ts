@@ -2,7 +2,6 @@
     to doo:
 
         - adicionar publicidade
-        - por tb no site
 
         - ctrl + enter no title para adicionar novo watch?..
 
@@ -46,7 +45,7 @@ var OPTIONS = {
 
     // 'application' or 'server'
 var TYPE = 'application';
-
+var STATIC_URL = '';    // server only, its in the template
 
 window.onload = function()
 {
