@@ -15,7 +15,7 @@ import copy_files
 import generate_config
 import concatenate_files
 import optimize
-
+import create_server_template
 
 
 
@@ -50,9 +50,14 @@ def go( htmlFile, copyFilesConfig, concatenateConfig ):
     
        
     
-    createNewIndex( htmlFile, concatenatedFileName, os.path.join( resultingFolder, "home.html" ) )
+    createNewIndex( htmlFile, concatenatedFileName, os.path.join( resultingFolder, "index.html" ) )
     
-    
+    # create the template
+    create_server_template.createTemplate( htmlFile, 'timer', resultingFolder, 'template_index.html' )
+
+    # and a minmized index off the template
+    createNewIndex( os.path.join( resultingFolder, 'template_index.html' ), '{{ STATIC_URL }}timer/' + concatenatedFileName, os.path.join( resultingFolder, 'template_index.html' ) )
+
     
         # zip the folder
     compressFolder( resultingFolder )

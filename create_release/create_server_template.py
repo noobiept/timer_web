@@ -16,7 +16,7 @@ from bs4 import BeautifulSoup
 
 
 
-def createTemplate( indexPath, appName, copyToPath ):
+def createTemplate( indexPath, appName, copyToPath, templateName= None ):
 
     with open( indexPath, 'r' ) as f:
         content = f.read()
@@ -51,7 +51,12 @@ def createTemplate( indexPath, appName, copyToPath ):
 
 
         # create the new file
-    fileName = os.path.basename( indexPath )
+    if templateName == None:
+        fileName = os.path.basename( indexPath )
+        
+    else:
+        fileName = templateName
+        
 
     with open( os.path.join( copyToPath, fileName ), 'w' ) as f:
 
