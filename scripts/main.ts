@@ -45,7 +45,7 @@ var OPTIONS = {
 
     // 'application' or 'server'
 var TYPE = 'application';
-var STATIC_URL = '';    // server only, its in the template
+var BASE_URL = '../';    // server only, its in the template
 
 window.onload = function()
 {

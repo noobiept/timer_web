@@ -2,7 +2,7 @@ var OPTIONS = {
     sound: true
 };
 var TYPE = 'application';
-var STATIC_URL = '';
+var BASE_URL = '../';
 window.onload = function () {
     StopWatch.init();
     var loadSuccessful = load();
@@ -38,3 +38,4 @@ window.onkeyup = function (event) {
         watchObject.TITLE_ELEMENT.focus();
     }
 };
+//@ sourceMappingURL=main.js.map

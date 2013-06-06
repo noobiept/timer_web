@@ -81,7 +81,7 @@ if ( TYPE == 'server' )
 
         type        : 'POST',
         async       : false,
-        url         : '/logout_timer/',
+        url         : '/timer/save/',
         data        : data
         });
     }
@@ -112,7 +112,7 @@ if ( TYPE == 'server' )
 
         type: 'POST',
         async: false,
-        url: '/load_timer/',
+        url: '/timer/get_data/',
         success: function( jqXHR, textStatus )
             {
             var stuff = jqXHR;

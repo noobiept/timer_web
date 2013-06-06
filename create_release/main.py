@@ -18,14 +18,25 @@ import optimize
 import create_server_template
 
 
+default_htmlFile = "../index.html"
+default_concatenateConfig = "config.txt"
+default_copyFilesConfig = "copy_files_config.txt"
 
-def go( htmlFile, copyFilesConfig, concatenateConfig ):
+
+def go( htmlFile= default_htmlFile,
+        copyFilesConfig= default_copyFilesConfig,
+        concatenateConfig= default_concatenateConfig ):
     """
         Arguments:
           copyFilesConfig (str) : path to the config file with the files to copy
     """
 
-    resultingFolder = 'timer'
+            # to guarantee that the paths are relative to the current file's path (and not the working directory)
+    htmlFile = os.path.join( os.path.dirname(__file__), htmlFile )
+    concatenateConfig = os.path.join( os.path.dirname(__file__), concatenateConfig )
+    copyFilesConfig = os.path.join( os.path.dirname(__file__), copyFilesConfig )
+    resultingFolder = os.path.join( os.path.dirname(__file__), 'timer' )
+
 
     cleanPreviousRun( resultingFolder )
 
@@ -34,34 +45,26 @@ def go( htmlFile, copyFilesConfig, concatenateConfig ):
     copy_files.copyFiles( copyFilesConfig )
 
     generate_config.generate( htmlFile, concatenateConfig )
-    
+
     concatenatedFileName = 'minimized.js'
     concatenatedFilePath = os.path.join( resultingFolder, concatenatedFileName )
 
 
     concatenate_files.concatenate( concatenateConfig, concatenatedFilePath )
-    
+
 
     removeStrict( concatenatedFilePath )
-    
-    
+
         # run it through closure compiler to optimize (the javascript file)
     optimize.js( concatenatedFilePath )
-    
-       
-    
+
+
     createNewIndex( htmlFile, concatenatedFileName, os.path.join( resultingFolder, "index.html" ) )
-    
-    # create the template
-    create_server_template.createTemplate( htmlFile, 'timer', resultingFolder, 'template_index.html' )
 
-    # and a minmized index off the template
-    createNewIndex( os.path.join( resultingFolder, 'template_index.html' ), '{{ STATIC_URL }}timer/' + concatenatedFileName, os.path.join( resultingFolder, 'template_index.html' ) )
 
-    
         # zip the folder
     compressFolder( resultingFolder )
-    
+
     
 
     
@@ -181,11 +184,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser( description='Create the release of the website plus the applications associated' )
 
     
-    parser.add_argument( 'htmlFile', help='Path to the home.html.', nargs='?', default='../index.html' )
+    parser.add_argument( 'htmlFile', help='Path to the home.html.', nargs='?', default= default_htmlFile )
 
-    parser.add_argument( 'copyFilesConfig', help='Path to the config file with the files to copy', nargs='?', default='copy_files_config.txt' )
+    parser.add_argument( 'copyFilesConfig', help='Path to the config file with the files to copy', nargs='?', default= default_copyFilesConfig )
 
-    parser.add_argument( 'concatenateConfig', help='Path to the configuration file to tell which files to concatenate (and the order).', nargs='?', default='concatenate_config.txt' )
+    parser.add_argument( 'concatenateConfig', help='Path to the configuration file to tell which files to concatenate (and the order).', nargs='?', default= default_concatenateConfig )
 
     args = parser.parse_args()
 

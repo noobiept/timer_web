@@ -44,7 +44,7 @@ function save(logout) {
         $.ajax({
             type: 'POST',
             async: false,
-            url: '/logout_timer/',
+            url: '/timer/save/',
             data: data
         });
     } else {
@@ -59,7 +59,7 @@ function load() {
         $.ajax({
             type: 'POST',
             async: false,
-            url: '/load_timer/',
+            url: '/timer/get_data/',
             success: function (jqXHR, textStatus) {
                 var stuff = jqXHR;
                 stuffJson = JSON.parse(stuff.data);
@@ -125,3 +125,4 @@ jQuery(document).ajaxSend(function (event, xhr, settings) {
         xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
     }
 });
+//@ sourceMappingURL=save_load.js.map

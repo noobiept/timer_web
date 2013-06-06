@@ -652,17 +652,8 @@ if ( !this.COUNT_UP )
 
         if ( !this.LOADING && OPTIONS.sound )
             {
-            var soundPath;
+            var soundPath = BASE_URL + 'sounds/sound1.ogg';
 
-            if ( TYPE == 'server' )
-                {
-                soundPath = STATIC_URL + 'timer/sounds/sound1.ogg';
-                }
-
-            else
-                {
-                soundPath = '../sounds/sound1.ogg';
-                }
 
                 // play the sound
             new Sound( soundPath );

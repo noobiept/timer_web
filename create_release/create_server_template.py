@@ -3,20 +3,25 @@
     
     Creates the template for the server based on the index.html
     
-    it searches for all the scripts tags, and adds {{ STATIC_URL }}timer/
+    it searches for all the scripts tags, and adds {{ STATIC_URL }}appName/
 """
 
 import os.path
 import argparse
-import re
 
 from bs4 import BeautifulSoup
 
 
+default_indexPath = '../index.html'
+default_appName = 'timer'
+default_copyToPath = '../../../website/templates/{}/'.format( default_appName )
 
 
+def createTemplate( indexPath= default_indexPath, appName= default_appName, copyToPath= default_copyToPath, templateName= None ):
 
-def createTemplate( indexPath, appName, copyToPath, templateName= None ):
+    indexPath = os.path.join( os.path.dirname(__file__), indexPath )
+    copyToPath = os.path.join( os.path.dirname(__file__), copyToPath )
+
 
     with open( indexPath, 'r' ) as f:
         content = f.read()
@@ -45,13 +50,13 @@ def createTemplate( indexPath, appName, copyToPath, templateName= None ):
         # add a <script> at the end of the <head>
     newScript = soup.new_tag( 'script' )
 
-    newScript.string = "var TYPE = 'server';\nvar STATIC_URL = '{{ STATIC_URL }}';"
+    newScript.string = "var TYPE = 'server';\nvar BASE_URL = '{{ STATIC_URL }}%s/';" % appName
 
     soup.find( 'head' ).append( newScript )
 
 
         # create the new file
-    if templateName == None:
+    if not templateName:
         fileName = os.path.basename( indexPath )
         
     else:
@@ -68,9 +73,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser( description='Create the server template.' )
 
-    parser.add_argument( 'indexPath', nargs= '?', default= '../index.html' )
-    parser.add_argument( 'appName', nargs= '?', default= 'timer' )
-    parser.add_argument( 'copyToPath', nargs= '?', default= '../../../website/templates/timer/' )
+    parser.add_argument( 'indexPath', nargs= '?', default= default_indexPath )
+    parser.add_argument( 'appName', nargs= '?', default= default_appName )
+    parser.add_argument( 'copyToPath', nargs= '?', default= default_copyToPath )
 
     args = parser.parse_args()
 
