@@ -1,5 +1,5 @@
 {
-    "C:\\Users\\drk\\Dropbox\\projects\\timer\\create_release\\..": [
+    "C:\\Users\\drk\\Dropbox\\projects\\timer": [
         "scripts/main.js", 
         "scripts/stopwatch.js", 
         "scripts/utilities.js", 
