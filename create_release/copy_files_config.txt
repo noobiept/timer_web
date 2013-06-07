@@ -4,15 +4,14 @@
     "files":
         [    
             "libraries/",
-            
+            "css/",
+
             "random/icon128.png",
             "random/icon16.png",
 
             "sounds/sound1.ogg",
             
             "index.html",
-            "manifest.json",
-            
-            "style.css"
+            "manifest.json"
         ]
 }
