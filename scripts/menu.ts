@@ -107,14 +107,14 @@ if ( onOff === true )
     {
     OPTIONS.sound = true;
 
-    SOUND_ELEMENT.innerHTML = 'On';
+    $( SOUND_ELEMENT ).text( 'On' );
     }
 
 else
     {
     OPTIONS.sound = false;
 
-    SOUND_ELEMENT.innerHTML = 'Off';
+    $( SOUND_ELEMENT ).text( 'Off' );
     }
 }
 

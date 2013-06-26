@@ -131,7 +131,7 @@ title.setAttribute( 'data-placeholder', separateWords( baseCssClass ) + ' (click
 
 if ( watchArguments.title )
     {
-    title.innerText = watchArguments.title;
+    $( title ).text( watchArguments.title );
     }
 
 
@@ -507,13 +507,13 @@ catch( error )
         // clear any possible previous timeout
     window.clearTimeout( this.ENTRY_MESSAGE_TIMEOUT_F );
 
-    this.ENTRY_MESSAGE_ELEMENT.innerText = '<-- Error: ' + error;
+    $( this.ENTRY_MESSAGE_ELEMENT ).text( '<-- Error: ' + error );
 
 
         // clear the message after some time
     this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout( function()
         {
-        watchObject.ENTRY_MESSAGE_ELEMENT.innerText = '';
+        $( watchObject.ENTRY_MESSAGE_ELEMENT ).text( '' );
 
         }, 2000 );
 
@@ -525,7 +525,7 @@ this.STARTED = true;
 this.REACHED_LIMIT = false;
 
     // remove the reachedLimit message
-this.COUNT_MESSAGE_ELEMENT.innerText = '';
+$( this.COUNT_MESSAGE_ELEMENT ).text( '' );
 
 
     // update the startStop button text
@@ -566,12 +566,12 @@ catch( error )
         // clear any possible previous timeout
     window.clearTimeout( this.ENTRY_MESSAGE_TIMEOUT_F );
 
-    this.ENTRY_MESSAGE_ELEMENT.innerText = '<-- Error: ' + error;
+    $( this.ENTRY_MESSAGE_ELEMENT ).text( '<-- Error: ' + error );
 
         // clear the message after some time
     this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout( function()
         {
-        watchObject.ENTRY_MESSAGE_ELEMENT.innerText = '';
+        $( watchObject.ENTRY_MESSAGE_ELEMENT ).text( '' );
 
         }, 2000 );
 
@@ -592,7 +592,7 @@ this.STARTED = false;
 this.REACHED_LIMIT = false;
 
     // clear any possible messages that could be displayed
-this.COUNT_MESSAGE_ELEMENT.innerText = '';
+$( this.COUNT_MESSAGE_ELEMENT ).text( '' );
 
 this.stopTimer();
 
@@ -614,7 +614,7 @@ updateWatch( count: number )
 {
 this.COUNT = count;
 
-this.COUNT_ELEMENT.innerText = dateToString( count, this.NUMBER_DECIMAL_CASES );
+$( this.COUNT_ELEMENT ).text( dateToString( count, this.NUMBER_DECIMAL_CASES ) );
 
     // check if the CountDown watches finished (only relevant for CountDown watches)
 this.reachedLimit();
@@ -647,7 +647,7 @@ if ( !this.COUNT_UP )
         
             // :: show some message :: //
 
-        this.COUNT_MESSAGE_ELEMENT.innerText = '<-- Ended';
+        $( this.COUNT_MESSAGE_ELEMENT ).text( '<-- Ended' );
 
 
         if ( !this.LOADING && OPTIONS.sound )
@@ -839,13 +839,13 @@ return milliseconds;
 
 getTitle(): string
 {
-return this.TITLE_ELEMENT.innerText;
+return $( this.TITLE_ELEMENT ).text();
 }
 
 
 setTitle( newTitle: string )
 {
-this.TITLE_ELEMENT.innerText = newTitle;
+$( this.TITLE_ELEMENT ).text( newTitle );
 }
 
 

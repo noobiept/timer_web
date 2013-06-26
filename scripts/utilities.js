@@ -60,139 +60,197 @@ var EVENT_KEY = {
     f11: 122,
     f12: 123
 };
+
 function dateToString(dateMilliseconds, forceDecimalCases) {
     var isNegative = false;
-    if(dateMilliseconds < 0) {
+
+    if (dateMilliseconds < 0) {
         isNegative = true;
+
         dateMilliseconds *= -1;
     }
+
     var second = 1000;
     var minute = 60 * second;
     var hour = 60 * minute;
     var day = 24 * hour;
+
     var minutesLeft = 0;
     var hoursLeft = 0;
     var daysLeft = 0;
     var secondsLeft = 0;
-    while(dateMilliseconds >= day) {
+
+    while (dateMilliseconds >= day) {
         daysLeft++;
+
         dateMilliseconds -= day;
     }
-    while(dateMilliseconds >= hour) {
+
+    while (dateMilliseconds >= hour) {
         hoursLeft++;
+
         dateMilliseconds -= hour;
     }
-    while(dateMilliseconds >= minute) {
+
+    while (dateMilliseconds >= minute) {
         minutesLeft++;
+
         dateMilliseconds -= minute;
     }
+
     secondsLeft = dateMilliseconds / 1000;
+
     var date = '';
-    if(daysLeft !== 0) {
+
+    if (daysLeft !== 0) {
         var dayStr = 'day';
-        if(daysLeft !== 1) {
+
+        if (daysLeft !== 1) {
             dayStr += 's';
         }
+
         date += daysLeft + ' ' + dayStr + ' ';
     }
-    if(hoursLeft !== 0) {
+
+    if (hoursLeft !== 0) {
         var hourStr = 'hour';
-        if(hoursLeft !== 1) {
+
+        if (hoursLeft !== 1) {
             hourStr += 's';
         }
+
         date += hoursLeft + ' ' + hourStr + ' ';
     }
-    if(minutesLeft !== 0) {
+
+    if (minutesLeft !== 0) {
         var minuteStr = 'minute';
-        if(minutesLeft !== 1) {
+
+        if (minutesLeft !== 1) {
             minuteStr += 's';
         }
+
         date += minutesLeft + ' ' + minuteStr + ' ';
     }
+
     var secondStr = 'second';
-    if(secondsLeft !== 1) {
+
+    if (secondsLeft !== 1) {
         secondStr += 's';
     }
+
     var secondsLeftStr;
-    if($.isNumeric(forceDecimalCases) && forceDecimalCases >= 0) {
+
+    if ($.isNumeric(forceDecimalCases) && forceDecimalCases >= 0) {
         secondsLeftStr = secondsLeft.toFixed(forceDecimalCases);
     } else {
         secondsLeftStr = secondsLeft.toString();
     }
+
     date += secondsLeftStr + ' ' + secondStr;
-    if(isNegative) {
+
+    if (isNegative) {
         date = '-' + date;
     }
+
     return date;
 }
+
 function numberOfDigits(theNumber) {
     var numberString = theNumber.toString();
+
     var digits = numberString.length;
-    if(numberString[0] === '-') {
+
+    if (numberString[0] === '-') {
         digits--;
     }
+
     return digits;
 }
+
 function timeToMilliseconds(time, type) {
-    switch(type) {
+    switch (type) {
         case "s":
             time *= 1000;
             break;
+
         case "m":
             time *= 60 * 1000;
             break;
+
         case "h":
             time *= 60 * 60 * 1000;
             break;
+
         case "d":
             time *= 24 * 60 * 60 * 1000;
             break;
     }
+
     return time;
 }
 ;
+
 function drawRemoveButton(canvas) {
     canvas.width = 15;
     canvas.height = 15;
+
     var ctx = canvas.getContext('2d');
+
     ctx.beginPath();
+
     ctx.moveTo(2, 2);
     ctx.lineTo(13, 13);
     ctx.moveTo(2, 13);
     ctx.lineTo(13, 2);
+
     ctx.stroke();
 }
+
 function drawDragHandle(canvas) {
     var width = 15;
     var height = 20;
+
     canvas.width = width;
     canvas.height = height;
+
     var ctx = canvas.getContext('2d');
+
     ctx.beginPath();
+
     var x, y;
     var step = 5;
     var radius = 1;
-    for(x = 0; x < width; x += step) {
-        for(y = 0; y < height; y += step) {
+
+    for (x = 0; x < width; x += step) {
+        for (y = 0; y < height; y += step) {
             ctx.beginPath();
+
             ctx.arc(x + 1, y + 1, radius, 0, Math.PI * 2, true);
+
             ctx.fill();
         }
     }
 }
+
 function round(num, dec) {
     return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 }
+
 function separateWords(str) {
     str = str.replace(/([A-Z])/g, ' $1');
+
     str = str.replace(/^s*/, '');
+
     return str;
 }
+
 function isVisible(element) {
     var rect = element.getBoundingClientRect();
-    if(rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.innerHeight && rect.right <= window.innerWidth) {
+
+    if (rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.innerHeight && rect.right <= window.innerWidth) {
         return true;
     }
+
     return false;
 }
 //@ sourceMappingURL=utilities.js.map

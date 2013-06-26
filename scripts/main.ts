@@ -30,8 +30,8 @@
 
  */
 
-/// <reference path="../d.ts/jquery-1.8.d.ts" />
-/// <reference path="../d.ts/jqueryui-1.9.d.ts" />
+/// <reference path="../d.ts/jquery.d.ts" />
+/// <reference path="../d.ts/jqueryui.d.ts" />
 
 /// <reference path="stopwatch.ts" />
 /// <reference path="save_load.ts" />

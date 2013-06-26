@@ -114,10 +114,10 @@ if ( this.ON_REMOVE )
     {
     this.ON_REMOVE();
     }
-};
+}
 
 
-keyboardEvents = function( event: KeyboardEvent )
+keyboardEvents( event: KeyboardEvent )
 {
 var key = event.keyCode;
 
@@ -125,6 +125,6 @@ if (key === EVENT_KEY.esc)
     {
     this.remove();
     }
-};
+}
 
 }

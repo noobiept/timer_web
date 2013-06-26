@@ -38,13 +38,13 @@ this.WATCH_OBJECT = watchObject;
 var caseDescription = <HTMLDivElement> document.createElement( 'div' );
 
 caseDescription.className = 'Options-description';
-caseDescription.innerText = 'Number of decimal cases';
+$( caseDescription ).text( 'Number of decimal cases' );
 
     // :: Zero/One/Two (values)
 var zero = <HTMLDivElement> document.createElement( 'div' );
 
 zero.className = 'Options-value';
-zero.innerText = 'Zero';
+$( zero ).text( 'Zero' );
 zero.onclick = () =>
     {
     this.selectDecimalCase( 0 );
@@ -53,7 +53,7 @@ zero.onclick = () =>
 var one = <HTMLDivElement> document.createElement( 'div' );
 
 one.className = 'Options-value';
-one.innerText = 'One';
+$( one ).text( 'One' );
 one.onclick = () =>
     {
     this.selectDecimalCase( 1 );
@@ -62,7 +62,7 @@ one.onclick = () =>
 var two = <HTMLDivElement> document.createElement( 'div' );
 
 two.className = 'Options-value';
-two.innerText = 'Two';
+$( two ).text( 'Two' );
 two.onclick = () =>
     {
     this.selectDecimalCase( 2 );

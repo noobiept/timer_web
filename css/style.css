@@ -120,6 +120,7 @@
     margin-top: 0;
     padding-left: 30px;
     padding-right: 20px;
+    min-height: 1em;
     }   
 
 .CountUp-count, .CountDown-count
@@ -165,7 +166,7 @@
 .StopWatch-dragHandle:hover, .CountUp-remove:hover, .CountDown-remove:hover
     {
     opacity: 1;
-    transform: scale( 2 );
+    transform: scale( 1.2 );
     -webkit-transform: scale( 1.2 );
     }
 
@@ -190,6 +191,12 @@
 .watch-finished
     {
     background-color: rgba(188, 0, 0, 0.15);
+    }
+
+
+.CountUp-startStop, .CountDown-startStop, .CountUp-restart, .CountDown-restart, .CountUp-reset, .CountDown-reset, .CountUp-openOptions, .CountDown-openOptions
+    {
+    font-family: arial, sans-serif;
     }
 
 
