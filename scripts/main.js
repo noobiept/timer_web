@@ -37,4 +37,3 @@ window.onkeyup = function (event) {
         watchObject.TITLE_ELEMENT.focus();
     }
 };
-//@ sourceMappingURL=main.js.map

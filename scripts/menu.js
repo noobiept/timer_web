@@ -71,4 +71,3 @@ var Menu;
     }
     Menu.setSound = setSound;
 })(Menu || (Menu = {}));
-//@ sourceMappingURL=menu.js.map

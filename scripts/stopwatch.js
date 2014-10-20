@@ -503,4 +503,3 @@ var StopWatch = (function () {
     StopWatch.MAIN_CONTAINER = null;
     return StopWatch;
 })();
-//@ sourceMappingURL=stopwatch.js.map
