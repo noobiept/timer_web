@@ -1,5 +1,4 @@
 {
-    "resultingFolder": "timer",
     "basePath": "..",
     "files":
         [    
@@ -13,5 +12,10 @@
             
             "index.html",
             "manifest.json"
+        ],
+    "extensions":
+        [
+            ".css",
+            ".js"
         ]
 }
