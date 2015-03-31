@@ -1,6 +1,6 @@
 
 
-function save( logout ?: bool )
+function save( logout ?: boolean )
 {
     // :: Save Watches :: //
 
@@ -100,7 +100,7 @@ else
     Returns true/false depending on whether the load was successful
  */
 
-function load(): bool
+function load(): boolean
 {
 var stuffJson;
 var optionsJson;

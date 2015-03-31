@@ -42,12 +42,6 @@
     margin-left: 5px;
     }
 
-
-#Menu-donate
-    {
-    padding-top: 8px;  /* align with the other menu elements */
-    }
-
 #Menu-sound, #Menu-left > *
     {
     cursor: pointer;

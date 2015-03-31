@@ -1,10 +1,7 @@
 /*
     to doo:
 
-        - adicionar publicidade
-
         - ctrl + enter no title para adicionar novo watch?..
-
 
         - its redundant to have different css classes for both types of watches (ends up selecting both everytime), simplify that
 

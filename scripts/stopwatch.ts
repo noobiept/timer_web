@@ -6,17 +6,17 @@
 interface StopWatchArguments
     {
         // required
-    countUp      : bool;
+    countUp      : boolean;
     baseCssClass : string;
 
         // optional arguments
-    started    ? : bool;
-    running    ? : bool;
+    started    ? : boolean;
+    running    ? : boolean;
     count      ? : number;
     title      ? : string;
     entryValue ? : string;  // for CountDown only (null for the other type)
     initValueCountDown ? : number;   // for CountDown only
-    reachedLimit       ? : bool;
+    reachedLimit       ? : boolean;
     numberDecimalCases ? : number;
     
     }
@@ -26,7 +26,7 @@ class StopWatch
     // private properties
 COUNT: number = 0;
 
-COUNT_UP: bool;
+COUNT_UP: boolean;
 BASE_CSS_CLASS: string;
 
 
@@ -66,7 +66,7 @@ INTERVAL_F: number;
 RUNNING = false;
     
     // tells when we're still on the constructor
-LOADING: bool;
+LOADING: boolean;
 
     // tells if a clock has started (different than running, in the sense that it can be started and then paused, and restarted, which is different than being in its initial state)
 STARTED = false;
@@ -625,7 +625,7 @@ this.reachedLimit();
     For CountDown only, when it reaches the count limit (and if so, change the background-color)
  */
 
-reachedLimit(): bool
+reachedLimit(): boolean
 {
 var watchObject = this;
 

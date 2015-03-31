@@ -1,3 +1,6 @@
+/*
+ * Keys code for the keyboard events
+ */
 var EVENT_KEY = {
     backspace: 8,
     tab: 9,
@@ -60,196 +63,187 @@ var EVENT_KEY = {
     f11: 122,
     f12: 123
 };
-
+/*
+ * Converts a date (in milliseconds) to a string (with the number of days/hours...)
+ */
 function dateToString(dateMilliseconds, forceDecimalCases) {
+    // :: Deal with negative numbers :: //
     var isNegative = false;
-
+    // if its negative, we turn it positive for now, and then later add a minus sign
     if (dateMilliseconds < 0) {
         isNegative = true;
-
         dateMilliseconds *= -1;
     }
-
+    // :: convert to days/hours :: //
+    //in milliseconds
     var second = 1000;
     var minute = 60 * second;
     var hour = 60 * minute;
     var day = 24 * hour;
-
     var minutesLeft = 0;
     var hoursLeft = 0;
     var daysLeft = 0;
     var secondsLeft = 0;
-
     while (dateMilliseconds >= day) {
         daysLeft++;
-
         dateMilliseconds -= day;
     }
-
     while (dateMilliseconds >= hour) {
         hoursLeft++;
-
         dateMilliseconds -= hour;
     }
-
     while (dateMilliseconds >= minute) {
         minutesLeft++;
-
         dateMilliseconds -= minute;
     }
-
+    //and the seconds
     secondsLeft = dateMilliseconds / 1000;
-
+    // :: construct the string :: //
     var date = '';
-
+    // only show when there's something relevant to be shown 
+    // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
     if (daysLeft !== 0) {
         var dayStr = 'day';
-
         if (daysLeft !== 1) {
             dayStr += 's';
         }
-
         date += daysLeft + ' ' + dayStr + ' ';
     }
-
+    // same for hours and minutes
     if (hoursLeft !== 0) {
         var hourStr = 'hour';
-
         if (hoursLeft !== 1) {
             hourStr += 's';
         }
-
         date += hoursLeft + ' ' + hourStr + ' ';
     }
-
     if (minutesLeft !== 0) {
         var minuteStr = 'minute';
-
         if (minutesLeft !== 1) {
             minuteStr += 's';
         }
-
         date += minutesLeft + ' ' + minuteStr + ' ';
     }
-
     var secondStr = 'second';
-
+    // always show seconds, even if 0
     if (secondsLeft !== 1) {
         secondStr += 's';
     }
-
     var secondsLeftStr;
-
+    // and take care of the number of decimal cases
     if ($.isNumeric(forceDecimalCases) && forceDecimalCases >= 0) {
         secondsLeftStr = secondsLeft.toFixed(forceDecimalCases);
-    } else {
+    }
+    else {
         secondsLeftStr = secondsLeft.toString();
     }
-
     date += secondsLeftStr + ' ' + secondStr;
-
+    // add the minus sign
     if (isNegative) {
         date = '-' + date;
     }
-
     return date;
 }
-
+/*
+ * Returns the number of digits in a number
+ */
 function numberOfDigits(theNumber) {
     var numberString = theNumber.toString();
-
     var digits = numberString.length;
-
+    //it shouldn't have negative numbers?... //HERE
     if (numberString[0] === '-') {
         digits--;
     }
-
     return digits;
 }
-
+/*
+ * Arguments:
+ *
+ *      time (int)    : represents the amount of time, of the type specified
+ *      type (string) : a single character (h - hour, m - minute, etc)
+ *
+ *
+ * Returns the time in milliseconds (as an int)
+ */
 function timeToMilliseconds(time, type) {
+    /*
+     * 1 day    -> 24 hours
+     * 1 hour   -> 60 minutes
+     * 1 minute -> 60 seconds
+     * 1 second -> 1000 milliseconds
+     *
+     * So for example, 1 hour is 60 * 60 * 1000 milliseconds
+     */
     switch (type) {
         case "s":
             time *= 1000;
             break;
-
         case "m":
             time *= 60 * 1000;
             break;
-
         case "h":
             time *= 60 * 60 * 1000;
             break;
-
         case "d":
             time *= 24 * 60 * 60 * 1000;
             break;
     }
-
     return time;
 }
 ;
-
 function drawRemoveButton(canvas) {
     canvas.width = 15;
     canvas.height = 15;
-
     var ctx = canvas.getContext('2d');
-
     ctx.beginPath();
-
     ctx.moveTo(2, 2);
     ctx.lineTo(13, 13);
     ctx.moveTo(2, 13);
     ctx.lineTo(13, 2);
-
     ctx.stroke();
 }
-
 function drawDragHandle(canvas) {
     var width = 15;
     var height = 20;
-
     canvas.width = width;
     canvas.height = height;
-
     var ctx = canvas.getContext('2d');
-
     ctx.beginPath();
-
     var x, y;
     var step = 5;
     var radius = 1;
-
     for (x = 0; x < width; x += step) {
         for (y = 0; y < height; y += step) {
             ctx.beginPath();
-
+            // make a circle
             ctx.arc(x + 1, y + 1, radius, 0, Math.PI * 2, true);
-
             ctx.fill();
         }
     }
 }
-
+/*
+    Rounds a number to a specified decimal case
+ */
 function round(num, dec) {
     return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 }
-
+/*
+    'SomethingLikeThis' into 'Something Like This'
+ */
 function separateWords(str) {
+    // add a space before a capitalized letter
     str = str.replace(/([A-Z])/g, ' $1');
-
+    // remove spaces from the beginning of the string
     str = str.replace(/^s*/, '');
-
     return str;
 }
-
+/*
+    To know if an html element is in visible by the user currently
+ */
 function isVisible(element) {
     var rect = element.getBoundingClientRect();
-
     if (rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.innerHeight && rect.right <= window.innerWidth) {
         return true;
     }
-
     return false;
 }

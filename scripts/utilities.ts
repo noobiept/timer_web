@@ -369,7 +369,7 @@ return str;
     To know if an html element is in visible by the user currently
  */
 
-function isVisible( element: HTMLElement ): bool
+function isVisible( element: HTMLElement ): boolean
 {
 var rect = element.getBoundingClientRect();
 
