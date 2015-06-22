@@ -58,8 +58,8 @@ function save(logout) {
         });
     }
     else {
-        localStorage.setObject('watches', saveAll);
-        localStorage.setObject('options', OPTIONS);
+        saveObject('watches', saveAll);
+        saveObject('options', OPTIONS);
     }
 }
 /*
@@ -84,8 +84,8 @@ function load() {
         });
     }
     else {
-        stuffJson = localStorage.getObject('watches');
-        optionsJson = localStorage.getObject('options');
+        stuffJson = getObject('watches');
+        optionsJson = getObject('options');
     }
     if (!stuffJson) {
         return false;
@@ -104,22 +104,20 @@ function load() {
     }
     return true;
 }
-/*
- * Converts an object to string, and saves it in storage
- *
- * usage:
- *      localStorage.setObject( "...", { ... } );
+/**
+ * Converts an object to string, and saves it in the local storage.
  */
-Storage.prototype.setObject = function (key, value) {
-    this.setItem(key, JSON.stringify(value));
-};
-/*
- * Returns null if it doesn't find, otherwise returns the string correspondent
+function saveObject(key, value) {
+    return localStorage.setItem(key, JSON.stringify(value));
+}
+/**
+ * Get data that is saved in local storage, and parse it with json.
+ * Returns the data object, or null if it doesn't find.
  */
-Storage.prototype.getObject = function (key) {
-    var value = this.getItem(key);
+function getObject(key) {
+    var value = localStorage.getItem(key);
     return value && JSON.parse(value);
-};
+}
 /*
  * For jquery ajax to work (server only)
  */

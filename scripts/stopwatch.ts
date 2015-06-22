@@ -18,8 +18,13 @@ interface StopWatchArguments
     initValueCountDown ? : number;   // for CountDown only
     reachedLimit       ? : boolean;
     numberDecimalCases ? : number;
-    
     }
+
+interface StopWatchHtmlContainer extends HTMLDivElement
+    {
+    watchObject: StopWatch;
+    }
+
 
 class StopWatch
 {
@@ -234,7 +239,7 @@ drawDragHandle( dragHandle );
 
     // :: Container :: //
 
-var container = <HTMLDivElement> document.createElement( 'div' );
+var container = <StopWatchHtmlContainer> document.createElement( 'div' );
 
 container.className = baseCssClass + '-container';
 $( container ).addClass( 'notActive' );

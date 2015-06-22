@@ -18,9 +18,7 @@ class PopupWindow
 {
 
 CONTAINER_ELEMENT: HTMLDivElement;
-
-KEY_DOWN_F: ( event: KeyboardEvent ) => any;
-
+KEY_DOWN_F: (event: JQueryEventObject) => any;     // has the window's keyboard shortcuts
 ON_REMOVE: () => any;
 
 /*
@@ -90,7 +88,6 @@ this.KEY_DOWN_F = ( event ) =>
     };
 
 
-
 $( window ).bind( 'keyup', this.KEY_DOWN_F );
 
 
@@ -117,7 +114,7 @@ if ( this.ON_REMOVE )
 }
 
 
-keyboardEvents( event: KeyboardEvent )
+keyboardEvents( event: JQueryEventObject )
 {
 var key = event.keyCode;
 

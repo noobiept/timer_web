@@ -1,3 +1,9 @@
+    // data that is sent to the server, has this format
+interface DataType {
+    data: string;
+    options: string;
+    logout?: number;
+}
 
 
 function save( logout ?: boolean )
@@ -66,7 +72,8 @@ if ( TYPE == 'server' )
             logout
      */
 
-    var data = {
+
+    var data: DataType = {
         data: JSON.stringify( saveAll ),
         options: JSON.stringify( OPTIONS )
         };
@@ -89,9 +96,8 @@ if ( TYPE == 'server' )
     // save to localStorage
 else
     {
-    localStorage.setObject( 'watches', saveAll );
-
-    localStorage.setObject( 'options', OPTIONS );
+    saveObject( 'watches', saveAll );
+    saveObject( 'options', OPTIONS );
     }
 }
 
@@ -99,7 +105,6 @@ else
 /*
     Returns true/false depending on whether the load was successful
  */
-
 function load(): boolean
 {
 var stuffJson;
@@ -131,8 +136,8 @@ if ( TYPE == 'server' )
     // load from the localStorage
 else
     {
-    stuffJson = localStorage.getObject( 'watches' );
-    optionsJson = localStorage.getObject( 'options' );
+    stuffJson = getObject( 'watches' );
+    optionsJson = getObject( 'options' );
     }
 
 
@@ -167,40 +172,30 @@ return true;
 }
 
 
-
-
-/*
- * Converts an object to string, and saves it in storage
- *
- * usage:
- *      localStorage.setObject( "...", { ... } );
+/**
+ * Converts an object to string, and saves it in the local storage.
  */
-
-Storage.prototype.setObject = function( key, value )
+function saveObject( key: string, value: any )
 {
-this.setItem( key, JSON.stringify( value ) );
-};
+return localStorage.setItem( key, JSON.stringify( value ) );
+}
 
 
-/*
- * Returns null if it doesn't find, otherwise returns the string correspondent
+/**
+ * Get data that is saved in local storage, and parse it with json.
+ * Returns the data object, or null if it doesn't find.
  */
-
-Storage.prototype.getObject = function( key )
+function getObject( key )
 {
-var value = this.getItem( key );
+var value = localStorage.getItem( key );
 
 return value && JSON.parse( value );
-};
-
-
-
+}
 
 
 /*
  * For jquery ajax to work (server only)
  */
-
 jQuery(document).ajaxSend(function(event, xhr, settings) {
     function getCookie(name) {
         var cookieValue = null;

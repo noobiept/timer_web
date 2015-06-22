@@ -5,8 +5,8 @@ Libraries
 =========
 
 
-- jquery -- 1.9
-- jqueryui -- 1.10
+- jquery -- 2.1
+- jqueryui -- 1.11
     - position
     - sortable
 
