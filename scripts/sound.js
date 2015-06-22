@@ -9,7 +9,6 @@ var Sound = (function () {
             source += '.mp3';
         }
         audio.src = source;
-        audio.load();
         audio.play();
     }
     return Sound;

@@ -1,6 +1,15 @@
 Try it out here: [http://nbpt.eu/timer/](http://nbpt.eu/timer/)
 
 
+Shortcuts
+=========
+
+
+- alt + q : add a count up watch
+- alt + w : add a count down watch
+
+
+
 Libraries
 =========
 

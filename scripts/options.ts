@@ -19,7 +19,6 @@ WATCH_OBJECT: StopWatch;
 
 POPUP_WINDOW_OBJECT: PopupWindow;
 
-ON_CLOSE: () => any;
 
 /*
     Arguments:
@@ -158,7 +157,6 @@ remove()
 {
 this.POPUP_WINDOW_OBJECT.remove();
 }
-
 
 
 }

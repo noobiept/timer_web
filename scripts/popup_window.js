@@ -1,4 +1,3 @@
-"use strict";
 /// <reference path="utilities.ts" />
 var PopupWindow = (function () {
     /*

@@ -17,7 +17,6 @@ constructor( id: string )
         }
 
     audio.src = source;
-    audio.load();
     audio.play();
     }
 }

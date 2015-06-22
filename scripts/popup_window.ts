@@ -1,6 +1,3 @@
-
-"use strict";
-
 /// <reference path="utilities.ts" />
 
 
