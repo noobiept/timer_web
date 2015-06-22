@@ -652,11 +652,8 @@ if ( !this.COUNT_UP )
 
         if ( !this.LOADING && OPTIONS.sound )
             {
-            var soundPath = BASE_URL + 'sounds/sound1.ogg';
-
-
                 // play the sound
-            new Sound( soundPath );
+            new Sound( 'sound1' );
             }
 
         return true;

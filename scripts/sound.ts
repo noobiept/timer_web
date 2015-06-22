@@ -1,13 +1,23 @@
 class Sound
 {
+constructor( id: string )
+    {
+    var source = 'sounds/' + id;
 
-constructor( source: string )
-{
-var audio = <HTMLAudioElement> document.createElement( 'audio' );
+    var audio = <HTMLAudioElement> document.createElement( 'audio' );
 
-audio.src = source;
-audio.play();
-}
+    if ( audio.canPlayType( 'audio/ogg' ) )
+        {
+        source += '.ogg';
+        }
 
+    else
+        {
+        source += '.mp3';
+        }
 
+    audio.src = source;
+    audio.load();
+    audio.play();
+    }
 }

@@ -2,7 +2,6 @@ Timer Testing Guide
 
 
 Menu:
-    - donate button works
     - adding the watches (and if it scrolls down, if the watch being added isn't currently visible)
     - if the sound option works
 

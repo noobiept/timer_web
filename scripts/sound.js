@@ -1,7 +1,15 @@
 var Sound = (function () {
-    function Sound(source) {
+    function Sound(id) {
+        var source = 'sounds/' + id;
         var audio = document.createElement('audio');
+        if (audio.canPlayType('audio/ogg')) {
+            source += '.ogg';
+        }
+        else {
+            source += '.mp3';
+        }
         audio.src = source;
+        audio.load();
         audio.play();
     }
     return Sound;

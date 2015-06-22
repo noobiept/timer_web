@@ -1,30 +1,3 @@
-/*
-    to doo:
-
-        - ctrl + enter no title para adicionar novo watch?..
-
-        - its redundant to have different css classes for both types of watches (ends up selecting both everytime), simplify that
-
-        - the timer is not 100% correct when stopping/continuing, because the timer interval depends on the number of decimal cases. For example, if we have set to 0 decimal cases, and keep starting/stopping the timer, it will never count forward (since it only counts each second at a time)
-
-        - add to the create_release script, a way to copy all the files of a certain type, to copy the .js files only (and not the .ts)
- */
-/*
-    Dependencies:
-
-        - jquery
-            - jqueryui:
-                - position
-                - sortable
-
-            - div placeholder - https://github.com/sprucemedia/jQuery.divPlaceholder.js
-
-    Bell Sound:
-
-        http://www.freesound.org/people/dADDoiT/sounds/57070/   (Creative Commons 0 License)
-        
-
- */
 /// <reference path="../d.ts/jquery.d.ts" />
 /// <reference path="../d.ts/jqueryui.d.ts" />
 /// <reference path="stopwatch.ts" />
