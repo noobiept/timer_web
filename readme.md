@@ -1,4 +1,4 @@
-Try it out here: [http://nbpt.eu/timer/](http://nbpt.eu/timer/)
+Try it out here: [http://nbpt.eu/app/timer/](http://nbpt.eu/app/timer/)
 
 
 Shortcuts
