@@ -441,6 +441,8 @@ var StopWatch = (function () {
         var milliseconds = 0;
         var foundPattern = false;
         var temp;
+        //deal with 'pattern' - one at the time (for example 20h 3m, cycle goes two times)
+        //sum everything into 'number' (in milliseconds)
         while (matches !== null) {
             foundPattern = true;
             temp = parseInt(matches[0], 10);

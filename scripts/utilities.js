@@ -84,14 +84,17 @@ function dateToString(dateMilliseconds, forceDecimalCases) {
     var hoursLeft = 0;
     var daysLeft = 0;
     var secondsLeft = 0;
+    //count the days
     while (dateMilliseconds >= day) {
         daysLeft++;
         dateMilliseconds -= day;
     }
+    //count the hours
     while (dateMilliseconds >= hour) {
         hoursLeft++;
         dateMilliseconds -= hour;
     }
+    //count the minutes
     while (dateMilliseconds >= minute) {
         minutesLeft++;
         dateMilliseconds -= minute;
@@ -174,6 +177,7 @@ function timeToMilliseconds(time, type) {
      *
      * So for example, 1 hour is 60 * 60 * 1000 milliseconds
      */
+    //a letter: (s)econd, (m)inute, (h)our, or (d)ay
     switch (type) {
         case "s":
             time *= 1000;
@@ -242,7 +246,10 @@ function separateWords(str) {
  */
 function isVisible(element) {
     var rect = element.getBoundingClientRect();
-    if (rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.innerHeight && rect.right <= window.innerWidth) {
+    if (rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= window.innerHeight &&
+        rect.right <= window.innerWidth) {
         return true;
     }
     return false;

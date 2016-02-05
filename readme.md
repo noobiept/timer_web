@@ -10,10 +10,11 @@ Shortcuts
 
 
 
-Libraries
-=========
+Dependencies
+============
 
 
+- typescript -- 1.7
 - jquery -- 2.1
 - jqueryui -- 1.11
     - position

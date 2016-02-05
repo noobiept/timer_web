@@ -60,6 +60,13 @@ function save(logout) {
     else {
         saveObject('watches', saveAll);
         saveObject('options', OPTIONS);
+        var chrome = window['chrome'];
+        if (chrome && chrome.storage) {
+            chrome.storage.local.set({
+                timer_watches: saveAll,
+                timer_options: OPTIONS
+            });
+        }
     }
 }
 /*
@@ -144,7 +151,10 @@ jQuery(document).ajaxSend(function (event, xhr, settings) {
         var sr_origin = '//' + host;
         var origin = protocol + sr_origin;
         // Allow absolute or scheme relative URLs to same origin
-        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') || (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') || !(/^(\/\/|http:|https:).*/.test(url));
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
     }
     function safeMethod(method) {
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));

@@ -16,7 +16,8 @@ var Menu;
                 $(document.body).animate({
                     // properties to animate
                     'scrollTop': $(watchObject.CONTAINER_ELEMENT).offset().top
-                }, 200, function () {
+                }, 200, // duration
+                function () {
                     watchObject.TITLE_ELEMENT.focus();
                 });
             }
@@ -32,7 +33,8 @@ var Menu;
                 $(document.body).animate({
                     // properties to animate
                     'scrollTop': $(watchObject.CONTAINER_ELEMENT).offset().top
-                }, 200, function () {
+                }, 200, // duration
+                function () {
                     watchObject.TITLE_ELEMENT.focus();
                 });
             }

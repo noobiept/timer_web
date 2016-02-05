@@ -98,6 +98,16 @@ else
     {
     saveObject( 'watches', saveAll );
     saveObject( 'options', OPTIONS );
+
+    var chrome = window[ 'chrome' ];
+
+    if ( chrome && chrome.storage )
+        {
+        chrome.storage.local.set({
+                timer_watches: saveAll,
+                timer_options: OPTIONS
+            });
+        }
     }
 }
 
