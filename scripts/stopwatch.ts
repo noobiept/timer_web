@@ -753,10 +753,10 @@ else
 }
 
 
-
-
 remove()
 {
+this.stopTimer();
+
     // remove the reference
 var position = StopWatch.ALL_STOPWATCHES.indexOf( this );
 
@@ -766,9 +766,6 @@ StopWatch.ALL_STOPWATCHES.splice( position, 1 );
     // remove from the DOM
 StopWatch.MAIN_CONTAINER.removeChild( this.CONTAINER_ELEMENT );
 }
-
-
-
 
 
 stringToMilliseconds( entryValue: string ): number

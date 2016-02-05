@@ -406,6 +406,7 @@ var StopWatch = (function () {
         }
     };
     StopWatch.prototype.remove = function () {
+        this.stopTimer();
         // remove the reference
         var position = StopWatch.ALL_STOPWATCHES.indexOf(this);
         StopWatch.ALL_STOPWATCHES.splice(position, 1);
