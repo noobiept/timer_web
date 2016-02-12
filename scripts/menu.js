@@ -48,6 +48,7 @@ var Menu;
             else {
                 setSound(true);
             }
+            saveOptions();
         };
         setSound(OPTIONS.sound);
         // :: Position correctly the menu elements :: //

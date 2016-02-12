@@ -18,10 +18,6 @@ var StopWatch = (function () {
         this.LOADING = true;
         var countUp = watchArguments.countUp;
         var baseCssClass = watchArguments.baseCssClass;
-        //HERE v1.1 into v1.2 compatibility
-        if (baseCssClass === 'StopWatch') {
-            baseCssClass = 'CountUp';
-        }
         this.COUNT_UP = countUp;
         this.BASE_CSS_CLASS = baseCssClass;
         if (watchArguments.initValueCountDown) {

@@ -213,29 +213,21 @@ return date;
 }
 
 
-
-
 /*
  * Returns the number of digits in a number
  */
- 
 function numberOfDigits( theNumber: number ): number
 {
 var numberString = theNumber.toString();
-
 var digits = numberString.length;
 
-    //it shouldn't have negative numbers?... //HERE
-if (numberString[0] === '-')
+if ( numberString[0] === '-' )
     {
     digits--;
     }
 
-
 return digits;
 }
-
-
 
 
 /*
@@ -247,7 +239,6 @@ return digits;
  *  
  * Returns the time in milliseconds (as an int)
  */
- 
 function timeToMilliseconds( time: number, type: string ): number
 {
     /*

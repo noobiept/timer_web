@@ -153,7 +153,6 @@ function dateToString(dateMilliseconds, forceDecimalCases) {
 function numberOfDigits(theNumber) {
     var numberString = theNumber.toString();
     var digits = numberString.length;
-    //it shouldn't have negative numbers?... //HERE
     if (numberString[0] === '-') {
         digits--;
     }

@@ -36,28 +36,31 @@ function getSaveData() {
         saveAll.push(saveWatch);
     }
     return {
-        timer_watches: saveAll,
-        timer_options: OPTIONS
+        timer_watches: saveAll
     };
 }
-function save() {
+function saveWatches() {
     AppStorage.setData(getSaveData());
+}
+function saveOptions() {
+    AppStorage.setData({ timer_options: OPTIONS });
 }
 /*
     Returns true/false depending on whether the load was successful
  */
-function load(watches, options) {
+function loadWatches(watches) {
     if (!watches) {
         return false;
     }
     for (var i = 0; i < watches.length; i++) {
         new StopWatch(watches[i]);
     }
-    // load the options
+    return true;
+}
+function loadOptions(options) {
     if (options) {
         if (typeof options.sound === 'boolean') {
             OPTIONS.sound = options.sound;
         }
     }
-    return true;
 }

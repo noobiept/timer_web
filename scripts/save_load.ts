@@ -59,22 +59,27 @@ for (i = 0 ; i < all.length ; i++)
     }
 
 return {
-        timer_watches: saveAll,
-        timer_options: OPTIONS
+        timer_watches: saveAll
     };
 }
 
 
-function save()
+function saveWatches()
 {
 AppStorage.setData( getSaveData() );
+}
+
+
+function saveOptions()
+{
+AppStorage.setData({ timer_options: OPTIONS });
 }
 
 
 /*
     Returns true/false depending on whether the load was successful
  */
-function load( watches: WatchData[], options: OptionsData ): boolean
+function loadWatches( watches: WatchData[] ): boolean
 {
 if ( !watches )
     {
@@ -86,8 +91,12 @@ for (var i = 0 ; i < watches.length ; i++)
     new StopWatch( watches[ i ] );
     }
 
+return true;
+}
 
-    // load the options
+
+function loadOptions( options: OptionsData )
+{
 if ( options )
     {
     if ( typeof options.sound === 'boolean' )
@@ -95,6 +104,4 @@ if ( options )
         OPTIONS.sound = options.sound;
         }
     }
-
-return true;
 }

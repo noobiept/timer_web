@@ -83,6 +83,8 @@ sound.onclick = function()
         {
         setSound( true );
         }
+
+    saveOptions();
     };
 
 setSound( OPTIONS.sound );

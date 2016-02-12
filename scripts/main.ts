@@ -27,7 +27,8 @@ function initApp( data: Data )
 {
 StopWatch.init();
 
-var loadSuccessful = load( data[ 'timer_watches' ], data[ 'timer_options' ] );
+loadOptions( data[ 'timer_options' ] );
+var loadSuccessful = loadWatches( data[ 'timer_watches' ] );
 
     // add some watches if its the first time the program is running
 if ( !loadSuccessful )
@@ -42,11 +43,11 @@ Menu.init();
 
     // 'on before unload' instead of 'on unload' so that in the server version, when refreshing (F5)
     // the logout gets called first, than the load of the new page (otherwise, the new load will have the previous data)
-if ( !window.chrome && !window.chrome.storage )
+if ( !(window.chrome && window.chrome.storage) )
     {
     window.onbeforeunload = function()
         {
-        save();
+        saveWatches();
         };
     }
 
