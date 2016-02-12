@@ -35,65 +35,22 @@ function save(logout) {
         };
         saveAll.push(saveWatch);
     }
-    if (TYPE == 'server') {
-        /*
-            fields:
-                data
-                options
-                logout
-         */
-        var data = {
-            data: JSON.stringify(saveAll),
-            options: JSON.stringify(OPTIONS)
-        };
-        if (logout === true) {
-            // doesn't matter the value, just by having the property works
-            data.logout = 1;
-        }
-        $.ajax({
-            type: 'POST',
-            async: false,
-            url: '/timer/save/',
-            data: data
+    saveObject('watches', saveAll);
+    saveObject('options', OPTIONS);
+    var chrome = window['chrome'];
+    if (chrome && chrome.storage) {
+        chrome.storage.local.set({
+            timer_watches: saveAll,
+            timer_options: OPTIONS
         });
-    }
-    else {
-        saveObject('watches', saveAll);
-        saveObject('options', OPTIONS);
-        var chrome = window['chrome'];
-        if (chrome && chrome.storage) {
-            chrome.storage.local.set({
-                timer_watches: saveAll,
-                timer_options: OPTIONS
-            });
-        }
     }
 }
 /*
     Returns true/false depending on whether the load was successful
  */
 function load() {
-    var stuffJson;
-    var optionsJson;
-    if (TYPE == 'server') {
-        $.ajax({
-            type: 'POST',
-            async: false,
-            url: '/timer/get_data/',
-            success: function (jqXHR, textStatus) {
-                var stuff = jqXHR;
-                stuffJson = JSON.parse(stuff.data);
-                optionsJson = JSON.parse(stuff.options);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR, textStatus, errorThrown);
-            }
-        });
-    }
-    else {
-        stuffJson = getObject('watches');
-        optionsJson = getObject('options');
-    }
+    var stuffJson = getObject('watches');
+    var optionsJson = getObject('options');
     if (!stuffJson) {
         return false;
     }

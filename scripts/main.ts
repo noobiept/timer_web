@@ -11,10 +11,6 @@ var OPTIONS = {
     };
 
 
-    // 'application' or 'server'
-var TYPE = 'application';
-var BASE_URL = '../';    // server only, its in the template
-
 window.onload = function()
 {
 StopWatch.init();
@@ -28,7 +24,6 @@ if ( !loadSuccessful )
     new StopWatch( { countUp: true, baseCssClass:  'CountUp' } );
     new StopWatch( { countUp: false, baseCssClass:  'CountDown' } );
     }
-
 
 
 Menu.init();

@@ -6,9 +6,6 @@
 var OPTIONS = {
     sound: true // whether we play a sound when a countdown ends or not
 };
-// 'application' or 'server'
-var TYPE = 'application';
-var BASE_URL = '../'; // server only, its in the template
 window.onload = function () {
     StopWatch.init();
     var loadSuccessful = load();
