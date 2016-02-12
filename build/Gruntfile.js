@@ -39,6 +39,7 @@ grunt.initConfig({
                     'random/icon128.png',
                     'sounds/sound1.mp3',
                     'sounds/sound1.ogg',
+                    'background.js',
                     'manifest.json'
                 ],
                 dest: dest
