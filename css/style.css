@@ -1,10 +1,8 @@
 ﻿body
     {
     font-family: 'Segoe UI', sans-serif;
-
     background-color: rgba(3, 127, 246, 0.05);
     }
-
 
     /* :: Menu :: */
 
@@ -15,7 +13,6 @@
     left: 1%;
     background-color: rgba(255, 255, 255, 1);
     border-radius: 2px;
-
     height: 50px;
     width: 98%;
     z-index: 10;
@@ -47,10 +44,6 @@
     cursor: pointer;
     border-radius: 2px;
 
-    -webkit-transition-property: background-color;
-    -webkit-transition-duration: 0.2s;
-    -webkit-transition-timing-function: linear;
-
     transition-property: background-color;
     transition-duration: 0.2s;
     transition-timing-function: ease-in;
@@ -61,12 +54,10 @@
     background-color: rgba(3, 127, 246, 0.3);
     }
 
-
 .addWatch:hover
     {
     background-color: rgba(3, 127, 246, 0.4);
     }
-
 
     /* :: Timers :: */
 
@@ -83,27 +74,19 @@
     margin-bottom: 40px;
     }
 
-
 .CountUp-container, .CountDown-container
     {
     display: inline-block;
     vertical-align: top;    /* these too substitute a float based solution, for the horizontal list */
-
     position: relative;
     width: 48%;
     margin: 10px;
-
     border-radius: 5px;
-
-    -webkit-transition-property: background-color;
-    -webkit-transition-duration: 0.2s;
-    -webkit-transition-timing-function: linear;
 
     transition-property: background-color;
     transition-duration: 0.2s;
     transition-timing-function: ease-in;
     }
-
 
 .CountUp-title, .CountDown-title
     {
@@ -132,7 +115,6 @@
     margin-left: 10px;
     }
 
-
 .CountUp-remove, .CountDown-remove
     {
     position: absolute;
@@ -143,8 +125,6 @@
     opacity: 0.5;
     cursor: pointer;
     }
-
-
 
 .StopWatch-dragHandle
     {
@@ -161,11 +141,7 @@
     {
     opacity: 1;
     transform: scale( 1.2 );
-    -webkit-transform: scale( 1.2 );
     }
-
-
-
 
 .watch-active
     {
@@ -174,7 +150,7 @@
 
 .watch-notActive
     {
-    background-color: none;
+    background-color: transparent;
     }
 
 .watch-stopped
@@ -187,13 +163,10 @@
     background-color: rgba(188, 0, 0, 0.15);
     }
 
-
 .CountUp-startStop, .CountDown-startStop, .CountUp-restart, .CountDown-restart, .CountUp-reset, .CountDown-reset, .CountUp-openOptions, .CountDown-openOptions
     {
     font-family: arial, sans-serif;
     }
-
-
 
     /* :: Options Window :: */
 
@@ -204,12 +177,11 @@
     min-width: 200px;
     min-height: 100px;
 
-    background-color: rgb(220, 220, 255);
+    background-color: white;
 
     padding-top: 10px;
     border-radius: 5px;
     }
-
 
 .PopupWindow-close
     {
@@ -225,7 +197,6 @@
     opacity: 1;
     }
 
-
 .Options-container
     {
     margin: 5px;
@@ -236,13 +207,10 @@
     margin-bottom: 4px;
     }
 
-
 .Options-value
     {
     float: left;
-
     background-color: rgba(3, 127, 246, 0.1);
-    
     cursor: pointer;
     padding: 5px 15px;
     }
