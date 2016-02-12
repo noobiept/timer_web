@@ -3,7 +3,7 @@ interface OptionsData {
 }
 
 
-function save()
+function getSaveData()
 {
     // :: Save Watches :: //
 
@@ -58,11 +58,16 @@ for (i = 0 ; i < all.length ; i++)
     saveAll.push( saveWatch );
     }
 
-
-AppStorage.setData({
+return {
         timer_watches: saveAll,
         timer_options: OPTIONS
-    });
+    };
+}
+
+
+function save()
+{
+AppStorage.setData( getSaveData() );
 }
 
 

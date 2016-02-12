@@ -1,9 +1,9 @@
 {
     "name": "timer",
-    "version": "1.4.2",
+    "version": "1.5.0",
     "description": "A simple timer with a count down, and count up watch.",
     "icons": { "128": "random/icon128.png", "16": "random/icon16.png" },
-    "app": { "launch": { "local_path": "index.html" } },
+    "app": { "background": { "scripts": [ "background.js" ] } },
     "manifest_version": 2,
     "permissions": [ "storage" ]
 }

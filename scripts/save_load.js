@@ -1,4 +1,4 @@
-function save() {
+function getSaveData() {
     // :: Save Watches :: //
     // get the watchObject of both watches types (we're getting them from the DOM instead of directly from the StopWatch.ALL_STOPWATCHES because of the drag and drop, which can change the order)
     var all = [];
@@ -35,10 +35,13 @@ function save() {
         };
         saveAll.push(saveWatch);
     }
-    AppStorage.setData({
+    return {
         timer_watches: saveAll,
         timer_options: OPTIONS
-    });
+    };
+}
+function save() {
+    AppStorage.setData(getSaveData());
 }
 /*
     Returns true/false depending on whether the load was successful

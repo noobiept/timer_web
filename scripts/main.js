@@ -21,9 +21,11 @@ function initApp(data) {
 }
 // 'on before unload' instead of 'on unload' so that in the server version, when refreshing (F5)
 // the logout gets called first, than the load of the new page (otherwise, the new load will have the previous data)
-window.onbeforeunload = function () {
-    save();
-};
+if (!window.chrome && !window.chrome.storage) {
+    window.onbeforeunload = function () {
+        save();
+    };
+}
 window.onkeyup = function (event) {
     var key = event.keyCode;
     var watchObject;
