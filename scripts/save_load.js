@@ -23,7 +23,6 @@ function getSaveData() {
         }
         saveWatch = {
             title: watch.getTitle(),
-            baseCssClass: watch.BASE_CSS_CLASS,
             count: watch.COUNT,
             running: watch.RUNNING,
             started: watch.STARTED,

@@ -7,7 +7,7 @@ var Menu;
         var watchObject;
         var addCountUp = document.querySelector('#Menu-addCountUp');
         addCountUp.onclick = function () {
-            watchObject = new StopWatch({ countUp: true, baseCssClass: 'CountUp' });
+            watchObject = new StopWatch({ countUp: true });
             if (isVisible(watchObject.CONTAINER_ELEMENT)) {
                 watchObject.TITLE_ELEMENT.focus();
             }
@@ -24,7 +24,7 @@ var Menu;
         };
         var addCountDown = document.querySelector('#Menu-addCountDown');
         addCountDown.onclick = function () {
-            watchObject = new StopWatch({ countUp: false, baseCssClass: 'CountDown' });
+            watchObject = new StopWatch({ countUp: false });
             if (isVisible(watchObject.CONTAINER_ELEMENT)) {
                 watchObject.TITLE_ELEMENT.focus();
             }

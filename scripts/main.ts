@@ -33,8 +33,8 @@ var loadSuccessful = loadWatches( data[ 'timer_watches' ] );
     // add some watches if its the first time the program is running
 if ( !loadSuccessful )
     {
-    new StopWatch( { countUp: true, baseCssClass:  'CountUp' } );
-    new StopWatch( { countUp: false, baseCssClass:  'CountDown' } );
+    new StopWatch( { countUp: true } );
+    new StopWatch( { countUp: false } );
     }
 
 Menu.init();
@@ -61,7 +61,7 @@ var watchObject;
     // alt + q: add count up
 if ( event.altKey && key == EVENT_KEY.q )
     {
-    watchObject = new StopWatch({ countUp: true, baseCssClass: 'CountUp' });
+    watchObject = new StopWatch({ countUp: true });
 
     watchObject.TITLE_ELEMENT.focus();
     }
@@ -69,7 +69,7 @@ if ( event.altKey && key == EVENT_KEY.q )
     // alt + w: add count down
 else if ( event.altKey && key == EVENT_KEY.w )
     {
-    watchObject = new StopWatch({ countUp: false, baseCssClass: 'CountDown' });
+    watchObject = new StopWatch({ countUp: false });
 
     watchObject.TITLE_ELEMENT.focus();
     }

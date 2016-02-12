@@ -15,54 +15,59 @@ var StopWatch = (function () {
         this.RUNNING = false;
         // tells if a clock has started (different than running, in the sense that it can be started and then paused, and restarted, which is different than being in its initial state)
         this.STARTED = false;
-        this.LOADING = true;
         var countUp = watchArguments.countUp;
-        var baseCssClass = watchArguments.baseCssClass;
+        this.LOADING = true;
         this.COUNT_UP = countUp;
-        this.BASE_CSS_CLASS = baseCssClass;
         if (watchArguments.initValueCountDown) {
             this.INIT_VALUE_COUNTDOWN = watchArguments.initValueCountDown;
         }
         // :: Title :: //
         var title = document.createElement('div');
-        title.className = baseCssClass + '-title';
+        var titlePlaceholder;
+        if (countUp) {
+            titlePlaceholder = 'Count Up (click to edit)';
+        }
+        else {
+            titlePlaceholder = 'Count Down (click to edit)';
+        }
+        title.className = 'StopWatch-title';
         title.contentEditable = 'true';
-        title.setAttribute('data-placeholder', separateWords(baseCssClass) + ' (click to edit)');
+        title.setAttribute('data-placeholder', titlePlaceholder);
         if (watchArguments.title) {
             $(title).text(watchArguments.title);
         }
         // :: Count Element :: //
         var count = document.createElement('span');
-        count.className = baseCssClass + '-count';
+        count.className = 'StopWatch-count';
         // to display messages (for example when count down finishes)
         var countMessage = document.createElement('span');
-        countMessage.className = baseCssClass + '-countMessage';
+        countMessage.className = 'StopWatch-countMessage';
         var countContainer = document.createElement('div');
         countContainer.appendChild(count);
         countContainer.appendChild(countMessage);
         // :: Start/Stop :: //
         var startStop = document.createElement('input');
-        startStop.className = baseCssClass + '-startStop';
+        startStop.className = 'StopWatch-startStop';
         startStop.type = 'button';
         startStop.value = 'Start';
         // :: Restart :: //
         var restart = document.createElement('input');
-        restart.className = baseCssClass + '-restart';
+        restart.className = 'StopWatch-restart';
         restart.type = 'button';
         restart.value = 'Restart';
         // :: Reset :: //
         var reset = document.createElement('input');
-        reset.className = baseCssClass + '-reset';
+        reset.className = 'StopWatch-reset';
         reset.type = 'button';
         reset.value = 'Reset';
         // :: Open Options :: //
         var options = document.createElement('input');
-        options.className = baseCssClass + '-openOptions';
+        options.className = 'StopWatch-openOptions';
         options.type = 'button';
         options.value = 'Options';
         // :: Remove Button :: //
         var remove = document.createElement('canvas');
-        remove.className = baseCssClass + '-remove';
+        remove.className = 'StopWatch-remove';
         drawRemoveButton(remove);
         // :: Entry :: //
         var entry = null;
@@ -70,7 +75,7 @@ var StopWatch = (function () {
         // when count down mode, add an entry to set the starting time
         if (countUp === false) {
             entry = document.createElement('input');
-            entry.className = baseCssClass + '-entry';
+            entry.className = 'StopWatch-entry';
             entry.type = 'text';
             if (watchArguments.entryValue) {
                 entry.value = watchArguments.entryValue;
@@ -80,7 +85,7 @@ var StopWatch = (function () {
             }
             // the message, when an error occurs (like not a valid time)
             entryMessage = document.createElement('span');
-            entryMessage.className = baseCssClass + '-entryMessage';
+            entryMessage.className = 'StopWatch-entryMessage';
         }
         // :: Drag Handle :: //
         var dragHandle = document.createElement('canvas');
@@ -88,7 +93,7 @@ var StopWatch = (function () {
         drawDragHandle(dragHandle);
         // :: Container :: //
         var container = document.createElement('div');
-        container.className = baseCssClass + '-container';
+        container.className = 'StopWatch-container';
         $(container).addClass('notActive');
         container.appendChild(title);
         container.appendChild(countContainer);

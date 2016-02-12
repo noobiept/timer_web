@@ -14,7 +14,7 @@ var addCountUp = <HTMLDivElement> document.querySelector( '#Menu-addCountUp' );
 
 addCountUp.onclick = function()
     {
-    watchObject = new StopWatch( { countUp: true, baseCssClass: 'CountUp' } );
+    watchObject = new StopWatch( { countUp: true } );
 
 
     if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
@@ -44,7 +44,7 @@ var addCountDown = <HTMLDivElement> document.querySelector( '#Menu-addCountDown'
 
 addCountDown.onclick = function()
     {
-    watchObject = new StopWatch( { countUp: false, baseCssClass: 'CountDown' } );
+    watchObject = new StopWatch( { countUp: false } );
 
     if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
         {

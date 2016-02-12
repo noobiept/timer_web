@@ -44,7 +44,6 @@ for (i = 0 ; i < all.length ; i++)
 
     saveWatch = {
         title              : watch.getTitle(),
-        baseCssClass       : watch.BASE_CSS_CLASS,
         count              : watch.COUNT,
         running            : watch.RUNNING,
         started            : watch.STARTED,

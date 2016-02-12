@@ -7,7 +7,6 @@ interface WatchData
     {
         // required
     countUp      : boolean;
-    baseCssClass : string;
 
         // optional arguments
     started    ? : boolean;
@@ -30,10 +29,7 @@ class StopWatch
 {
     // private properties
 COUNT: number = 0;
-
 COUNT_UP: boolean;
-BASE_CSS_CLASS: string;
-
 
     // default value when a new timer is added (or when an error occurs)
 static DEFAULT_STOP_WATCH_VALUE = 0;
@@ -79,15 +75,12 @@ STARTED = false;
     
     // contains all the stopwatches created
 static ALL_STOPWATCHES = [];
-    
-
-
 static MAIN_CONTAINER = null;
+
 
 /*
     Has to be called before constructing any objects
  */
-
 static init()
 {
 StopWatch.MAIN_CONTAINER = document.querySelector( '#mainContainer' );
@@ -98,21 +91,17 @@ $( StopWatch.MAIN_CONTAINER ).sortable({
 
     handle: '.StopWatch-dragHandle',
     opacity: 0.7
-    
     });
 }
 
 
-
 constructor( watchArguments: WatchData )
 {
-this.LOADING = true;
-
 var countUp = watchArguments.countUp;
-var baseCssClass = watchArguments.baseCssClass;
 
+this.LOADING = true;
 this.COUNT_UP = countUp;
-this.BASE_CSS_CLASS = baseCssClass;
+
 
 if ( watchArguments.initValueCountDown )
     {
@@ -122,30 +111,38 @@ if ( watchArguments.initValueCountDown )
     // :: Title :: //
 
 var title = <HTMLDivElement> document.createElement( 'div' );
+var titlePlaceholder;
 
-title.className = baseCssClass + '-title';
+if ( countUp )
+    {
+    titlePlaceholder = 'Count Up (click to edit)';
+    }
+
+else
+    {
+    titlePlaceholder = 'Count Down (click to edit)';
+    }
+
+title.className = 'StopWatch-title';
 title.contentEditable = 'true';
-
-title.setAttribute( 'data-placeholder', separateWords( baseCssClass ) + ' (click to edit)' );
+title.setAttribute( 'data-placeholder', titlePlaceholder );
 
 if ( watchArguments.title )
     {
     $( title ).text( watchArguments.title );
     }
 
-
-
     // :: Count Element :: //
 
 var count = <HTMLSpanElement> document.createElement( 'span' );
 
-count.className = baseCssClass + '-count';
+count.className = 'StopWatch-count';
 
 
     // to display messages (for example when count down finishes)
 var countMessage = <HTMLSpanElement> document.createElement( 'span' );
 
-countMessage.className = baseCssClass + '-countMessage';
+countMessage.className = 'StopWatch-countMessage';
 
 var countContainer = <HTMLDivElement> document.createElement( 'div' );
 
@@ -157,7 +154,7 @@ countContainer.appendChild( countMessage );
 
 var startStop = <HTMLInputElement> document.createElement( 'input' );
 
-startStop.className = baseCssClass + '-startStop';
+startStop.className = 'StopWatch-startStop';
 startStop.type = 'button';
 startStop.value = 'Start';
 
@@ -165,7 +162,7 @@ startStop.value = 'Start';
 
 var restart = <HTMLInputElement> document.createElement( 'input' );
 
-restart.className = baseCssClass + '-restart';
+restart.className = 'StopWatch-restart';
 restart.type = 'button';
 restart.value = 'Restart';
 
@@ -173,7 +170,7 @@ restart.value = 'Restart';
 
 var reset = <HTMLInputElement> document.createElement( 'input' );
 
-reset.className = baseCssClass + '-reset';
+reset.className = 'StopWatch-reset';
 reset.type = 'button';
 reset.value = 'Reset';
 
@@ -181,7 +178,7 @@ reset.value = 'Reset';
 
 var options = <HTMLInputElement> document.createElement( 'input' );
 
-options.className = baseCssClass + '-openOptions';
+options.className = 'StopWatch-openOptions';
 options.type = 'button';
 options.value = 'Options';
 
@@ -189,7 +186,7 @@ options.value = 'Options';
 
 var remove = <HTMLCanvasElement> document.createElement( 'canvas' );
 
-remove.className = baseCssClass + '-remove';
+remove.className = 'StopWatch-remove';
 
 drawRemoveButton( remove );
 
@@ -203,7 +200,7 @@ if ( countUp === false )
     {
     entry = <HTMLInputElement> document.createElement( 'input' );
 
-    entry.className = baseCssClass + '-entry';
+    entry.className = 'StopWatch-entry';
     entry.type = 'text';
     
     if ( watchArguments.entryValue )
@@ -218,7 +215,7 @@ if ( countUp === false )
 
         // the message, when an error occurs (like not a valid time)
     entryMessage = <HTMLSpanElement> document.createElement( 'span' );
-    entryMessage.className = baseCssClass + '-entryMessage';
+    entryMessage.className = 'StopWatch-entryMessage';
     }
 
 
@@ -235,7 +232,7 @@ drawDragHandle( dragHandle );
 
 var container = <StopWatchHtmlContainer> document.createElement( 'div' );
 
-container.className = baseCssClass + '-container';
+container.className = 'StopWatch-container';
 $( container ).addClass( 'notActive' );
 
 container.appendChild( title );

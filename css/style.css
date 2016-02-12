@@ -74,7 +74,7 @@
     margin-bottom: 40px;
     }
 
-.CountUp-container, .CountDown-container
+.StopWatch-container
     {
     display: inline-block;
     vertical-align: top;    /* these too substitute a float based solution, for the horizontal list */
@@ -88,7 +88,7 @@
     transition-timing-function: ease-in;
     }
 
-.CountUp-title, .CountDown-title
+.StopWatch-title
     {
     font-size: 1.5em;
     font-weight: bold;
@@ -100,22 +100,22 @@
     min-height: 1em;
     }   
 
-.CountUp-count, .CountDown-count
+.StopWatch-count
     {
     padding: 0 15px;
     }
 
-.CountUp-countMessage, .CountDown-countMessage
+.StopWatch-countMessage
     {
     margin-left: 150px;
     }
 
-.CountUp-entryMessage, .CountDown-entryMessage
+.StopWatch-entryMessage
     {
     margin-left: 10px;
     }
 
-.CountUp-remove, .CountDown-remove
+.StopWatch-remove
     {
     position: absolute;
     
@@ -137,7 +137,7 @@
     opacity: 0.3;
     }
 
-.StopWatch-dragHandle:hover, .CountUp-remove:hover, .CountDown-remove:hover
+.StopWatch-dragHandle:hover, .StopWatch-remove:hover
     {
     opacity: 1;
     transform: scale( 1.2 );
@@ -163,7 +163,7 @@
     background-color: rgba(188, 0, 0, 0.15);
     }
 
-.CountUp-startStop, .CountDown-startStop, .CountUp-restart, .CountDown-restart, .CountUp-reset, .CountDown-reset, .CountUp-openOptions, .CountDown-openOptions
+.StopWatch-startStop, .StopWatch-restart, .StopWatch-reset, .StopWatch-openOptions
     {
     font-family: arial, sans-serif;
     }
