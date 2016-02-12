@@ -3,7 +3,7 @@
 /// <reference path="sound.ts" />
 
 
-interface StopWatchArguments
+interface WatchData
     {
         // required
     countUp      : boolean;
@@ -104,7 +104,7 @@ $( StopWatch.MAIN_CONTAINER ).sortable({
 
 
 
-constructor( watchArguments: StopWatchArguments )
+constructor( watchArguments: WatchData )
 {
 this.LOADING = true;
 

@@ -6,17 +6,28 @@
 /// <reference path="menu.ts" />
 
 
-var OPTIONS = {
+var OPTIONS: OptionsData = {
     sound: true     // whether we play a sound when a countdown ends or not
     };
 
 
+interface Data {
+    timer_watches: WatchData[];
+    timer_options: OptionsData;
+}
+
+
 window.onload = function()
+{
+AppStorage.getData( [ 'timer_watches', 'timer_options' ], initApp );
+};
+
+
+function initApp( data: Data )
 {
 StopWatch.init();
 
-var loadSuccessful = load();
-
+var loadSuccessful = load( data[ 'timer_watches' ], data[ 'timer_options' ] );
 
     // add some watches if its the first time the program is running
 if ( !loadSuccessful )
@@ -25,9 +36,8 @@ if ( !loadSuccessful )
     new StopWatch( { countUp: false, baseCssClass:  'CountDown' } );
     }
 
-
 Menu.init();
-};
+}
 
 
     // 'on before unload' instead of 'on unload' so that in the server version, when refreshing (F5)

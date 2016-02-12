@@ -1,12 +1,9 @@
-    // data that is sent to the server, has this format
-interface DataType {
-    data: string;
-    options: string;
-    logout?: number;
+interface OptionsData {
+    sound: boolean;
 }
 
 
-function save( logout ?: boolean )
+function save()
 {
     // :: Save Watches :: //
 
@@ -29,7 +26,7 @@ for (i = 0 ; i < mainContainer.childNodes.length ; i++)
 
 
 var saveAll = [];
-var saveWatch: StopWatchArguments;
+var saveWatch: WatchData;
 
 var entryValue;
 var watch: StopWatch;
@@ -61,117 +58,38 @@ for (i = 0 ; i < all.length ; i++)
     saveAll.push( saveWatch );
     }
 
-saveObject( 'watches', saveAll );
-saveObject( 'options', OPTIONS );
 
-var chrome = window[ 'chrome' ];
-
-if ( chrome && chrome.storage )
-    {
-    chrome.storage.local.set({
-            timer_watches: saveAll,
-            timer_options: OPTIONS
-        });
-    }
+AppStorage.setData({
+        timer_watches: saveAll,
+        timer_options: OPTIONS
+    });
 }
 
 
 /*
     Returns true/false depending on whether the load was successful
  */
-function load(): boolean
+function load( watches: WatchData[], options: OptionsData ): boolean
 {
-var stuffJson = getObject( 'watches' );
-var optionsJson = getObject( 'options' );
-
-if ( !stuffJson )
+if ( !watches )
     {
     return false;
     }
 
-var saveWatch: StopWatchArguments;
-
-var watch: StopWatch;
-
-for (var i = 0 ; i < stuffJson.length ; i++)
+for (var i = 0 ; i < watches.length ; i++)
     {
-    saveWatch = stuffJson[ i ];
-
-    watch = new StopWatch( saveWatch );
+    new StopWatch( watches[ i ] );
     }
 
 
     // load the options
-
-if ( optionsJson )
+if ( options )
     {
-    if ( typeof optionsJson.sound === 'boolean' )
+    if ( typeof options.sound === 'boolean' )
         {
-        OPTIONS.sound = optionsJson.sound;
+        OPTIONS.sound = options.sound;
         }
     }
 
 return true;
 }
-
-
-/**
- * Converts an object to string, and saves it in the local storage.
- */
-function saveObject( key: string, value: any )
-{
-return localStorage.setItem( key, JSON.stringify( value ) );
-}
-
-
-/**
- * Get data that is saved in local storage, and parse it with json.
- * Returns the data object, or null if it doesn't find.
- */
-function getObject( key )
-{
-var value = localStorage.getItem( key );
-
-return value && JSON.parse( value );
-}
-
-
-/*
- * For jquery ajax to work (server only)
- */
-jQuery(document).ajaxSend(function(event, xhr, settings) {
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    function sameOrigin(url) {
-        // url could be relative or scheme relative or absolute
-        var host = document.location.host; // host + port
-        var protocol = document.location.protocol;
-        var sr_origin = '//' + host;
-        var origin = protocol + sr_origin;
-        // Allow absolute or scheme relative URLs to same origin
-        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
-            // or any other URL that isn't scheme relative or absolute i.e relative.
-            !(/^(\/\/|http:|https:).*/.test(url));
-    }
-    function safeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
-        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-    }
-});
