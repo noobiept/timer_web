@@ -61,4 +61,4 @@ var PopupWindow = (function () {
         }
     };
     return PopupWindow;
-})();
+}());

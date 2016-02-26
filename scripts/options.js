@@ -91,4 +91,4 @@ var Options = (function () {
         this.POPUP_WINDOW_OBJECT.remove();
     };
     return Options;
-})();
+}());

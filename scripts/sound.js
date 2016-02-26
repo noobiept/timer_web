@@ -12,4 +12,4 @@ var Sound = (function () {
         audio.play();
     }
     return Sound;
-})();
+}());

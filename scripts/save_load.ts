@@ -1,6 +1,3 @@
-interface OptionsData {
-    sound: boolean;
-}
 
 
 function getSaveData()
@@ -63,23 +60,13 @@ return {
 }
 
 
-function saveWatches()
-{
-AppStorage.setData( getSaveData() );
-}
-
-
-function saveOptions()
-{
-AppStorage.setData({ timer_options: OPTIONS });
-}
-
-
 /*
     Returns true/false depending on whether the load was successful
  */
-function loadWatches( watches: WatchData[] ): boolean
+function loadWatches(): boolean
 {
+var watches = Data.getWatches();
+
 if ( !watches )
     {
     return false;
@@ -91,16 +78,4 @@ for (var i = 0 ; i < watches.length ; i++)
     }
 
 return true;
-}
-
-
-function loadOptions( options: OptionsData )
-{
-if ( options )
-    {
-    if ( typeof options.sound === 'boolean' )
-        {
-        OPTIONS.sound = options.sound;
-        }
-    }
 }

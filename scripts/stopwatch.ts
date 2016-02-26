@@ -646,7 +646,7 @@ if ( !this.COUNT_UP )
         $( this.COUNT_MESSAGE_ELEMENT ).text( '<-- Ended' );
 
 
-        if ( !this.LOADING && OPTIONS.sound )
+        if ( !this.LOADING && Data.getOption( 'sound' ) )
             {
                 // play the sound
             new Sound( 'sound1' );
@@ -855,6 +855,17 @@ else
     }
 
 this.updateWatch( nextCount );
+}
+
+
+getEntryValue()
+{
+if ( this.ENTRY_ELEMENT )
+    {
+    return this.ENTRY_ELEMENT.value;
+    }
+
+return null;
 }
 
 }

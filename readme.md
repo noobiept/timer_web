@@ -14,7 +14,7 @@ Dependencies
 ============
 
 
-- typescript -- 1.7
+- typescript -- 1.8
 - jquery -- 2.1
 - jqueryui -- 1.11
     - position

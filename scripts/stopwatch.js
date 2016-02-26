@@ -349,7 +349,7 @@ var StopWatch = (function () {
                 $(this.CONTAINER_ELEMENT).addClass('watch-finished');
                 // :: show some message :: //
                 $(this.COUNT_MESSAGE_ELEMENT).text('<-- Ended');
-                if (!this.LOADING && OPTIONS.sound) {
+                if (!this.LOADING && Data.getOption('sound')) {
                     // play the sound
                     new Sound('sound1');
                 }
@@ -476,6 +476,12 @@ var StopWatch = (function () {
         }
         this.updateWatch(nextCount);
     };
+    StopWatch.prototype.getEntryValue = function () {
+        if (this.ENTRY_ELEMENT) {
+            return this.ENTRY_ELEMENT.value;
+        }
+        return null;
+    };
     // default value when a new timer is added (or when an error occurs)
     StopWatch.DEFAULT_STOP_WATCH_VALUE = 0;
     StopWatch.DEFAULT_COUNT_DOWN_VALUE = 10000; // 10s
@@ -483,4 +489,4 @@ var StopWatch = (function () {
     StopWatch.ALL_STOPWATCHES = [];
     StopWatch.MAIN_CONTAINER = null;
     return StopWatch;
-})();
+}());

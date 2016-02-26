@@ -38,16 +38,11 @@ function getSaveData() {
         timer_watches: saveAll
     };
 }
-function saveWatches() {
-    AppStorage.setData(getSaveData());
-}
-function saveOptions() {
-    AppStorage.setData({ timer_options: OPTIONS });
-}
 /*
     Returns true/false depending on whether the load was successful
  */
-function loadWatches(watches) {
+function loadWatches() {
+    var watches = Data.getWatches();
     if (!watches) {
         return false;
     }
@@ -55,11 +50,4 @@ function loadWatches(watches) {
         new StopWatch(watches[i]);
     }
     return true;
-}
-function loadOptions(options) {
-    if (options) {
-        if (typeof options.sound === 'boolean') {
-            OPTIONS.sound = options.sound;
-        }
-    }
 }

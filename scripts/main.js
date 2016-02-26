@@ -3,29 +3,18 @@
 /// <reference path="stopwatch.ts" />
 /// <reference path="save_load.ts" />
 /// <reference path="menu.ts" />
-var OPTIONS = {
-    sound: true // whether we play a sound when a countdown ends or not
-};
 window.onload = function () {
-    AppStorage.getData(['timer_watches', 'timer_options'], initApp);
+    Data.load(initApp);
 };
-function initApp(data) {
+function initApp() {
     StopWatch.init();
-    loadOptions(data['timer_options']);
-    var loadSuccessful = loadWatches(data['timer_watches']);
+    var loadSuccessful = loadWatches();
     // add some watches if its the first time the program is running
     if (!loadSuccessful) {
         new StopWatch({ countUp: true });
         new StopWatch({ countUp: false });
     }
     Menu.init();
-}
-// 'on before unload' instead of 'on unload' so that in the server version, when refreshing (F5)
-// the logout gets called first, than the load of the new page (otherwise, the new load will have the previous data)
-if (!(window.chrome && window.chrome.storage)) {
-    window.onbeforeunload = function () {
-        saveWatches();
-    };
 }
 window.onkeyup = function (event) {
     var key = event.keyCode;

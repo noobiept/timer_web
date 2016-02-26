@@ -42,15 +42,14 @@ var Menu;
         var sound = document.querySelector('#Menu-sound');
         SOUND_ELEMENT = document.querySelector('#Menu-soundState');
         sound.onclick = function () {
-            if (OPTIONS.sound) {
+            if (Data.getOption('sound') === true) {
                 setSound(false);
             }
             else {
                 setSound(true);
             }
-            saveOptions();
         };
-        setSound(OPTIONS.sound);
+        setSound(Data.getOption('sound'));
         // :: Position correctly the menu elements :: //
         // get height of one of the menu entries
         var menuEntryHeight = $(addCountUp).outerHeight();
@@ -62,11 +61,11 @@ var Menu;
     Menu.init = init;
     function setSound(onOff) {
         if (onOff === true) {
-            OPTIONS.sound = true;
+            Data.setOption('sound', true);
             $(SOUND_ELEMENT).text('On');
         }
         else {
-            OPTIONS.sound = false;
+            Data.setOption('sound', false);
             $(SOUND_ELEMENT).text('Off');
         }
     }
