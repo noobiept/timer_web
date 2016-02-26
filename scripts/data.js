@@ -62,21 +62,21 @@ var Data;
             countUp: watch.COUNT_UP,
             reachedLimit: watch.REACHED_LIMIT
         };
-        WATCHES.splice(watch.position, 0, data);
+        WATCHES.splice(watch.POSITION, 0, data);
         if (SAVE_ENABLED) {
             saveWatches();
         }
     }
     Data.newWatch = newWatch;
     function removeWatch(watch) {
-        WATCHES.splice(watch.position, 1);
+        WATCHES.splice(watch.POSITION, 1);
         if (SAVE_ENABLED) {
             saveWatches();
         }
     }
     Data.removeWatch = removeWatch;
     function changeTitle(watch, text) {
-        WATCHES[watch.position].title = text;
+        WATCHES[watch.POSITION].title = text;
         if (SAVE_ENABLED) {
             saveWatches();
         }
@@ -84,7 +84,7 @@ var Data;
     Data.changeTitle = changeTitle;
     function changePosition(watch, previousPosition) {
         var data = WATCHES.splice(previousPosition, 1)[0];
-        WATCHES.splice(watch.position, 0, data);
+        WATCHES.splice(watch.POSITION, 0, data);
         if (SAVE_ENABLED) {
             saveWatches();
         }

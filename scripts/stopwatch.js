@@ -2,8 +2,9 @@
 /// <reference path="options.ts" />
 /// <reference path="sound.ts" />
 var StopWatch = (function () {
-    function StopWatch(watchArguments) {
+    function StopWatch(watchArguments, loading) {
         var _this = this;
+        if (loading === void 0) { loading = false; }
         // private properties
         this.COUNT = 0;
         this.NUMBER_DECIMAL_CASES = 0;
@@ -107,6 +108,7 @@ var StopWatch = (function () {
             container.appendChild(entry);
             container.appendChild(entryMessage);
         }
+        this.POSITION = StopWatch.MAIN_CONTAINER.children.length;
         StopWatch.MAIN_CONTAINER.appendChild(container);
         // :: Set Events :: //
         startStop.onclick = function () {
@@ -164,8 +166,6 @@ var StopWatch = (function () {
         this.ENTRY_MESSAGE_ELEMENT = entryMessage;
         this.DRAG_HANDLE = dragHandle;
         this.CONTAINER_ELEMENT = container;
-        // save a reference to this object in the container html element
-        container.watchObject = this;
         // :: Update the watch :: //
         if ($.isNumeric(watchArguments.count)) {
             this.updateWatch(watchArguments.count);
@@ -205,7 +205,9 @@ var StopWatch = (function () {
         var dragTop = (oneLineHeight - dragHeight) / 2 + 1;
         $(dragHandle).css('top', dragTop + 'px');
         this.LOADING = false;
-        return this;
+        if (loading !== true) {
+            Data.newWatch(this);
+        }
     }
     /*
         Has to be called before constructing any objects

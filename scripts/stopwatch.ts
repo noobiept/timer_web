@@ -19,11 +19,6 @@ interface WatchData
     numberDecimalCases ? : number;
     }
 
-interface StopWatchHtmlContainer extends HTMLDivElement
-    {
-    watchObject: StopWatch;
-    }
-
 
 class StopWatch
 {
@@ -71,6 +66,7 @@ LOADING: boolean;
 
     // tells if a clock has started (different than running, in the sense that it can be started and then paused, and restarted, which is different than being in its initial state)
 STARTED = false;
+POSITION: number;   // order position (within the main container)
 
     
     // contains all the stopwatches created
@@ -95,7 +91,7 @@ $( StopWatch.MAIN_CONTAINER ).sortable({
 }
 
 
-constructor( watchArguments: WatchData )
+constructor( watchArguments: WatchData, loading= false )
 {
 var countUp = watchArguments.countUp;
 
@@ -230,7 +226,7 @@ drawDragHandle( dragHandle );
 
     // :: Container :: //
 
-var container = <StopWatchHtmlContainer> document.createElement( 'div' );
+var container = <HTMLDivElement> document.createElement( 'div' );
 
 container.className = 'StopWatch-container';
 $( container ).addClass( 'notActive' );
@@ -250,7 +246,7 @@ if ( !countUp )
     container.appendChild( entryMessage );
     }
 
-
+this.POSITION = StopWatch.MAIN_CONTAINER.children.length;
 StopWatch.MAIN_CONTAINER.appendChild( container );
 
     // :: Set Events :: //
@@ -346,10 +342,6 @@ this.ENTRY_MESSAGE_ELEMENT = entryMessage;
 this.DRAG_HANDLE = dragHandle;
 this.CONTAINER_ELEMENT = container;
 
-    // save a reference to this object in the container html element
-container.watchObject = this;
-
-
     // :: Update the watch :: //
 
 if ( $.isNumeric( watchArguments.count ) )
@@ -409,18 +401,16 @@ var titleFontSize = parseInt( $( title ).css('font-size') );
 
     // trying to get the height of the element from the font-size
 var oneLineHeight = titleFontSize * 1.35;
-
 var dragHeight = dragHandle.height;
-
 var dragTop = (oneLineHeight - dragHeight) / 2 + 1;
 
 $( dragHandle ).css( 'top', dragTop + 'px' );
-
-
-
 this.LOADING = false;
 
-return this;
+if ( loading !== true )
+    {
+    Data.newWatch( this );
+    }
 }
 
 

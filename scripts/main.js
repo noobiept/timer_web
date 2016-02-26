@@ -10,7 +10,7 @@ function initApp() {
     var watches = Data.getWatches();
     if (watches.length > 0) {
         for (var i = 0; i < watches.length; i++) {
-            new StopWatch(watches[i]);
+            new StopWatch(watches[i], true);
         }
     }
     else {

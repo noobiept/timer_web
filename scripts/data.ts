@@ -99,7 +99,7 @@ export function newWatch( watch: StopWatch )
         reachedLimit       : watch.REACHED_LIMIT
         };
 
-    WATCHES.splice( watch.position, 0, data );
+    WATCHES.splice( watch.POSITION, 0, data );
 
     if ( SAVE_ENABLED )
         {
@@ -110,7 +110,7 @@ export function newWatch( watch: StopWatch )
 
 export function removeWatch( watch: StopWatch )
     {
-    WATCHES.splice( watch.position, 1 );
+    WATCHES.splice( watch.POSITION, 1 );
 
     if ( SAVE_ENABLED )
         {
@@ -121,7 +121,7 @@ export function removeWatch( watch: StopWatch )
 
 export function changeTitle( watch: StopWatch, text: string )
     {
-    WATCHES[ watch.position ].title = text;
+    WATCHES[ watch.POSITION ].title = text;
 
     if ( SAVE_ENABLED )
         {
@@ -133,7 +133,7 @@ export function changeTitle( watch: StopWatch, text: string )
 export function changePosition( watch: StopWatch, previousPosition: number )
     {
     var data = WATCHES.splice( previousPosition, 1 )[ 0 ];
-    WATCHES.splice( watch.position, 0, data );
+    WATCHES.splice( watch.POSITION, 0, data );
 
     if ( SAVE_ENABLED )
         {
