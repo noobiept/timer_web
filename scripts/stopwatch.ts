@@ -83,13 +83,28 @@ StopWatch.MAIN_CONTAINER = <HTMLElement> document.querySelector( '#mainContainer
 }
 
 
+/**
+ * When there's a change in the order of the watches, need to update the 'POSITION' property.
+ *
+ * There's a change when a stopwatch is moved to a different position, or when a stopwatch is removed (if its not the last element).
+ */
+static updateWatchesPosition()
+{
+var all = StopWatch.ALL_STOPWATCHES;
+
+for (var a = 0 ; a < all.length ; a++)
+    {
+    all[ a ].POSITION = a;
+    }
+}
+
+
 constructor( watchArguments: WatchData, loading= false )
 {
 var countUp = watchArguments.countUp;
 
 this.LOADING = true;
 this.COUNT_UP = countUp;
-
 
 if ( watchArguments.initValueCountDown )
     {
@@ -203,6 +218,10 @@ if ( countUp === false )
         {
         entry.value = '10s';
         }
+
+    entry.addEventListener( 'input', () => {
+            Data.changeWatchEntryText( this );
+        });
 
         // the message, when an error occurs (like not a valid time)
     entryMessage = <HTMLSpanElement> document.createElement( 'span' );
@@ -430,10 +449,7 @@ var previousPosition = this.POSITION;
 all.splice( previousPosition, 1 );
 all.splice( position, 0, this );
 
-for (var a = 0 ; a < all.length ; a++)
-    {
-    all[ a ].POSITION = a;
-    }
+StopWatch.updateWatchesPosition();
 
 Data.changePosition( this, previousPosition );
 }
@@ -474,6 +490,7 @@ if ( !this.reachedLimit() )
 
    
 this.START_STOP_ELEMENT.value = "Stop";
+Data.startWatch( this );
 }
 
 /*
@@ -495,6 +512,7 @@ if ( !this.reachedLimit() )
     }
 
 this.START_STOP_ELEMENT.value = "Continue";
+Data.stopWatch( this );
 }
 
 /*
@@ -546,20 +564,16 @@ this.clearContainerCssClasses();
 
 $( this.CONTAINER_ELEMENT ).addClass( 'watch-active' );
 
-
     // reset the watch
-
 this.updateWatch( initValue );
-
-
 this.startTimer();
+Data.restartWatch( this );
 }
 
 
 /*
     Resets the watch (watch value to the default value, stop timer)
  */
-
 resetWatch()
 {
 var watchObject = this;
@@ -603,16 +617,13 @@ this.REACHED_LIMIT = false;
 
     // clear any possible messages that could be displayed
 $( this.COUNT_MESSAGE_ELEMENT ).text( '' );
-
-this.stopTimer();
-
+$( this.CONTAINER_ELEMENT ).addClass( 'notActive' );
 this.START_STOP_ELEMENT.value = "Start";
 
 this.clearContainerCssClasses();
-
-$( this.CONTAINER_ELEMENT ).addClass( 'notActive' );
-
+this.stopTimer();
 this.updateWatch( initValue );
+Data.resetWatch( this );
 }
 
 
@@ -637,8 +648,6 @@ this.reachedLimit();
 
 reachedLimit(): boolean
 {
-var watchObject = this;
-
 if ( !this.COUNT_UP )
     {
         // no need to do anything
@@ -725,21 +734,16 @@ if ( (num < 0 || num > 3) || (num == this.NUMBER_DECIMAL_CASES) )
     }
 
 this.NUMBER_DECIMAL_CASES = num;
-
 this.TIMER_INTERVAL = 1000 / Math.pow( 10, num );
-
 
     // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc.. 
     // change milliseconds to seconds, to be able to round
 var rounded = this.COUNT / 1000;    
 
-
     // round the number to the lowest integer that is close
 rounded = Math.floor( rounded );
 
 this.COUNT = rounded * 1000;    // and back to milliseconds
-
-
 this.updateWatch( this.COUNT );
 
     // we have to reset the timer to have the changes take effect, but if the watch isn't running, we have to stop it
@@ -755,12 +759,13 @@ else
         // just to make the change have effect
     this.stopTimer();
     }
+
+Data.changeWatchDecimalCases( this );
 }
 
 
 remove()
 {
-Data.removeWatch( this );
 this.stopTimer();
 
     // remove the reference
@@ -768,6 +773,9 @@ StopWatch.ALL_STOPWATCHES.splice( this.POSITION, 1 );
 
     // remove from the DOM
 StopWatch.MAIN_CONTAINER.removeChild( this.CONTAINER_ELEMENT );
+Data.removeWatch( this );
+
+StopWatch.updateWatchesPosition();
 }
 
 
@@ -864,6 +872,7 @@ else
     }
 
 this.updateWatch( nextCount );
+Data.updateWatchTime( this );
 }
 
 

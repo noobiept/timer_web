@@ -87,6 +87,9 @@ var StopWatch = (function () {
             else {
                 entry.value = '10s';
             }
+            entry.addEventListener('input', function () {
+                Data.changeWatchEntryText(_this);
+            });
             // the message, when an error occurs (like not a valid time)
             entryMessage = document.createElement('span');
             entryMessage.className = 'StopWatch-entryMessage';
@@ -219,6 +222,17 @@ var StopWatch = (function () {
     StopWatch.init = function () {
         StopWatch.MAIN_CONTAINER = document.querySelector('#mainContainer');
     };
+    /**
+     * When there's a change in the order of the watches, need to update the 'POSITION' property.
+     *
+     * There's a change when a stopwatch is moved to a different position, or when a stopwatch is removed (if its not the last element).
+     */
+    StopWatch.updateWatchesPosition = function () {
+        var all = StopWatch.ALL_STOPWATCHES;
+        for (var a = 0; a < all.length; a++) {
+            all[a].POSITION = a;
+        }
+    };
     StopWatch.prototype.moveTo = function (position) {
         var mainContainer = StopWatch.MAIN_CONTAINER;
         if (position > this.POSITION) {
@@ -231,9 +245,7 @@ var StopWatch = (function () {
         var previousPosition = this.POSITION;
         all.splice(previousPosition, 1);
         all.splice(position, 0, this);
-        for (var a = 0; a < all.length; a++) {
-            all[a].POSITION = a;
-        }
+        StopWatch.updateWatchesPosition();
         Data.changePosition(this, previousPosition);
     };
     /*
@@ -261,6 +273,7 @@ var StopWatch = (function () {
             $(this.CONTAINER_ELEMENT).addClass('watch-active');
         }
         this.START_STOP_ELEMENT.value = "Stop";
+        Data.startWatch(this);
     };
     /*
         Stops the watch (but keeps the watch value, to be able to continue from the same time)
@@ -274,6 +287,7 @@ var StopWatch = (function () {
             $(this.CONTAINER_ELEMENT).addClass('watch-stopped');
         }
         this.START_STOP_ELEMENT.value = "Continue";
+        Data.stopWatch(this);
     };
     /*
         Restarts the watch (watch value to its default, start watch again)
@@ -307,6 +321,7 @@ var StopWatch = (function () {
         // reset the watch
         this.updateWatch(initValue);
         this.startTimer();
+        Data.restartWatch(this);
     };
     /*
         Resets the watch (watch value to the default value, stop timer)
@@ -336,11 +351,12 @@ var StopWatch = (function () {
         this.REACHED_LIMIT = false;
         // clear any possible messages that could be displayed
         $(this.COUNT_MESSAGE_ELEMENT).text('');
-        this.stopTimer();
+        $(this.CONTAINER_ELEMENT).addClass('notActive');
         this.START_STOP_ELEMENT.value = "Start";
         this.clearContainerCssClasses();
-        $(this.CONTAINER_ELEMENT).addClass('notActive');
+        this.stopTimer();
         this.updateWatch(initValue);
+        Data.resetWatch(this);
     };
     /*
         Updates the watch current number
@@ -355,7 +371,6 @@ var StopWatch = (function () {
         For CountDown only, when it reaches the count limit (and if so, change the background-color)
      */
     StopWatch.prototype.reachedLimit = function () {
-        var watchObject = this;
         if (!this.COUNT_UP) {
             // no need to do anything
             if (this.REACHED_LIMIT) {
@@ -423,14 +438,16 @@ var StopWatch = (function () {
             // just to make the change have effect
             this.stopTimer();
         }
+        Data.changeWatchDecimalCases(this);
     };
     StopWatch.prototype.remove = function () {
-        Data.removeWatch(this);
         this.stopTimer();
         // remove the reference
         StopWatch.ALL_STOPWATCHES.splice(this.POSITION, 1);
         // remove from the DOM
         StopWatch.MAIN_CONTAINER.removeChild(this.CONTAINER_ELEMENT);
+        Data.removeWatch(this);
+        StopWatch.updateWatchesPosition();
     };
     StopWatch.prototype.stringToMilliseconds = function (entryValue) {
         /*
@@ -493,6 +510,7 @@ var StopWatch = (function () {
             nextCount = this.COUNT - this.TIMER_INTERVAL;
         }
         this.updateWatch(nextCount);
+        Data.updateWatchTime(this);
     };
     StopWatch.prototype.getEntryValue = function () {
         if (this.ENTRY_ELEMENT) {

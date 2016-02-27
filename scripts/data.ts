@@ -138,4 +138,93 @@ export function changePosition( watch: StopWatch, previousPosition: number )
         saveWatches();
         }
     }
+
+
+export function startWatch( watch: StopWatch )
+    {
+    WATCHES[ watch.POSITION ].started = watch.STARTED;
+    WATCHES[ watch.POSITION ].running = watch.RUNNING;
+
+    if ( SAVE_ENABLED )
+        {
+        saveWatches();
+        }
+    }
+
+
+export function stopWatch( watch: StopWatch )
+    {
+    WATCHES[ watch.POSITION ].started = watch.STARTED;
+    WATCHES[ watch.POSITION ].running = watch.RUNNING;
+
+    if ( SAVE_ENABLED )
+        {
+        saveWatches();
+        }
+    }
+
+
+export function restartWatch( watch: StopWatch )
+    {
+    WATCHES[ watch.POSITION ].started = watch.STARTED;
+    WATCHES[ watch.POSITION ].running = watch.RUNNING;
+    WATCHES[ watch.POSITION ].reachedLimit = watch.REACHED_LIMIT;
+    WATCHES[ watch.POSITION ].count = watch.COUNT;
+    WATCHES[ watch.POSITION ].initValueCountDown = watch.INIT_VALUE_COUNTDOWN;
+
+    if ( SAVE_ENABLED )
+        {
+        saveWatches();
+        }
+    }
+
+
+export function resetWatch( watch: StopWatch )
+    {
+    WATCHES[ watch.POSITION ].started = watch.STARTED;
+    WATCHES[ watch.POSITION ].running = watch.RUNNING;
+    WATCHES[ watch.POSITION ].reachedLimit = watch.REACHED_LIMIT;
+    WATCHES[ watch.POSITION ].count = watch.COUNT;
+    WATCHES[ watch.POSITION ].initValueCountDown = watch.INIT_VALUE_COUNTDOWN;
+
+    if ( SAVE_ENABLED )
+        {
+        saveWatches();
+        }
+    }
+
+
+export function updateWatchTime( watch: StopWatch )
+    {
+    WATCHES[ watch.POSITION ].reachedLimit = watch.REACHED_LIMIT;
+    WATCHES[ watch.POSITION ].count = watch.COUNT;
+
+    if ( SAVE_ENABLED )
+        {
+        saveWatches();
+        }
+    }
+
+
+export function changeWatchDecimalCases( watch: StopWatch )
+    {
+    WATCHES[ watch.POSITION ].numberDecimalCases = watch.NUMBER_DECIMAL_CASES;
+    WATCHES[ watch.POSITION ].count = watch.COUNT;
+
+    if ( SAVE_ENABLED )
+        {
+        saveWatches();
+        }
+    }
+
+
+export function changeWatchEntryText( watch: StopWatch )
+    {
+    WATCHES[ watch.POSITION ].entryValue = watch.getEntryValue();
+
+    if ( SAVE_ENABLED )
+        {
+        saveWatches();
+        }
+    }
 }

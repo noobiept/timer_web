@@ -89,4 +89,65 @@ var Data;
         }
     }
     Data.changePosition = changePosition;
+    function startWatch(watch) {
+        WATCHES[watch.POSITION].started = watch.STARTED;
+        WATCHES[watch.POSITION].running = watch.RUNNING;
+        if (SAVE_ENABLED) {
+            saveWatches();
+        }
+    }
+    Data.startWatch = startWatch;
+    function stopWatch(watch) {
+        WATCHES[watch.POSITION].started = watch.STARTED;
+        WATCHES[watch.POSITION].running = watch.RUNNING;
+        if (SAVE_ENABLED) {
+            saveWatches();
+        }
+    }
+    Data.stopWatch = stopWatch;
+    function restartWatch(watch) {
+        WATCHES[watch.POSITION].started = watch.STARTED;
+        WATCHES[watch.POSITION].running = watch.RUNNING;
+        WATCHES[watch.POSITION].reachedLimit = watch.REACHED_LIMIT;
+        WATCHES[watch.POSITION].count = watch.COUNT;
+        WATCHES[watch.POSITION].initValueCountDown = watch.INIT_VALUE_COUNTDOWN;
+        if (SAVE_ENABLED) {
+            saveWatches();
+        }
+    }
+    Data.restartWatch = restartWatch;
+    function resetWatch(watch) {
+        WATCHES[watch.POSITION].started = watch.STARTED;
+        WATCHES[watch.POSITION].running = watch.RUNNING;
+        WATCHES[watch.POSITION].reachedLimit = watch.REACHED_LIMIT;
+        WATCHES[watch.POSITION].count = watch.COUNT;
+        WATCHES[watch.POSITION].initValueCountDown = watch.INIT_VALUE_COUNTDOWN;
+        if (SAVE_ENABLED) {
+            saveWatches();
+        }
+    }
+    Data.resetWatch = resetWatch;
+    function updateWatchTime(watch) {
+        WATCHES[watch.POSITION].reachedLimit = watch.REACHED_LIMIT;
+        WATCHES[watch.POSITION].count = watch.COUNT;
+        if (SAVE_ENABLED) {
+            saveWatches();
+        }
+    }
+    Data.updateWatchTime = updateWatchTime;
+    function changeWatchDecimalCases(watch) {
+        WATCHES[watch.POSITION].numberDecimalCases = watch.NUMBER_DECIMAL_CASES;
+        WATCHES[watch.POSITION].count = watch.COUNT;
+        if (SAVE_ENABLED) {
+            saveWatches();
+        }
+    }
+    Data.changeWatchDecimalCases = changeWatchDecimalCases;
+    function changeWatchEntryText(watch) {
+        WATCHES[watch.POSITION].entryValue = watch.getEntryValue();
+        if (SAVE_ENABLED) {
+            saveWatches();
+        }
+    }
+    Data.changeWatchEntryText = changeWatchEntryText;
 })(Data || (Data = {}));
