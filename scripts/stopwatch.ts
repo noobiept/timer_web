@@ -376,14 +376,11 @@ else
         }
     }
 
-
     // And the number of decimal cases
-
 if ( $.isNumeric( watchArguments.numberDecimalCases ) )
     {
     this.changeNumberDecimalCases( watchArguments.numberDecimalCases );
     }
-
 
 if ( watchArguments.started )
     {
@@ -726,9 +723,9 @@ window.clearInterval( this.INTERVAL_F );
 
 
 
-changeNumberDecimalCases( num )
+changeNumberDecimalCases( num: number )
 {
-if ( (num < 0 || num > 3) || (num == this.NUMBER_DECIMAL_CASES) )
+if ( num < 0 || num > 1 || num == this.NUMBER_DECIMAL_CASES )
     {
     return;
     }

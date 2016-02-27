@@ -417,7 +417,7 @@ var StopWatch = (function () {
         window.clearInterval(this.INTERVAL_F);
     };
     StopWatch.prototype.changeNumberDecimalCases = function (num) {
-        if ((num < 0 || num > 3) || (num == this.NUMBER_DECIMAL_CASES)) {
+        if (num < 0 || num > 1 || num == this.NUMBER_DECIMAL_CASES) {
             return;
         }
         this.NUMBER_DECIMAL_CASES = num;
