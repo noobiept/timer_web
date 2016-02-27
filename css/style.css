@@ -168,6 +168,11 @@
     font-family: arial, sans-serif;
     }
 
+.validDrop
+    {
+    background-color: #b3b3b3;
+    }
+
     /* :: Options Window :: */
 
 .PopupWindow-container

@@ -37,6 +37,9 @@ var StopWatch = (function () {
         if (watchArguments.title) {
             $(title).text(watchArguments.title);
         }
+        title.addEventListener('input', function () {
+            Data.changeTitle(_this);
+        });
         // :: Count Element :: //
         var count = document.createElement('span');
         count.className = 'StopWatch-count';
@@ -204,6 +207,7 @@ var StopWatch = (function () {
         var dragHeight = dragHandle.height;
         var dragTop = (oneLineHeight - dragHeight) / 2 + 1;
         $(dragHandle).css('top', dragTop + 'px');
+        this.DRAG_DROP = new DragDrop(container, dragHandle, this);
         this.LOADING = false;
         if (loading !== true) {
             Data.newWatch(this);
@@ -214,11 +218,23 @@ var StopWatch = (function () {
      */
     StopWatch.init = function () {
         StopWatch.MAIN_CONTAINER = document.querySelector('#mainContainer');
-        // setup the drag and drop of the watches
-        $(StopWatch.MAIN_CONTAINER).sortable({
-            handle: '.StopWatch-dragHandle',
-            opacity: 0.7
-        });
+    };
+    StopWatch.prototype.moveTo = function (position) {
+        var mainContainer = StopWatch.MAIN_CONTAINER;
+        if (position > this.POSITION) {
+            mainContainer.insertBefore(this.CONTAINER_ELEMENT, mainContainer.children[position + 1]);
+        }
+        else {
+            mainContainer.insertBefore(this.CONTAINER_ELEMENT, mainContainer.children[position]);
+        }
+        var all = StopWatch.ALL_STOPWATCHES;
+        var previousPosition = this.POSITION;
+        all.splice(previousPosition, 1);
+        all.splice(position, 0, this);
+        for (var a = 0; a < all.length; a++) {
+            all[a].POSITION = a;
+        }
+        Data.changePosition(this, previousPosition);
     };
     /*
         Removes the css classes from the container (which set a background-color depending on the state of the watch)
@@ -409,10 +425,10 @@ var StopWatch = (function () {
         }
     };
     StopWatch.prototype.remove = function () {
+        Data.removeWatch(this);
         this.stopTimer();
         // remove the reference
-        var position = StopWatch.ALL_STOPWATCHES.indexOf(this);
-        StopWatch.ALL_STOPWATCHES.splice(position, 1);
+        StopWatch.ALL_STOPWATCHES.splice(this.POSITION, 1);
         // remove from the DOM
         StopWatch.MAIN_CONTAINER.removeChild(this.CONTAINER_ELEMENT);
     };

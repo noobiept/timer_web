@@ -67,11 +67,11 @@ LOADING: boolean;
     // tells if a clock has started (different than running, in the sense that it can be started and then paused, and restarted, which is different than being in its initial state)
 STARTED = false;
 POSITION: number;   // order position (within the main container)
-
+DRAG_DROP: DragDrop;
     
     // contains all the stopwatches created
-static ALL_STOPWATCHES = [];
-static MAIN_CONTAINER = null;
+static ALL_STOPWATCHES: StopWatch[] = [];
+static MAIN_CONTAINER: HTMLElement = null;
 
 
 /*
@@ -79,15 +79,7 @@ static MAIN_CONTAINER = null;
  */
 static init()
 {
-StopWatch.MAIN_CONTAINER = document.querySelector( '#mainContainer' );
-
-    // setup the drag and drop of the watches
-
-$( StopWatch.MAIN_CONTAINER ).sortable({
-
-    handle: '.StopWatch-dragHandle',
-    opacity: 0.7
-    });
+StopWatch.MAIN_CONTAINER = <HTMLElement> document.querySelector( '#mainContainer' );
 }
 
 
@@ -127,6 +119,9 @@ if ( watchArguments.title )
     {
     $( title ).text( watchArguments.title );
     }
+title.addEventListener( 'input', () => {
+    Data.changeTitle( this );
+    });
 
     // :: Count Element :: //
 
@@ -405,6 +400,7 @@ var dragHeight = dragHandle.height;
 var dragTop = (oneLineHeight - dragHeight) / 2 + 1;
 
 $( dragHandle ).css( 'top', dragTop + 'px' );
+this.DRAG_DROP = new DragDrop( container, dragHandle, this );
 this.LOADING = false;
 
 if ( loading !== true )
@@ -414,12 +410,40 @@ if ( loading !== true )
 }
 
 
+moveTo( position: number )
+{
+var mainContainer = StopWatch.MAIN_CONTAINER;
+
+if ( position > this.POSITION )
+    {
+    mainContainer.insertBefore( this.CONTAINER_ELEMENT, mainContainer.children[ position + 1 ] );
+    }
+
+else
+    {
+    mainContainer.insertBefore( this.CONTAINER_ELEMENT, mainContainer.children[ position ] );
+    }
+
+var all = StopWatch.ALL_STOPWATCHES;
+var previousPosition = this.POSITION;
+
+all.splice( previousPosition, 1 );
+all.splice( position, 0, this );
+
+for (var a = 0 ; a < all.length ; a++)
+    {
+    all[ a ].POSITION = a;
+    }
+
+Data.changePosition( this, previousPosition );
+}
+
+
 /*
     Removes the css classes from the container (which set a background-color depending on the state of the watch)
 
     It then is set the correct one
  */
-
 clearContainerCssClasses()
 {
 $( this.CONTAINER_ELEMENT ).removeClass( 'watch-active' );
@@ -736,14 +760,12 @@ else
 
 remove()
 {
+Data.removeWatch( this );
 this.stopTimer();
 
     // remove the reference
-var position = StopWatch.ALL_STOPWATCHES.indexOf( this );
+StopWatch.ALL_STOPWATCHES.splice( this.POSITION, 1 );
 
-StopWatch.ALL_STOPWATCHES.splice( position, 1 );
-    
-    
     // remove from the DOM
 StopWatch.MAIN_CONTAINER.removeChild( this.CONTAINER_ELEMENT );
 }
@@ -815,8 +837,6 @@ return milliseconds;
 }
 
 
-
-
 getTitle(): string
 {
 return $( this.TITLE_ELEMENT ).text();
@@ -827,7 +847,6 @@ setTitle( newTitle: string )
 {
 $( this.TITLE_ELEMENT ).text( newTitle );
 }
-
 
 
 tick()

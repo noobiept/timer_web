@@ -87,19 +87,17 @@ export function getWatches()
 
 export function newWatch( watch: StopWatch )
     {
-    var data: WatchData = {
-        title              : watch.getTitle(),
-        count              : watch.COUNT,
-        running            : watch.RUNNING,
-        started            : watch.STARTED,
-        numberDecimalCases : watch.NUMBER_DECIMAL_CASES,
-        entryValue         : watch.getEntryValue(),
-        initValueCountDown : watch.INIT_VALUE_COUNTDOWN,
-        countUp            : watch.COUNT_UP,
-        reachedLimit       : watch.REACHED_LIMIT
-        };
-
-    WATCHES.splice( watch.POSITION, 0, data );
+    WATCHES.splice( watch.POSITION, 0, {
+            title              : watch.getTitle(),
+            count              : watch.COUNT,
+            running            : watch.RUNNING,
+            started            : watch.STARTED,
+            numberDecimalCases : watch.NUMBER_DECIMAL_CASES,
+            entryValue         : watch.getEntryValue(),
+            initValueCountDown : watch.INIT_VALUE_COUNTDOWN,
+            countUp            : watch.COUNT_UP,
+            reachedLimit       : watch.REACHED_LIMIT
+        });
 
     if ( SAVE_ENABLED )
         {
@@ -119,9 +117,9 @@ export function removeWatch( watch: StopWatch )
     }
 
 
-export function changeTitle( watch: StopWatch, text: string )
+export function changeTitle( watch: StopWatch )
     {
-    WATCHES[ watch.POSITION ].title = text;
+    WATCHES[ watch.POSITION ].title = watch.getTitle();
 
     if ( SAVE_ENABLED )
         {

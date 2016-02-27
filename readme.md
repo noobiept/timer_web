@@ -15,10 +15,7 @@ Dependencies
 
 
 - typescript -- 1.8
-- jquery -- 2.1
-- jqueryui -- 1.11
-    - position
-    - sortable
+- jquery -- 2.2
 
 - div placeholder - https://github.com/sprucemedia/jQuery.divPlaceholder.js
 

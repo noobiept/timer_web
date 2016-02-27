@@ -51,7 +51,7 @@ var Data;
     }
     Data.getWatches = getWatches;
     function newWatch(watch) {
-        var data = {
+        WATCHES.splice(watch.POSITION, 0, {
             title: watch.getTitle(),
             count: watch.COUNT,
             running: watch.RUNNING,
@@ -61,8 +61,7 @@ var Data;
             initValueCountDown: watch.INIT_VALUE_COUNTDOWN,
             countUp: watch.COUNT_UP,
             reachedLimit: watch.REACHED_LIMIT
-        };
-        WATCHES.splice(watch.POSITION, 0, data);
+        });
         if (SAVE_ENABLED) {
             saveWatches();
         }
@@ -75,8 +74,8 @@ var Data;
         }
     }
     Data.removeWatch = removeWatch;
-    function changeTitle(watch, text) {
-        WATCHES[watch.POSITION].title = text;
+    function changeTitle(watch) {
+        WATCHES[watch.POSITION].title = watch.getTitle();
         if (SAVE_ENABLED) {
             saveWatches();
         }
