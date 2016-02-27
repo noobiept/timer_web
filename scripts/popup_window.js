@@ -37,10 +37,6 @@ var PopupWindow = (function () {
         $(container).css('left', popupArguments.x + 'px');
         $(container).css('top', popupArguments.y + 'px');
         document.body.appendChild(container);
-        this.KEY_DOWN_F = function (event) {
-            _this.keyboardEvents(event);
-        };
-        $(window).bind('keyup', this.KEY_DOWN_F);
         if (typeof popupArguments.afterAppend !== 'undefined' && popupArguments.afterAppend !== null) {
             popupArguments.afterAppend();
         }
@@ -48,16 +44,8 @@ var PopupWindow = (function () {
     }
     PopupWindow.prototype.remove = function () {
         document.body.removeChild(this.CONTAINER_ELEMENT);
-        //$( window ).unbind('keyup', this.keyDown_f);
-        window.removeEventListener('keyup', this.KEY_DOWN_F);
         if (this.ON_REMOVE) {
             this.ON_REMOVE();
-        }
-    };
-    PopupWindow.prototype.keyboardEvents = function (event) {
-        var key = event.keyCode;
-        if (key === EVENT_KEY.esc) {
-            this.remove();
         }
     };
     return PopupWindow;

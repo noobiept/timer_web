@@ -13,9 +13,7 @@ interface PopupWindowArguments
 
 class PopupWindow
 {
-
 CONTAINER_ELEMENT: HTMLDivElement;
-KEY_DOWN_F: (event: JQueryEventObject) => any;     // has the window's keyboard shortcuts
 ON_REMOVE: () => any;
 
 /*
@@ -26,7 +24,6 @@ ON_REMOVE: () => any;
         afterAppend_f (function) : function to be called after the elements are appended to the DOM
 
  */
-
 constructor( popupArguments: PopupWindowArguments )
 {
 var container = <HTMLDivElement> document.createElement('div');
@@ -78,16 +75,6 @@ $( container ).css('top', popupArguments.y + 'px');
 
 document.body.appendChild( container );
 
-
-this.KEY_DOWN_F = ( event ) =>
-    {
-    this.keyboardEvents( event );
-    };
-
-
-$( window ).bind( 'keyup', this.KEY_DOWN_F );
-
-
 if (typeof popupArguments.afterAppend !== 'undefined' && popupArguments.afterAppend !== null)
     {
     popupArguments.afterAppend();
@@ -101,23 +88,9 @@ remove()
 {
 document.body.removeChild( this.CONTAINER_ELEMENT );
 
-//$( window ).unbind('keyup', this.keyDown_f);
-window.removeEventListener( 'keyup', this.KEY_DOWN_F );
-
 if ( this.ON_REMOVE )
     {
     this.ON_REMOVE();
-    }
-}
-
-
-keyboardEvents( event: JQueryEventObject )
-{
-var key = event.keyCode;
-
-if (key === EVENT_KEY.esc)
-    {
-    this.remove();
     }
 }
 
