@@ -32,31 +32,29 @@
     right: 25px;
     }
 
-#Menu-left > *, #Menu-right > *
-    {
-    float: left;
-    padding: 9px 15px;
-    margin-left: 5px;
-    }
-
-#Menu-sound, #Menu-left > *
+.menuButton
     {
     cursor: pointer;
     border-radius: 2px;
+    color: black;
+    float: left;
+    padding: 9px 15px;
+    margin-left: 5px;
 
     transition-property: background-color;
     transition-duration: 0.2s;
     transition-timing-function: ease-in;
     }
 
-#Menu-left > *:hover, #Menu-sound:hover
+.menuButton:hover
     {
     background-color: rgba(3, 127, 246, 0.3);
     }
 
-.addWatch:hover
+#DonateButton
     {
-    background-color: rgba(3, 127, 246, 0.4);
+    display: block;
+    text-decoration: none;
     }
 
     /* :: Timers :: */
@@ -98,7 +96,7 @@
     padding-left: 30px;
     padding-right: 20px;
     min-height: 1em;
-    }   
+    }
 
 .StopWatch-count
     {
@@ -118,7 +116,7 @@
 .StopWatch-remove
     {
     position: absolute;
-    
+
     top: 7px;
     right: 5px;
 
