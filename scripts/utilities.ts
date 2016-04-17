@@ -1,8 +1,6 @@
-
 /*
  * Keys code for the keyboard events
  */
-
 var EVENT_KEY = {
 
     backspace  : 8,
@@ -68,33 +66,31 @@ var EVENT_KEY = {
     f10 : 121,
     f11 : 122,
     f12 : 123
-    
+
 };
 
 
 /*
- * Converts a date (in milliseconds) to a string (with the number of days/hours...)
+ * Converts a date (in seconds) to a string (with the number of days/hours...)
  */
-
-function dateToString( dateMilliseconds: number, forceDecimalCases?: number )
+function dateToString( dateSeconds: number, decimalCases: number )
 {
     // :: Deal with negative numbers :: //
 
 var isNegative = false;
 
     // if its negative, we turn it positive for now, and then later add a minus sign
-if ( dateMilliseconds < 0 )
+if ( dateSeconds < 0 )
     {
     isNegative = true;
 
-    dateMilliseconds *= -1;
+    dateSeconds *= -1;
     }
 
     // :: convert to days/hours :: //
 
-    //in milliseconds
-var second = 1000;
-var minute = 60 * second; 
+    //in seconds
+var minute = 60;
 var hour   = 60 * minute;
 var day    = 24 * hour;
 
@@ -105,38 +101,38 @@ var secondsLeft = 0;
 
 
     //count the days
-while (dateMilliseconds >= day)
+while (dateSeconds >= day)
     {
     daysLeft++;
 
-    dateMilliseconds -= day;
+    dateSeconds -= day;
     }
 
     //count the hours
-while (dateMilliseconds >= hour)
+while (dateSeconds >= hour)
     {
     hoursLeft++;
-    
-    dateMilliseconds -= hour;
+
+    dateSeconds -= hour;
     }
-    
+
     //count the minutes
-while (dateMilliseconds >= minute)
+while (dateSeconds >= minute)
     {
     minutesLeft++;
-    
-    dateMilliseconds -= minute;
+
+    dateSeconds -= minute;
     }
 
     //and the seconds
-secondsLeft = dateMilliseconds / 1000;
+secondsLeft = dateSeconds;
 
 
     // :: construct the string :: //
 
 var date = '';
 
-    // only show when there's something relevant to be shown 
+    // only show when there's something relevant to be shown
     // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
 if ( daysLeft !== 0 )
     {
@@ -160,7 +156,7 @@ if ( hoursLeft !== 0 )
         {
         hourStr += 's';
         }
-    
+
     date += hoursLeft + ' ' + hourStr + ' ';
     }
 
@@ -177,32 +173,17 @@ if ( minutesLeft !== 0 )
     date += minutesLeft + ' ' + minuteStr + ' ';
     }
 
-    
-var secondStr = 'second';
+
+var secondStr = 'seconds';
 
     // always show seconds, even if 0
-if ( secondsLeft !== 1 )
+if ( secondsLeft === 1 )
     {
-    secondStr += 's';
+    secondStr = 'second';
     }
 
+date += secondsLeft.toFixed( decimalCases ) + ' ' + secondStr;
 
-var secondsLeftStr: string;
-
-    // and take care of the number of decimal cases
-if ( $.isNumeric( forceDecimalCases ) && forceDecimalCases >= 0 )
-    {
-    secondsLeftStr = secondsLeft.toFixed( forceDecimalCases );
-    }
-
-else
-    {
-    secondsLeftStr = secondsLeft.toString();
-    }
-
-date += secondsLeftStr + ' ' + secondStr;
-
-   
     // add the minus sign
 if ( isNegative )
     {
@@ -232,11 +213,11 @@ return digits;
 
 /*
  * Arguments:
- * 
+ *
  *      time (int)    : represents the amount of time, of the type specified
  *      type (string) : a single character (h - hour, m - minute, etc)
  *
- *  
+ *
  * Returns the time in milliseconds (as an int)
  */
 function timeToMilliseconds( time: number, type: string ): number
@@ -246,38 +227,37 @@ function timeToMilliseconds( time: number, type: string ): number
      * 1 hour   -> 60 minutes
      * 1 minute -> 60 seconds
      * 1 second -> 1000 milliseconds
-     * 
+     *
      * So for example, 1 hour is 60 * 60 * 1000 milliseconds
      */
-        
-        
+
+
     //a letter: (s)econd, (m)inute, (h)our, or (d)ay
 switch ( type )
     {
     case "s":
-        
+
         time *= 1000;
         break;
-            
+
     case "m":
-        
+
         time *= 60 * 1000;
         break;
-            
+
     case "h":
-        
+
         time *= 60 * 60 * 1000;
         break;
-            
+
     case "d":
-        
+
         time *= 24 * 60 * 60 * 1000;
         break;
     }
 
 return time;
 };
-
 
 
 function drawRemoveButton( canvas: HTMLCanvasElement )
@@ -306,7 +286,6 @@ var height = 20;
 canvas.width = width;
 canvas.height = height;
 
-    
 var ctx = canvas.getContext( '2d' );
 
 ctx.beginPath();
@@ -330,20 +309,18 @@ for (x = 0 ; x < width ; x += step)
 }
 
 
-
 /*
     Rounds a number to a specified decimal case
  */
-
 function round(num, dec)
 {
 return Math.round( num * Math.pow(10,dec) ) / Math.pow( 10,dec );
 }
 
+
 /*
     'SomethingLikeThis' into 'Something Like This'
  */
-
 function separateWords( str )
 {
     // add a space before a capitalized letter
@@ -359,7 +336,6 @@ return str;
 /*
     To know if an html element is in visible by the user currently
  */
-
 function isVisible( element: HTMLElement ): boolean
 {
 var rect = element.getBoundingClientRect();
@@ -373,4 +349,17 @@ if ( rect.top >= 0 &&
     }
 
 return false;
+}
+
+
+/**
+ * Return a limited/truncated number based on the number of decimal cases.
+ */
+function limitValue( value: number, decimalCases: number )
+{
+var scale = Math.pow( 10, decimalCases );
+
+    // use floor so that it only gets the next value when its there
+    // for example we don't want '0.7s' to be seen as '1s'
+return Math.floor( value * scale ) / scale;
 }

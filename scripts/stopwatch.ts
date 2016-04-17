@@ -623,7 +623,8 @@ updateWatch( count: number )
 {
 this.COUNT = count;
 
-$( this.COUNT_ELEMENT ).text( dateToString( count, this.NUMBER_DECIMAL_CASES ) );
+var seconds = limitValue( count / 1000, this.NUMBER_DECIMAL_CASES );
+$( this.COUNT_ELEMENT ).text( dateToString( seconds, this.NUMBER_DECIMAL_CASES ) );
 
     // check if the CountDown watches finished (only relevant for CountDown watches)
 this.reachedLimit();

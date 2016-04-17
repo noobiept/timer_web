@@ -1,10 +1,6 @@
-/// <reference path="popup_window.ts" />
-
-
 /*
     Deals with the options window for the timers
  */
-
 class Options
 {
     // current decimal case element that is selected

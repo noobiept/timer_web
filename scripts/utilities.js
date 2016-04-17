@@ -64,20 +64,19 @@ var EVENT_KEY = {
     f12: 123
 };
 /*
- * Converts a date (in milliseconds) to a string (with the number of days/hours...)
+ * Converts a date (in seconds) to a string (with the number of days/hours...)
  */
-function dateToString(dateMilliseconds, forceDecimalCases) {
+function dateToString(dateSeconds, decimalCases) {
     // :: Deal with negative numbers :: //
     var isNegative = false;
     // if its negative, we turn it positive for now, and then later add a minus sign
-    if (dateMilliseconds < 0) {
+    if (dateSeconds < 0) {
         isNegative = true;
-        dateMilliseconds *= -1;
+        dateSeconds *= -1;
     }
     // :: convert to days/hours :: //
-    //in milliseconds
-    var second = 1000;
-    var minute = 60 * second;
+    //in seconds
+    var minute = 60;
     var hour = 60 * minute;
     var day = 24 * hour;
     var minutesLeft = 0;
@@ -85,25 +84,25 @@ function dateToString(dateMilliseconds, forceDecimalCases) {
     var daysLeft = 0;
     var secondsLeft = 0;
     //count the days
-    while (dateMilliseconds >= day) {
+    while (dateSeconds >= day) {
         daysLeft++;
-        dateMilliseconds -= day;
+        dateSeconds -= day;
     }
     //count the hours
-    while (dateMilliseconds >= hour) {
+    while (dateSeconds >= hour) {
         hoursLeft++;
-        dateMilliseconds -= hour;
+        dateSeconds -= hour;
     }
     //count the minutes
-    while (dateMilliseconds >= minute) {
+    while (dateSeconds >= minute) {
         minutesLeft++;
-        dateMilliseconds -= minute;
+        dateSeconds -= minute;
     }
     //and the seconds
-    secondsLeft = dateMilliseconds / 1000;
+    secondsLeft = dateSeconds;
     // :: construct the string :: //
     var date = '';
-    // only show when there's something relevant to be shown 
+    // only show when there's something relevant to be shown
     // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
     if (daysLeft !== 0) {
         var dayStr = 'day';
@@ -127,20 +126,12 @@ function dateToString(dateMilliseconds, forceDecimalCases) {
         }
         date += minutesLeft + ' ' + minuteStr + ' ';
     }
-    var secondStr = 'second';
+    var secondStr = 'seconds';
     // always show seconds, even if 0
-    if (secondsLeft !== 1) {
-        secondStr += 's';
+    if (secondsLeft === 1) {
+        secondStr = 'second';
     }
-    var secondsLeftStr;
-    // and take care of the number of decimal cases
-    if ($.isNumeric(forceDecimalCases) && forceDecimalCases >= 0) {
-        secondsLeftStr = secondsLeft.toFixed(forceDecimalCases);
-    }
-    else {
-        secondsLeftStr = secondsLeft.toString();
-    }
-    date += secondsLeftStr + ' ' + secondStr;
+    date += secondsLeft.toFixed(decimalCases) + ' ' + secondStr;
     // add the minus sign
     if (isNegative) {
         date = '-' + date;
@@ -252,4 +243,13 @@ function isVisible(element) {
         return true;
     }
     return false;
+}
+/**
+ * Return a limited/truncated number based on the number of decimal cases.
+ */
+function limitValue(value, decimalCases) {
+    var scale = Math.pow(10, decimalCases);
+    // use floor so that it only gets the next value when its there
+    // for example we don't want '0.7s' to be seen as '1s'
+    return Math.floor(value * scale) / scale;
 }
