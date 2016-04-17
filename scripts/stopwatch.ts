@@ -26,14 +26,7 @@ class StopWatch
 COUNT: number = 0;
 COUNT_UP: boolean;
 
-    // default value when a new timer is added (or when an error occurs)
-static DEFAULT_STOP_WATCH_VALUE = 0;
-static DEFAULT_COUNT_DOWN_VALUE = 10000;    // 10s
-
 NUMBER_DECIMAL_CASES: number = 0;
-
-    // number of milliseconds between each tick
-TIMER_INTERVAL: number = 1000;
 
 TITLE_ELEMENT: HTMLDivElement;
 COUNT_ELEMENT: HTMLSpanElement;
@@ -55,7 +48,6 @@ ENTRY_MESSAGE_ELEMENT: HTMLSpanElement;
 ENTRY_MESSAGE_TIMEOUT_F;    // reference to the window.setTimeout(), to be able to cancel it if necessary
 
 REACHED_LIMIT = false;
-INTERVAL_F: number;
 OPTIONS_WINDOW: Options = null;
 
     // tells when the stop watch is running or not
@@ -69,10 +61,15 @@ STARTED = false;
 POSITION: number;   // order position (within the main container)
 DRAG_DROP: DragDrop;
 
+    // default value when a new timer is added (or when an error occurs)
+static DEFAULT_STOP_WATCH_VALUE = 0;
+static DEFAULT_COUNT_DOWN_VALUE = 10000;    // 10s
+
     // contains all the stopwatches created
 static ALL_STOPWATCHES: StopWatch[] = [];
+static ACTIVE_WATCHES: StopWatch[] = [];
 static MAIN_CONTAINER: HTMLElement = null;
-
+static TIMER_INTERVAL = 100;    // 0.1 seconds
 
 /*
     Has to be called before constructing any objects
@@ -80,6 +77,8 @@ static MAIN_CONTAINER: HTMLElement = null;
 static init()
 {
 StopWatch.MAIN_CONTAINER = <HTMLElement> document.querySelector( '#mainContainer' );
+
+window.setInterval( StopWatch.tick, StopWatch.TIMER_INTERVAL );
 }
 
 
@@ -96,6 +95,22 @@ for (var a = 0 ; a < all.length ; a++)
     {
     all[ a ].POSITION = a;
     }
+}
+
+
+/**
+ * Update all the watches time.
+ */
+static tick()
+{
+var activeWatches = StopWatch.ACTIVE_WATCHES;
+
+for (var a = 0 ; a < activeWatches.length ; a++)
+    {
+    activeWatches[ a ].tick();
+    }
+
+Data.updateWatchesTime( activeWatches );
 }
 
 
@@ -604,7 +619,6 @@ Data.resetWatch( this );
 /*
     Updates the watch current number
  */
-
 updateWatch( count: number )
 {
 this.COUNT = count;
@@ -619,7 +633,6 @@ this.reachedLimit();
 /*
     For CountDown only, when it reaches the count limit (and if so, change the background-color)
  */
-
 reachedLimit(): boolean
 {
 if ( !this.COUNT_UP )
@@ -682,22 +695,28 @@ return value;
 
 startTimer()
 {
-this.RUNNING = true;
+if ( !this.RUNNING )
+    {
+    this.RUNNING = true;
 
-window.clearInterval( this.INTERVAL_F );
-
-this.INTERVAL_F = window.setInterval(() => {
-    this.tick(); } , this.TIMER_INTERVAL );
+    StopWatch.ACTIVE_WATCHES.push( this );
+    }
 }
 
 
 stopTimer()
 {
-this.RUNNING = false;
+if ( this.RUNNING )
+    {
+    this.RUNNING = false;
+    var index = StopWatch.ACTIVE_WATCHES.indexOf( this );
 
-window.clearInterval( this.INTERVAL_F );
+    if ( index >= 0 )
+        {
+        StopWatch.ACTIVE_WATCHES.splice( index, 1 );
+        }
+    }
 }
-
 
 
 changeNumberDecimalCases( num: number )
@@ -708,7 +727,6 @@ if ( num < 0 || num > 1 || num == this.NUMBER_DECIMAL_CASES )
     }
 
 this.NUMBER_DECIMAL_CASES = num;
-this.TIMER_INTERVAL = 1000 / Math.pow( 10, num );
 
     // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc..
     // change milliseconds to seconds, to be able to round
@@ -874,16 +892,15 @@ var nextCount;
 
 if ( this.COUNT_UP )
     {
-    nextCount = this.COUNT + this.TIMER_INTERVAL;
+    nextCount = this.COUNT + StopWatch.TIMER_INTERVAL;
     }
 
 else
     {
-    nextCount = this.COUNT - this.TIMER_INTERVAL;
+    nextCount = this.COUNT - StopWatch.TIMER_INTERVAL;
     }
 
 this.updateWatch( nextCount );
-Data.updateWatchTime( this );
 }
 
 

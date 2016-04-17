@@ -8,8 +8,6 @@ var StopWatch = (function () {
         // private properties
         this.COUNT = 0;
         this.NUMBER_DECIMAL_CASES = 0;
-        // number of milliseconds between each tick
-        this.TIMER_INTERVAL = 1000;
         this.INIT_VALUE_COUNTDOWN = StopWatch.DEFAULT_COUNT_DOWN_VALUE; // the value which is set (where it started to count down)
         this.REACHED_LIMIT = false;
         this.OPTIONS_WINDOW = null;
@@ -211,6 +209,7 @@ var StopWatch = (function () {
      */
     StopWatch.init = function () {
         StopWatch.MAIN_CONTAINER = document.querySelector('#mainContainer');
+        window.setInterval(StopWatch.tick, StopWatch.TIMER_INTERVAL);
     };
     /**
      * When there's a change in the order of the watches, need to update the 'POSITION' property.
@@ -222,6 +221,16 @@ var StopWatch = (function () {
         for (var a = 0; a < all.length; a++) {
             all[a].POSITION = a;
         }
+    };
+    /**
+     * Update all the watches time.
+     */
+    StopWatch.tick = function () {
+        var activeWatches = StopWatch.ACTIVE_WATCHES;
+        for (var a = 0; a < activeWatches.length; a++) {
+            activeWatches[a].tick();
+        }
+        Data.updateWatchesTime(activeWatches);
     };
     StopWatch.prototype.moveTo = function (position) {
         var mainContainer = StopWatch.MAIN_CONTAINER;
@@ -395,23 +404,25 @@ var StopWatch = (function () {
         return value;
     };
     StopWatch.prototype.startTimer = function () {
-        var _this = this;
-        this.RUNNING = true;
-        window.clearInterval(this.INTERVAL_F);
-        this.INTERVAL_F = window.setInterval(function () {
-            _this.tick();
-        }, this.TIMER_INTERVAL);
+        if (!this.RUNNING) {
+            this.RUNNING = true;
+            StopWatch.ACTIVE_WATCHES.push(this);
+        }
     };
     StopWatch.prototype.stopTimer = function () {
-        this.RUNNING = false;
-        window.clearInterval(this.INTERVAL_F);
+        if (this.RUNNING) {
+            this.RUNNING = false;
+            var index = StopWatch.ACTIVE_WATCHES.indexOf(this);
+            if (index >= 0) {
+                StopWatch.ACTIVE_WATCHES.splice(index, 1);
+            }
+        }
     };
     StopWatch.prototype.changeNumberDecimalCases = function (num) {
         if (num < 0 || num > 1 || num == this.NUMBER_DECIMAL_CASES) {
             return;
         }
         this.NUMBER_DECIMAL_CASES = num;
-        this.TIMER_INTERVAL = 1000 / Math.pow(10, num);
         // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc..
         // change milliseconds to seconds, to be able to round
         var rounded = this.COUNT / 1000;
@@ -519,13 +530,12 @@ var StopWatch = (function () {
     StopWatch.prototype.tick = function () {
         var nextCount;
         if (this.COUNT_UP) {
-            nextCount = this.COUNT + this.TIMER_INTERVAL;
+            nextCount = this.COUNT + StopWatch.TIMER_INTERVAL;
         }
         else {
-            nextCount = this.COUNT - this.TIMER_INTERVAL;
+            nextCount = this.COUNT - StopWatch.TIMER_INTERVAL;
         }
         this.updateWatch(nextCount);
-        Data.updateWatchTime(this);
     };
     StopWatch.prototype.getEntryValue = function () {
         if (this.ENTRY_ELEMENT) {
@@ -538,6 +548,8 @@ var StopWatch = (function () {
     StopWatch.DEFAULT_COUNT_DOWN_VALUE = 10000; // 10s
     // contains all the stopwatches created
     StopWatch.ALL_STOPWATCHES = [];
+    StopWatch.ACTIVE_WATCHES = [];
     StopWatch.MAIN_CONTAINER = null;
+    StopWatch.TIMER_INTERVAL = 100; // 0.1 seconds
     return StopWatch;
 }());

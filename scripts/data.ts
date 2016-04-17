@@ -194,10 +194,15 @@ export function resetWatch( watch: StopWatch )
     }
 
 
-export function updateWatchTime( watch: StopWatch )
+export function updateWatchesTime( watches: StopWatch[] )
     {
-    WATCHES[ watch.POSITION ].reachedLimit = watch.REACHED_LIMIT;
-    WATCHES[ watch.POSITION ].count = watch.COUNT;
+    for (var a = 0 ; a < watches.length ; a++)
+        {
+        var watch = watches[ a ];
+
+        WATCHES[ watch.POSITION ].reachedLimit = watch.REACHED_LIMIT;
+        WATCHES[ watch.POSITION ].count = watch.COUNT;
+        }
 
     if ( SAVE_ENABLED )
         {

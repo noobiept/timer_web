@@ -127,14 +127,17 @@ var Data;
         }
     }
     Data.resetWatch = resetWatch;
-    function updateWatchTime(watch) {
-        WATCHES[watch.POSITION].reachedLimit = watch.REACHED_LIMIT;
-        WATCHES[watch.POSITION].count = watch.COUNT;
+    function updateWatchesTime(watches) {
+        for (var a = 0; a < watches.length; a++) {
+            var watch = watches[a];
+            WATCHES[watch.POSITION].reachedLimit = watch.REACHED_LIMIT;
+            WATCHES[watch.POSITION].count = watch.COUNT;
+        }
         if (SAVE_ENABLED) {
             saveWatches();
         }
     }
-    Data.updateWatchTime = updateWatchTime;
+    Data.updateWatchesTime = updateWatchesTime;
     function changeWatchDecimalCases(watch) {
         WATCHES[watch.POSITION].numberDecimalCases = watch.NUMBER_DECIMAL_CASES;
         WATCHES[watch.POSITION].count = watch.COUNT;
