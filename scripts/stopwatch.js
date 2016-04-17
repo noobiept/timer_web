@@ -12,6 +12,7 @@ var StopWatch = (function () {
         this.TIMER_INTERVAL = 1000;
         this.INIT_VALUE_COUNTDOWN = StopWatch.DEFAULT_COUNT_DOWN_VALUE; // the value which is set (where it started to count down)
         this.REACHED_LIMIT = false;
+        this.OPTIONS_WINDOW = null;
         // tells when the stop watch is running or not
         this.RUNNING = false;
         // tells if a clock has started (different than running, in the sense that it can be started and then paused, and restarted, which is different than being in its initial state)
@@ -133,19 +134,8 @@ var StopWatch = (function () {
         reset.onclick = function () {
             _this.resetWatch();
         };
-        var isOptionsOpened = false;
-        var optionsWindowObject = null;
         options.onclick = function () {
-            if (isOptionsOpened) {
-                isOptionsOpened = false;
-                optionsWindowObject.remove();
-            }
-            else {
-                isOptionsOpened = true;
-                optionsWindowObject = new Options(_this, function () {
-                    isOptionsOpened = false;
-                });
-            }
+            _this.optionsWindow();
         };
         remove.onclick = function () {
             _this.remove();
@@ -422,7 +412,7 @@ var StopWatch = (function () {
         }
         this.NUMBER_DECIMAL_CASES = num;
         this.TIMER_INTERVAL = 1000 / Math.pow(10, num);
-        // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc.. 
+        // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc..
         // change milliseconds to seconds, to be able to round
         var rounded = this.COUNT / 1000;
         // round the number to the lowest integer that is close
@@ -442,6 +432,7 @@ var StopWatch = (function () {
     };
     StopWatch.prototype.remove = function () {
         this.stopTimer();
+        this.optionsWindow(false);
         // remove the reference
         StopWatch.ALL_STOPWATCHES.splice(this.POSITION, 1);
         // remove from the DOM
@@ -500,6 +491,30 @@ var StopWatch = (function () {
     };
     StopWatch.prototype.setTitle = function (newTitle) {
         $(this.TITLE_ELEMENT).text(newTitle);
+    };
+    /**
+     * If `open` not provided, then it toggles the option window state (between opened/closed).
+     */
+    StopWatch.prototype.optionsWindow = function (open) {
+        var _this = this;
+        var isOpened = Boolean(this.OPTIONS_WINDOW);
+        if (typeof open === 'undefined') {
+            if (isOpened) {
+                open = false;
+            }
+            else {
+                open = true;
+            }
+        }
+        if (open && !isOpened) {
+            this.OPTIONS_WINDOW = new Options(this, function () {
+                _this.OPTIONS_WINDOW = null;
+            });
+        }
+        else if (!open && isOpened) {
+            this.OPTIONS_WINDOW.remove();
+            this.OPTIONS_WINDOW = null;
+        }
     };
     StopWatch.prototype.tick = function () {
         var nextCount;

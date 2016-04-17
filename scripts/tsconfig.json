@@ -1,9 +1,5 @@
 {
     "compilerOptions": {
         "target": "es5"
-    },
-
-    "exclude": [
-        "build"
-    ]
+    }
 }

@@ -55,12 +55,12 @@ ENTRY_MESSAGE_ELEMENT: HTMLSpanElement;
 ENTRY_MESSAGE_TIMEOUT_F;    // reference to the window.setTimeout(), to be able to cancel it if necessary
 
 REACHED_LIMIT = false;
-
 INTERVAL_F: number;
+OPTIONS_WINDOW: Options = null;
 
     // tells when the stop watch is running or not
 RUNNING = false;
-    
+
     // tells when we're still on the constructor
 LOADING: boolean;
 
@@ -68,7 +68,7 @@ LOADING: boolean;
 STARTED = false;
 POSITION: number;   // order position (within the main container)
 DRAG_DROP: DragDrop;
-    
+
     // contains all the stopwatches created
 static ALL_STOPWATCHES: StopWatch[] = [];
 static MAIN_CONTAINER: HTMLElement = null;
@@ -208,7 +208,7 @@ if ( countUp === false )
 
     entry.className = 'StopWatch-entry';
     entry.type = 'text';
-    
+
     if ( watchArguments.entryValue )
         {
         entry.value = watchArguments.entryValue;
@@ -282,43 +282,20 @@ startStop.onclick = () =>
         }
     };
 
-
 restart.onclick = () =>
     {
     this.restartWatch();
     };
-
 
 reset.onclick = () =>
     {
     this.resetWatch();
     };
 
-
-var isOptionsOpened = false;
-var optionsWindowObject = null;
-
 options.onclick = () =>
     {
-    if ( isOptionsOpened )
-        {
-        isOptionsOpened = false;
-
-        optionsWindowObject.remove();
-        }
-
-    else
-        {
-        isOptionsOpened = true;
-
-        optionsWindowObject = new Options( this,
-            function()
-            {
-            isOptionsOpened = false;
-            });
-        }
+    this.optionsWindow();
     };
-
 
 remove.onclick = () =>
     {
@@ -474,7 +451,7 @@ $( this.CONTAINER_ELEMENT ).removeClass( 'watch-finished' );
 startWatch()
 {
 this.STARTED = true;
-this.startTimer();  
+this.startTimer();
 
 
     // if it reached the limit, let it have the background-color for that case, otherwise, the normal watch-active class
@@ -485,7 +462,7 @@ if ( !this.reachedLimit() )
     $( this.CONTAINER_ELEMENT ).addClass( 'watch-active' );
     }
 
-   
+
 this.START_STOP_ELEMENT.value = "Stop";
 Data.startWatch( this );
 }
@@ -660,7 +637,7 @@ if ( !this.COUNT_UP )
         this.clearContainerCssClasses();
 
         $( this.CONTAINER_ELEMENT ).addClass( 'watch-finished' );
-        
+
             // :: show some message :: //
 
         $( this.COUNT_MESSAGE_ELEMENT ).text( '<-- Ended' );
@@ -693,7 +670,7 @@ var value = 0;
 if ( !this.COUNT_UP )
     {
     value = this.stringToMilliseconds( this.ENTRY_ELEMENT.value );
-    
+
     this.INIT_VALUE_COUNTDOWN = value;
     }
 
@@ -733,9 +710,9 @@ if ( num < 0 || num > 1 || num == this.NUMBER_DECIMAL_CASES )
 this.NUMBER_DECIMAL_CASES = num;
 this.TIMER_INTERVAL = 1000 / Math.pow( 10, num );
 
-    // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc.. 
+    // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc..
     // change milliseconds to seconds, to be able to round
-var rounded = this.COUNT / 1000;    
+var rounded = this.COUNT / 1000;
 
     // round the number to the lowest integer that is close
 rounded = Math.floor( rounded );
@@ -764,6 +741,7 @@ Data.changeWatchDecimalCases( this );
 remove()
 {
 this.stopTimer();
+this.optionsWindow( false );
 
     // remove the reference
 StopWatch.ALL_STOPWATCHES.splice( this.POSITION, 1 );
@@ -779,31 +757,31 @@ StopWatch.updateWatchesPosition();
 stringToMilliseconds( entryValue: string ): number
 {
 /*
- * 
+ *
  * search for a number with at least one digit, then possibly a space and a letter (works only for positive numbers)
- * 
+ *
  *  s - second . m - minute , h - hour , d - day
- *  returns two strings (if it finds), one with the number and other with the letter 
+ *  returns two strings (if it finds), one with the number and other with the letter
  *
  * RegExp:
- * 
+ *
  *      [] : matches the characters within (from 0 to 9)
  *      +  : 1 or more of the preceding match
  *      () : remembers the match - capturing parentheses
  *      *  : matches the preceding character 0 or more times
  *      ?= : matches only if the following pattern exists
- * 
+ *
  * Flags:
- * 
+ *
  *      i - case insensitive
- *      g - global ( calling pattern.exec() consecutively will keep returning all of the possibilities ) 
- * 
+ *      g - global ( calling pattern.exec() consecutively will keep returning all of the possibilities )
+ *
  */
-    
+
 var pattern = /[0-9]+(?= *([smhd]))/ig;
 
 
-var matches = pattern.exec( entryValue );    
+var matches = pattern.exec( entryValue );
 
     //the number of milliseconds, to add to the current date
     //  for example, if the string is "in 20h 3m", then number will have 20 hours and 3 minutes converted in milliseconds
@@ -817,17 +795,17 @@ var temp;
 while ( matches !== null )
     {
     foundPattern = true;
-        
+
     temp = parseInt( matches[0], 10 );
-    
+
         //see if it has more than 3 digits the number
     if ( numberOfDigits( temp ) > 3 )
         {
         throw "Max. 3 digits for each number";
         }
-        
+
     milliseconds += timeToMilliseconds( temp, matches[1] );
-    
+
     matches = pattern.exec( entryValue );
     }
 
@@ -854,9 +832,45 @@ $( this.TITLE_ELEMENT ).text( newTitle );
 }
 
 
+/**
+ * If `open` not provided, then it toggles the option window state (between opened/closed).
+ */
+optionsWindow( open?: boolean )
+{
+var isOpened = Boolean( this.OPTIONS_WINDOW );
+
+if ( typeof open === 'undefined' )
+    {
+    if ( isOpened )
+        {
+        open = false;
+        }
+
+    else
+        {
+        open = true;
+        }
+    }
+
+if ( open && !isOpened )
+    {
+    this.OPTIONS_WINDOW = new Options( this, () =>
+        {
+        this.OPTIONS_WINDOW = null;
+        });
+    }
+
+else if ( !open && isOpened )
+    {
+    this.OPTIONS_WINDOW.remove();
+    this.OPTIONS_WINDOW = null;
+    }
+}
+
+
 tick()
 {
-var nextCount; 
+var nextCount;
 
 if ( this.COUNT_UP )
     {
