@@ -15,7 +15,9 @@ ZERO_DECIMAL_CASE: HTMLDivElement;
 ONE_DECIMAL_CASE: HTMLDivElement;
 
 WATCH_OBJECT: StopWatch;
-POPUP_WINDOW_OBJECT: PopupWindow;
+CONTAINER_ELEMENT: HTMLDivElement;
+
+ON_REMOVE: () => any;
 
 
 /*
@@ -61,7 +63,6 @@ this.ONE_DECIMAL_CASE = one;
     // update with the one that is currently selected
 this.selectDecimalCase( watchObject.NUMBER_DECIMAL_CASES );
 
-
 var casesValuesContainer = <HTMLDivElement> document.createElement( 'div' );
 
 casesValuesContainer.className = 'Options-valuesContainer';
@@ -69,27 +70,45 @@ casesValuesContainer.className = 'Options-valuesContainer';
 casesValuesContainer.appendChild( zero );
 casesValuesContainer.appendChild( one );
 
-var decimalCaseContainer = <HTMLDivElement> document.createElement( 'div' );
+var container = <HTMLDivElement> document.createElement( 'div' );
+container.className = 'Options-container';
 
-decimalCaseContainer.className = 'Options-container';
+    // close button
+var close = <HTMLCanvasElement> document.createElement('canvas');
 
-decimalCaseContainer.appendChild( caseDescription );
-decimalCaseContainer.appendChild( casesValuesContainer );
+close.className = 'Options-close';
 
+close.title = 'Close Window';
+close.width = 15;
+close.height = 15;
 
-    // position the popup window left to the openOptions button
-var optionsOffset = $( watchObject.OPEN_OPTIONS_ELEMENT ).offset();
+var ctx = close.getContext('2d');
 
-    // and on the same level as the title
-var titleOffset = $( watchObject.TITLE_ELEMENT ).offset();
+ctx.strokeStyle = 'rgb(46, 144, 189)';
+ctx.lineWidth = 2;
 
-this.POPUP_WINDOW_OBJECT = new PopupWindow({
+ctx.moveTo(1, 1);
+ctx.lineTo(14, 14);
 
-    content  : decimalCaseContainer,
-    x        : optionsOffset.left + 70,
-    y        : titleOffset.top,
-    onRemove : onRemove
-    });
+ctx.moveTo(14, 1);
+ctx.lineTo(1, 14);
+
+ctx.stroke();
+
+close.onclick = () =>
+    {
+    this.remove();
+    };
+
+    // append stuff
+container.appendChild( caseDescription );
+container.appendChild( casesValuesContainer );
+container.appendChild( close );
+
+watchObject.CONTAINER_ELEMENT.appendChild( container );
+
+this.CONTAINER_ELEMENT = container;
+this.ON_REMOVE = onRemove;
 
 return this;
 }
@@ -130,7 +149,12 @@ this.SELECTED_DECIMAL_CASE = element;
  */
 remove()
 {
-this.POPUP_WINDOW_OBJECT.remove();
+this.CONTAINER_ELEMENT.parentElement.removeChild( this.CONTAINER_ELEMENT );
+
+if ( this.ON_REMOVE )
+    {
+    this.ON_REMOVE();
+    }
 }
 
 }

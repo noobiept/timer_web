@@ -173,20 +173,22 @@
 
     /* :: Options Window :: */
 
-.PopupWindow-container
+.Options-container
     {
     position : absolute;
+    top: 0;
+    left: 210px;
 
     min-width: 200px;
-    min-height: 100px;
+    min-height: 90px;
 
     background-color: white;
 
-    padding-top: 10px;
+    padding: 5px;
     border-radius: 5px;
     }
 
-.PopupWindow-close
+.Options-close
     {
     cursor: pointer;
     position: absolute;
@@ -195,19 +197,14 @@
     opacity: 0.5;
     }
 
-.PopupWindow-close:hover
+.Options-close:hover
     {
     opacity: 1;
     }
 
-.Options-container
-    {
-    margin: 5px;
-    }
-
 .Options-description
     {
-    margin-bottom: 4px;
+    margin: 5px;
     }
 
 .Options-value

@@ -38,20 +38,32 @@ var Options = (function () {
         casesValuesContainer.className = 'Options-valuesContainer';
         casesValuesContainer.appendChild(zero);
         casesValuesContainer.appendChild(one);
-        var decimalCaseContainer = document.createElement('div');
-        decimalCaseContainer.className = 'Options-container';
-        decimalCaseContainer.appendChild(caseDescription);
-        decimalCaseContainer.appendChild(casesValuesContainer);
-        // position the popup window left to the openOptions button
-        var optionsOffset = $(watchObject.OPEN_OPTIONS_ELEMENT).offset();
-        // and on the same level as the title
-        var titleOffset = $(watchObject.TITLE_ELEMENT).offset();
-        this.POPUP_WINDOW_OBJECT = new PopupWindow({
-            content: decimalCaseContainer,
-            x: optionsOffset.left + 70,
-            y: titleOffset.top,
-            onRemove: onRemove
-        });
+        var container = document.createElement('div');
+        container.className = 'Options-container';
+        // close button
+        var close = document.createElement('canvas');
+        close.className = 'Options-close';
+        close.title = 'Close Window';
+        close.width = 15;
+        close.height = 15;
+        var ctx = close.getContext('2d');
+        ctx.strokeStyle = 'rgb(46, 144, 189)';
+        ctx.lineWidth = 2;
+        ctx.moveTo(1, 1);
+        ctx.lineTo(14, 14);
+        ctx.moveTo(14, 1);
+        ctx.lineTo(1, 14);
+        ctx.stroke();
+        close.onclick = function () {
+            _this.remove();
+        };
+        // append stuff
+        container.appendChild(caseDescription);
+        container.appendChild(casesValuesContainer);
+        container.appendChild(close);
+        watchObject.CONTAINER_ELEMENT.appendChild(container);
+        this.CONTAINER_ELEMENT = container;
+        this.ON_REMOVE = onRemove;
         return this;
     }
     /*
@@ -77,7 +89,10 @@ var Options = (function () {
         Remove/close the options window
      */
     Options.prototype.remove = function () {
-        this.POPUP_WINDOW_OBJECT.remove();
+        this.CONTAINER_ELEMENT.parentElement.removeChild(this.CONTAINER_ELEMENT);
+        if (this.ON_REMOVE) {
+            this.ON_REMOVE();
+        }
     };
     return Options;
 }());
