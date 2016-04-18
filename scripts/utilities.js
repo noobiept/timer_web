@@ -247,9 +247,16 @@ function isVisible(element) {
 /**
  * Return a limited/truncated number based on the number of decimal cases.
  */
-function limitValue(value, decimalCases) {
+function limitValue(value, decimalCases, floor) {
     var scale = Math.pow(10, decimalCases);
+    var limitFunc;
+    if (floor) {
+        limitFunc = Math.floor;
+    }
+    else {
+        limitFunc = Math.ceil;
+    }
     // use floor so that it only gets the next value when its there
     // for example we don't want '0.7s' to be seen as '1s'
-    return Math.floor(value * scale) / scale;
+    return limitFunc(value * scale) / scale;
 }

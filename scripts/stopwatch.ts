@@ -622,7 +622,7 @@ updateWatch( count: number )
     {
     this.COUNT = count;
 
-    var seconds = limitValue( count / 1000, this.NUMBER_DECIMAL_CASES );
+    var seconds = limitValue( count / 1000, this.NUMBER_DECIMAL_CASES, this.COUNT_UP );
     $( this.COUNT_ELEMENT ).text( dateToString( seconds, this.NUMBER_DECIMAL_CASES ) );
 
         // check if the CountDown watches finished (only relevant for CountDown watches)
@@ -724,30 +724,7 @@ changeNumberDecimalCases( num: number )
         }
 
     this.NUMBER_DECIMAL_CASES = num;
-
-        // round the COUNT to zero decimal case (if you change from 1 decimal case to 0 for example, the count could be 2.3, and then would continue 3.3, 4.3, etc..
-        // change milliseconds to seconds, to be able to round
-    var rounded = this.COUNT / 1000;
-
-        // round the number to the lowest integer that is close
-    rounded = Math.floor( rounded );
-
-    this.COUNT = rounded * 1000;    // and back to milliseconds
     this.updateWatch( this.COUNT );
-
-        // we have to reset the timer to have the changes take effect, but if the watch isn't running, we have to stop it
-    if ( this.RUNNING )
-        {
-        this.startTimer();
-        }
-
-    else
-        {
-        this.startTimer();
-
-            // just to make the change have effect
-        this.stopTimer();
-        }
 
     Data.changeWatchDecimalCases( this );
     }
