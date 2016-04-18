@@ -156,9 +156,7 @@ constructor( watchArguments: WatchData, loading= false )
         // :: Count Element :: //
 
     var count = <HTMLSpanElement> document.createElement( 'span' );
-
     count.className = 'StopWatch-count';
-
 
         // to display messages (for example when count down finishes)
     var countMessage = <HTMLSpanElement> document.createElement( 'span' );
@@ -169,7 +167,6 @@ constructor( watchArguments: WatchData, loading= false )
 
     countContainer.appendChild( count );
     countContainer.appendChild( countMessage );
-
 
         // :: Start/Stop :: //
 
@@ -206,7 +203,6 @@ constructor( watchArguments: WatchData, loading= false )
         // :: Remove Button :: //
 
     var remove = <HTMLCanvasElement> document.createElement( 'canvas' );
-
     remove.className = 'StopWatch-remove';
 
     drawRemoveButton( remove );
@@ -243,7 +239,6 @@ constructor( watchArguments: WatchData, loading= false )
         entryMessage.className = 'StopWatch-entryMessage';
         }
 
-
         // :: Drag Handle :: //
 
     var dragHandle = <HTMLCanvasElement> document.createElement( 'canvas' );
@@ -251,7 +246,6 @@ constructor( watchArguments: WatchData, loading= false )
     dragHandle.className = 'StopWatch-dragHandle';
 
     drawDragHandle( dragHandle );
-
 
         // :: Container :: //
 

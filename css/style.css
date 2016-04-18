@@ -2,6 +2,7 @@
     {
     font-family: 'Segoe UI', sans-serif;
     background-color: rgba(3, 127, 246, 0.05);
+    margin: 0;
     }
 
     /* :: Menu :: */
@@ -61,7 +62,6 @@
 
 #mainContainer
     {
-    clear: both;
     padding: 20px 0;
     margin-top: 50px;
     width: 100%;
@@ -75,12 +75,10 @@
 .StopWatch-container
     {
     display: inline-block;
-    vertical-align: top;    /* these too substitute a float based solution, for the horizontal list */
+    width: 49%;
     position: relative;
-    width: 48%;
-    margin: 10px;
+    margin: 0.5%;
     border-radius: 5px;
-
     transition-property: background-color;
     transition-duration: 0.2s;
     transition-timing-function: ease-in;
@@ -111,6 +109,11 @@
 .StopWatch-entryMessage
     {
     margin-left: 10px;
+    }
+
+.StopWatch-entry
+    {
+    width: 100px;
     }
 
 .StopWatch-remove
@@ -176,7 +179,7 @@
 .Options-container
     {
     position : absolute;
-    top: 0;
+    top: 10px;
     left: 210px;
 
     min-width: 200px;
