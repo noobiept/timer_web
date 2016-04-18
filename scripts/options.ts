@@ -4,16 +4,16 @@
 class Options
 {
     // current decimal case element that is selected
-SELECTED_DECIMAL_CASE: HTMLDivElement;
+private SELECTED_DECIMAL_CASE: HTMLDivElement;
 
     // points to the elements
-ZERO_DECIMAL_CASE: HTMLDivElement;
-ONE_DECIMAL_CASE: HTMLDivElement;
+private ZERO_DECIMAL_CASE: HTMLDivElement;
+private ONE_DECIMAL_CASE: HTMLDivElement;
 
-WATCH_OBJECT: StopWatch;
-CONTAINER_ELEMENT: HTMLDivElement;
+private WATCH_OBJECT: StopWatch;
+private CONTAINER_ELEMENT: HTMLDivElement;
 
-ON_REMOVE: () => any;
+private ON_REMOVE: () => any;
 
 
 /*

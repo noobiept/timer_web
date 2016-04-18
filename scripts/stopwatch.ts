@@ -25,51 +25,51 @@ class StopWatch
     // private properties
 COUNT: number = 0;
 COUNT_UP: boolean;
-
+REACHED_LIMIT = false;
 NUMBER_DECIMAL_CASES: number = 0;
 
-TITLE_ELEMENT: HTMLDivElement;
-COUNT_ELEMENT: HTMLSpanElement;
-COUNT_MESSAGE_ELEMENT: HTMLSpanElement;
+private TITLE_ELEMENT: HTMLDivElement;
+private COUNT_ELEMENT: HTMLSpanElement;
+private COUNT_MESSAGE_ELEMENT: HTMLSpanElement;
 
-START_STOP_ELEMENT: HTMLInputElement;
-RESTART_ELEMENT: HTMLInputElement;
-RESET_ELEMENT: HTMLInputElement;
-OPEN_OPTIONS_ELEMENT: HTMLInputElement;
-REMOVE_ELEMENT: HTMLCanvasElement;
-DRAG_HANDLE: HTMLCanvasElement;
+private START_STOP_ELEMENT: HTMLInputElement;
+private RESTART_ELEMENT: HTMLInputElement;
+private RESET_ELEMENT: HTMLInputElement;
+private OPEN_OPTIONS_ELEMENT: HTMLInputElement;
+private REMOVE_ELEMENT: HTMLCanvasElement;
+private DRAG_HANDLE: HTMLCanvasElement;
 CONTAINER_ELEMENT: HTMLDivElement;
 
     // for CountDown mode only
-ENTRY_ELEMENT: HTMLInputElement;
+private ENTRY_ELEMENT: HTMLInputElement;
 INIT_VALUE_COUNTDOWN: number = StopWatch.DEFAULT_COUNT_DOWN_VALUE;    // the value which is set (where it started to count down)
 
-ENTRY_MESSAGE_ELEMENT: HTMLSpanElement;
-ENTRY_MESSAGE_TIMEOUT_F;    // reference to the window.setTimeout(), to be able to cancel it if necessary
+private ENTRY_MESSAGE_ELEMENT: HTMLSpanElement;
+private ENTRY_MESSAGE_TIMEOUT_F;    // reference to the window.setTimeout(), to be able to cancel it if necessary
 
-REACHED_LIMIT = false;
-OPTIONS_WINDOW: Options = null;
+private OPTIONS_WINDOW: Options = null;
 
     // tells when the stop watch is running or not
 RUNNING = false;
 
     // tells when we're still on the constructor
-LOADING: boolean;
+private LOADING: boolean;
 
     // tells if a clock has started (different than running, in the sense that it can be started and then paused, and restarted, which is different than being in its initial state)
 STARTED = false;
 POSITION: number;   // order position (within the main container)
-DRAG_DROP: DragDrop;
+private DRAG_DROP: DragDrop;
 
     // default value when a new timer is added (or when an error occurs)
-static DEFAULT_STOP_WATCH_VALUE = 0;
-static DEFAULT_COUNT_DOWN_VALUE = 10000;    // 10s
+private static DEFAULT_STOP_WATCH_VALUE = 0;
+private static DEFAULT_COUNT_DOWN_VALUE = 10000;    // 10s
 
     // contains all the stopwatches created
-static ALL_STOPWATCHES: StopWatch[] = [];
-static ACTIVE_WATCHES: StopWatch[] = [];
-static MAIN_CONTAINER: HTMLElement = null;
-static TIMER_INTERVAL = 100;    // 0.1 seconds
+private static ALL_STOPWATCHES: StopWatch[] = [];
+private static ACTIVE_WATCHES: StopWatch[] = [];
+private static MAIN_CONTAINER: HTMLElement = null;
+private static TIMER_INTERVAL = 100;    // 0.1 seconds
+
 
 /*
     Has to be called before constructing any objects

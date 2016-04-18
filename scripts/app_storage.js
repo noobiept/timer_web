@@ -42,23 +42,25 @@ var AppStorage;
     /**
      * Uses the `chrome storage` if it's available (when running as a chrome app), otherwise uses the `localStorage`.
      */
-    AppStorage.getData = function (keys, callback) {
+    function getData(keys, callback) {
         if (window.chrome && window.chrome.storage) {
             chromeStorageGet(keys, callback);
         }
         else {
             getLocalStorage(keys, callback);
         }
-    };
+    }
+    AppStorage.getData = getData;
     /**
      * Uses the `chrome storage` if it's available (when running as a chrome app), otherwise uses the `localStorage`.
      */
-    AppStorage.setData = function (items, callback) {
+    function setData(items, callback) {
         if (window.chrome && window.chrome.storage) {
             chromeStorageSet(items, callback);
         }
         else {
             setLocalStorage(items, callback);
         }
-    };
+    }
+    AppStorage.setData = setData;
 })(AppStorage || (AppStorage = {}));

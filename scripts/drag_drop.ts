@@ -1,11 +1,11 @@
 class DragDrop
 {
     //has the object of the element that is been dragged
-static CurrentDragElement: StopWatch = null;
+private static CurrentDragElement: StopWatch = null;
 
-dragHandler: HTMLElement;
-dragElement: HTMLElement;
-element: StopWatch;
+private dragHandler: HTMLElement;
+private dragElement: HTMLElement;
+private element: StopWatch;
 
 
 constructor( dragElement: HTMLElement, dragHandler: HTMLElement, element: StopWatch )

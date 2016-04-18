@@ -7,9 +7,9 @@ var StopWatch = (function () {
         if (loading === void 0) { loading = false; }
         // private properties
         this.COUNT = 0;
+        this.REACHED_LIMIT = false;
         this.NUMBER_DECIMAL_CASES = 0;
         this.INIT_VALUE_COUNTDOWN = StopWatch.DEFAULT_COUNT_DOWN_VALUE; // the value which is set (where it started to count down)
-        this.REACHED_LIMIT = false;
         this.OPTIONS_WINDOW = null;
         // tells when the stop watch is running or not
         this.RUNNING = false;
