@@ -454,26 +454,26 @@ var StopWatch = (function () {
     };
     StopWatch.prototype.stringToMilliseconds = function (entryValue) {
         /*
-         *
-         * search for a number with at least one digit, then possibly a space and a letter (works only for positive numbers)
-         *
-         *  s - second . m - minute , h - hour , d - day
-         *  returns two strings (if it finds), one with the number and other with the letter
-         *
-         * RegExp:
-         *
-         *      [] : matches the characters within (from 0 to 9)
-         *      +  : 1 or more of the preceding match
-         *      () : remembers the match - capturing parentheses
-         *      *  : matches the preceding character 0 or more times
-         *      ?= : matches only if the following pattern exists
-         *
-         * Flags:
-         *
-         *      i - case insensitive
-         *      g - global ( calling pattern.exec() consecutively will keep returning all of the possibilities )
-         *
-         */
+        *
+        * search for a number with at least one digit, then possibly a space and a letter (works only for positive numbers)
+        *
+        *  s - second . m - minute , h - hour , d - day
+        *  returns two strings (if it finds), one with the number and other with the letter
+        *
+        * RegExp:
+        *
+        *      [] : matches the characters within (from 0 to 9)
+        *      +  : 1 or more of the preceding match
+        *      () : remembers the match - capturing parentheses
+        *      *  : matches the preceding character 0 or more times
+        *      ?= : matches only if the following pattern exists
+        *
+        * Flags:
+        *
+        *      i - case insensitive
+        *      g - global ( calling pattern.exec() consecutively will keep returning all of the possibilities )
+        *
+        */
         var pattern = /[0-9]+(?= *([smhd]))/ig;
         var matches = pattern.exec(entryValue);
         //the number of milliseconds, to add to the current date

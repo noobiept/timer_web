@@ -23,134 +23,133 @@ ON_REMOVE: () => any;
         onRemove    : a function to be called when the window is closed
  */
 constructor( watchObject: StopWatch, onRemove?: () => any )
-{
-this.WATCH_OBJECT = watchObject;
-
-    // :: Decimal Case Option :: //
-
-    // description
-var caseDescription = <HTMLDivElement> document.createElement( 'div' );
-
-caseDescription.className = 'Options-description';
-$( caseDescription ).text( 'Number of decimal cases' );
-
-    // :: Zero/One/Two (values)
-var zero = <HTMLDivElement> document.createElement( 'div' );
-
-zero.className = 'Options-value';
-$( zero ).text( 'Zero' );
-zero.onclick = () =>
     {
-    this.selectDecimalCase( 0 );
-    };
+    this.WATCH_OBJECT = watchObject;
 
-var one = <HTMLDivElement> document.createElement( 'div' );
+        // :: Decimal Case Option :: //
 
-one.className = 'Options-value';
-$( one ).text( 'One' );
-one.onclick = () =>
-    {
-    this.selectDecimalCase( 1 );
-    };
+        // description
+    var caseDescription = <HTMLDivElement> document.createElement( 'div' );
 
-this.ZERO_DECIMAL_CASE = zero;
-this.ONE_DECIMAL_CASE = one;
+    caseDescription.className = 'Options-description';
+    $( caseDescription ).text( 'Number of decimal cases' );
 
-    // update with the one that is currently selected
-this.selectDecimalCase( watchObject.NUMBER_DECIMAL_CASES );
+        // :: Zero/One/Two (values)
+    var zero = <HTMLDivElement> document.createElement( 'div' );
 
-var casesValuesContainer = <HTMLDivElement> document.createElement( 'div' );
+    zero.className = 'Options-value';
+    $( zero ).text( 'Zero' );
+    zero.onclick = () =>
+        {
+        this.selectDecimalCase( 0 );
+        };
 
-casesValuesContainer.className = 'Options-valuesContainer';
+    var one = <HTMLDivElement> document.createElement( 'div' );
 
-casesValuesContainer.appendChild( zero );
-casesValuesContainer.appendChild( one );
+    one.className = 'Options-value';
+    $( one ).text( 'One' );
+    one.onclick = () =>
+        {
+        this.selectDecimalCase( 1 );
+        };
 
-var container = <HTMLDivElement> document.createElement( 'div' );
-container.className = 'Options-container';
+    this.ZERO_DECIMAL_CASE = zero;
+    this.ONE_DECIMAL_CASE = one;
 
-    // close button
-var close = <HTMLCanvasElement> document.createElement('canvas');
+        // update with the one that is currently selected
+    this.selectDecimalCase( watchObject.NUMBER_DECIMAL_CASES );
 
-close.className = 'Options-close';
+    var casesValuesContainer = <HTMLDivElement> document.createElement( 'div' );
 
-close.title = 'Close Window';
-close.width = 15;
-close.height = 15;
+    casesValuesContainer.className = 'Options-valuesContainer';
 
-var ctx = close.getContext('2d');
+    casesValuesContainer.appendChild( zero );
+    casesValuesContainer.appendChild( one );
 
-ctx.strokeStyle = 'rgb(46, 144, 189)';
-ctx.lineWidth = 2;
+    var container = <HTMLDivElement> document.createElement( 'div' );
+    container.className = 'Options-container';
 
-ctx.moveTo(1, 1);
-ctx.lineTo(14, 14);
+        // close button
+    var close = <HTMLCanvasElement> document.createElement('canvas');
 
-ctx.moveTo(14, 1);
-ctx.lineTo(1, 14);
+    close.className = 'Options-close';
 
-ctx.stroke();
+    close.title = 'Close Window';
+    close.width = 15;
+    close.height = 15;
 
-close.onclick = () =>
-    {
-    this.remove();
-    };
+    var ctx = close.getContext('2d');
 
-    // append stuff
-container.appendChild( caseDescription );
-container.appendChild( casesValuesContainer );
-container.appendChild( close );
+    ctx.strokeStyle = 'rgb(46, 144, 189)';
+    ctx.lineWidth = 2;
 
-watchObject.CONTAINER_ELEMENT.appendChild( container );
+    ctx.moveTo(1, 1);
+    ctx.lineTo(14, 14);
 
-this.CONTAINER_ELEMENT = container;
-this.ON_REMOVE = onRemove;
+    ctx.moveTo(14, 1);
+    ctx.lineTo(1, 14);
 
-return this;
-}
+    ctx.stroke();
+
+    close.onclick = () =>
+        {
+        this.remove();
+        };
+
+        // append stuff
+    container.appendChild( caseDescription );
+    container.appendChild( casesValuesContainer );
+    container.appendChild( close );
+
+    watchObject.CONTAINER_ELEMENT.appendChild( container );
+
+    this.CONTAINER_ELEMENT = container;
+    this.ON_REMOVE = onRemove;
+
+    return this;
+    }
 
 
 /*
     Adds the css class to the selected element, and deals with changing the decimal cases
  */
 selectDecimalCase( newCase: number )
-{
-    // on load of the options window, we don't need to call this, but since the case hasn't changed it won't do anything
-this.WATCH_OBJECT.changeNumberDecimalCases( newCase );
-
-var element;
-
-if ( newCase == 0 )
     {
-    element = this.ZERO_DECIMAL_CASE;
+        // on load of the options window, we don't need to call this, but since the case hasn't changed it won't do anything
+    this.WATCH_OBJECT.changeNumberDecimalCases( newCase );
+
+    var element;
+
+    if ( newCase == 0 )
+        {
+        element = this.ZERO_DECIMAL_CASE;
+        }
+
+    else if ( newCase == 1 )
+        {
+        element = this.ONE_DECIMAL_CASE;
+        }
+
+        // remove from the old one
+    $( this.SELECTED_DECIMAL_CASE ).removeClass( 'Options-selected' );
+
+        // and add to the new one
+    $( element ).addClass( 'Options-selected' );
+
+    this.SELECTED_DECIMAL_CASE = element;
     }
-
-else if ( newCase == 1 )
-    {
-    element = this.ONE_DECIMAL_CASE;
-    }
-
-    // remove from the old one
-$( this.SELECTED_DECIMAL_CASE ).removeClass( 'Options-selected' );
-
-    // and add to the new one
-$( element ).addClass( 'Options-selected' );
-
-this.SELECTED_DECIMAL_CASE = element;
-}
 
 
 /*
     Remove/close the options window
  */
 remove()
-{
-this.CONTAINER_ELEMENT.parentElement.removeChild( this.CONTAINER_ELEMENT );
-
-if ( this.ON_REMOVE )
     {
-    this.ON_REMOVE();
-    }
-}
+    this.CONTAINER_ELEMENT.parentElement.removeChild( this.CONTAINER_ELEMENT );
 
+    if ( this.ON_REMOVE )
+        {
+        this.ON_REMOVE();
+        }
+    }
 }

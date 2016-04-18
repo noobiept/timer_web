@@ -1,123 +1,120 @@
 /// <reference path="main.ts" />
 
 module Menu
-{ 
+{
 var SOUND_ELEMENT: HTMLSpanElement;
 
 
 export function init()
-{
-    // setup the add watches buttons
-var watchObject;
-
-var addCountUp = <HTMLDivElement> document.querySelector( '#Menu-addCountUp' );
-
-addCountUp.onclick = function()
     {
-    watchObject = new StopWatch( { countUp: true } );
+        // setup the add watches buttons
+    var watchObject;
 
+    var addCountUp = <HTMLDivElement> document.querySelector( '#Menu-addCountUp' );
 
-    if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
+    addCountUp.onclick = function()
         {
-        watchObject.TITLE_ELEMENT.focus();
-        }
+        watchObject = new StopWatch( { countUp: true } );
 
-    else
-        {
-            // scroll to the added element
-        $( document.body ).animate(
+
+        if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
             {
-                // properties to animate
-            'scrollTop': $( watchObject.CONTAINER_ELEMENT ).offset().top
-            },
-            200,    // duration
-            function()  // on complete
-                {
-                watchObject.TITLE_ELEMENT.focus();
-                }
-            );
-        }
-    };
+            watchObject.TITLE_ELEMENT.focus();
+            }
 
-
-var addCountDown = <HTMLDivElement> document.querySelector( '#Menu-addCountDown' );
-
-addCountDown.onclick = function()
-    {
-    watchObject = new StopWatch( { countUp: false } );
-
-    if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
-        {
-        watchObject.TITLE_ELEMENT.focus();
-        }
-
-    else
-        {
-            // scroll to the added element
-        $( document.body ).animate(
+        else
             {
-                // properties to animate
-            'scrollTop': $( watchObject.CONTAINER_ELEMENT ).offset().top
-            },
-            200,    // duration
-            function()  // on complete
+                // scroll to the added element
+            $( document.body ).animate(
                 {
-                watchObject.TITLE_ELEMENT.focus();
-                }
-            );
-        }
-    };
+                    // properties to animate
+                'scrollTop': $( watchObject.CONTAINER_ELEMENT ).offset().top
+                },
+                200,    // duration
+                function()  // on complete
+                    {
+                    watchObject.TITLE_ELEMENT.focus();
+                    }
+                );
+            }
+        };
 
 
-var sound = <HTMLDivElement> document.querySelector( '#Menu-sound' );
-SOUND_ELEMENT = <HTMLSpanElement> document.querySelector( '#Menu-soundState' );
+    var addCountDown = <HTMLDivElement> document.querySelector( '#Menu-addCountDown' );
 
-sound.onclick = function()
-    {
-    if ( Data.getOption( 'sound' ) === true )
+    addCountDown.onclick = function()
         {
-        setSound( false );
-        }
+        watchObject = new StopWatch( { countUp: false } );
 
-    else
+        if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
+            {
+            watchObject.TITLE_ELEMENT.focus();
+            }
+
+        else
+            {
+                // scroll to the added element
+            $( document.body ).animate(
+                {
+                    // properties to animate
+                'scrollTop': $( watchObject.CONTAINER_ELEMENT ).offset().top
+                },
+                200,    // duration
+                function()  // on complete
+                    {
+                    watchObject.TITLE_ELEMENT.focus();
+                    }
+                );
+            }
+        };
+
+
+    var sound = <HTMLDivElement> document.querySelector( '#Menu-sound' );
+    SOUND_ELEMENT = <HTMLSpanElement> document.querySelector( '#Menu-soundState' );
+
+    sound.onclick = function()
         {
-        setSound( true );
-        }
-    };
+        if ( Data.getOption( 'sound' ) === true )
+            {
+            setSound( false );
+            }
 
-setSound( Data.getOption( 'sound' ) );
+        else
+            {
+            setSound( true );
+            }
+        };
 
-
-    // :: Position correctly the menu elements :: //
-
-    // get height of one of the menu entries
-var menuEntryHeight = $( addCountUp ).outerHeight();
-
-    // there's 4 pixels between the top of the menu and top of the entry, and 4 pixels difference at the bottom too
-var menuHeight = menuEntryHeight + 8;
-
-    // we do this because the font-size can be changed in the browser's options for example, which breaks the alignment
-$( '#Menu' ).css( 'height', menuHeight + 'px' );
-}
+    setSound( Data.getOption( 'sound' ) );
 
 
-export function setSound( onOff ) 
-{
-if ( onOff === true )
-    {
-    Data.setOption( 'sound', true );
+        // :: Position correctly the menu elements :: //
 
-    $( SOUND_ELEMENT ).text( 'On' );
+        // get height of one of the menu entries
+    var menuEntryHeight = $( addCountUp ).outerHeight();
+
+        // there's 4 pixels between the top of the menu and top of the entry, and 4 pixels difference at the bottom too
+    var menuHeight = menuEntryHeight + 8;
+
+        // we do this because the font-size can be changed in the browser's options for example, which breaks the alignment
+    $( '#Menu' ).css( 'height', menuHeight + 'px' );
     }
 
-else
+
+export function setSound( onOff )
     {
-    Data.setOption( 'sound', false );
+    if ( onOff === true )
+        {
+        Data.setOption( 'sound', true );
 
-    $( SOUND_ELEMENT ).text( 'Off' );
+        $( SOUND_ELEMENT ).text( 'On' );
+        }
+
+    else
+        {
+        Data.setOption( 'sound', false );
+
+        $( SOUND_ELEMENT ).text( 'Off' );
+        }
     }
-}
-
-
-
 }

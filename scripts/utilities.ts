@@ -231,7 +231,6 @@ function timeToMilliseconds( time: number, type: string ): number
      * So for example, 1 hour is 60 * 60 * 1000 milliseconds
      */
 
-
     //a letter: (s)econd, (m)inute, (h)our, or (d)ay
 switch ( type )
     {
