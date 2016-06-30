@@ -1,7 +1,7 @@
 module.exports = function( grunt )
 {
-var root = '../';
-var dest = '../release/<%= pkg.name %> <%= pkg.version %>/';
+var root = './';
+var dest = './release/<%= pkg.name %> <%= pkg.version %>/';
 
 grunt.initConfig({
         pkg: grunt.file.readJSON( 'package.json' ),
@@ -13,6 +13,10 @@ grunt.initConfig({
             },
             release: [
                 dest
+            ],
+                // remove temporary files
+            temp: [
+                root + 'temp/'
             ]
         },
 
@@ -90,5 +94,5 @@ grunt.loadNpmTasks( 'grunt-processhtml' );
 grunt.loadNpmTasks( 'grunt-ts' );
 
     // tasks
-grunt.registerTask( 'default', [ 'clean', 'ts', 'copy', 'uglify', 'cssmin', 'processhtml' ] );
+grunt.registerTask( 'default', [ 'clean:release', 'ts', 'copy', 'uglify', 'cssmin', 'processhtml', 'clean:temp' ] );
 };
