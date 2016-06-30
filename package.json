@@ -9,7 +9,9 @@
         "grunt-contrib-clean": "~1.0.0",
         "grunt-processhtml": "~0.4.0",
         "grunt-ts": "~5.5.1",
-        "typescript": "~1.8.10"
+        "typescript": "~1.8.10",
+        "electron-packager": "~7.1.0",
+        "grunt-electron-packager": "~0.0.8"
     },
     "dependencies": {
         "electron-prebuilt": "~1.2.5"

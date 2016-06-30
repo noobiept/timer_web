@@ -13,8 +13,10 @@ function createWindow() {
     win = new BrowserWindow({
         title: 'Timer',
         width: 800,
-        autoHideMenuBar: true,
         height: 600,
+        minWidth: 550,
+        minHeight: 250,
+        autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: false
         },

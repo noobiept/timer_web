@@ -1,7 +1,9 @@
 module.exports = function( grunt )
 {
+const os = require( 'os' );
 var root = './';
 var dest = './release/<%= pkg.name %> <%= pkg.version %>/';
+var desktopDest = './release/<%= pkg.name %> <%= pkg.version %> desktop/';
 
 grunt.initConfig({
         pkg: grunt.file.readJSON( 'package.json' ),
@@ -12,7 +14,8 @@ grunt.initConfig({
                 force: true
             },
             release: [
-                dest
+                dest,
+                desktopDest
             ],
                 // remove temporary files
             temp: [
@@ -44,7 +47,9 @@ grunt.initConfig({
                     'sounds/sound1.mp3',
                     'sounds/sound1.ogg',
                     'background.js',
-                    'manifest.json'
+                    'electron_main.js',
+                    'manifest.json',
+                    'package.json'
                 ],
                 dest: dest
             }
@@ -82,6 +87,18 @@ grunt.initConfig({
                     dest: dest
                 }]
             }
+        },
+
+        'electron-packager': {
+            release: {
+                options: {
+                    platform: os.platform(),
+                    arch: os.arch(),
+                    dir: dest,
+                    out: desktopDest,
+                    name: '<%= pkg.name %>'
+                }
+            }
         }
     });
 
@@ -92,7 +109,9 @@ grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 grunt.loadNpmTasks( 'grunt-contrib-clean' );
 grunt.loadNpmTasks( 'grunt-processhtml' );
 grunt.loadNpmTasks( 'grunt-ts' );
+grunt.loadNpmTasks( 'grunt-electron-packager' );
 
     // tasks
 grunt.registerTask( 'default', [ 'clean:release', 'ts', 'copy', 'uglify', 'cssmin', 'processhtml', 'clean:temp' ] );
+grunt.registerTask( 'desktop', [ 'default', 'electron-packager' ] );
 };
