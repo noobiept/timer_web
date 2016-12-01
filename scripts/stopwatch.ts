@@ -70,6 +70,8 @@ private static ACTIVE_WATCHES: StopWatch[] = [];
 private static MAIN_CONTAINER: HTMLElement = null;
 private static TIMER_INTERVAL = 100;    // 0.1 seconds
 
+private static WORKER = new Worker( 'scripts/stopwatch_worker.js' );
+
 
 /*
     Has to be called before constructing any objects
@@ -78,7 +80,10 @@ static init()
     {
     StopWatch.MAIN_CONTAINER = <HTMLElement> document.querySelector( '#mainContainer' );
 
-    window.setInterval( StopWatch.tick, StopWatch.TIMER_INTERVAL );
+    StopWatch.WORKER.onmessage = function( event )
+        {
+        StopWatch.tick();
+        };
     }
 
 

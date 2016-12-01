@@ -209,7 +209,9 @@ var StopWatch = (function () {
      */
     StopWatch.init = function () {
         StopWatch.MAIN_CONTAINER = document.querySelector('#mainContainer');
-        window.setInterval(StopWatch.tick, StopWatch.TIMER_INTERVAL);
+        StopWatch.WORKER.onmessage = function (event) {
+            StopWatch.tick();
+        };
     };
     /**
      * When there's a change in the order of the watches, need to update the 'POSITION' property.
@@ -537,5 +539,6 @@ var StopWatch = (function () {
     StopWatch.ACTIVE_WATCHES = [];
     StopWatch.MAIN_CONTAINER = null;
     StopWatch.TIMER_INTERVAL = 100; // 0.1 seconds
+    StopWatch.WORKER = new Worker('scripts/stopwatch_worker.js');
     return StopWatch;
 }());
