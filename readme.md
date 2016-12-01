@@ -16,7 +16,7 @@ Dependencies
 
 
 - typescript -- 2.0
-- jquery -- 2.2
+- jquery -- 3.1
 - div placeholder - https://github.com/sprucemedia/jQuery.divPlaceholder.js
 - electron --1.4
 
