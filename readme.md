@@ -15,10 +15,10 @@ Dependencies
 ============
 
 
-- typescript -- 1.8
+- typescript -- 2.0
 - jquery -- 2.2
 - div placeholder - https://github.com/sprucemedia/jQuery.divPlaceholder.js
-- electron --1.2
+- electron --1.4
 
 
 Bell Sound

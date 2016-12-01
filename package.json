@@ -1,20 +1,20 @@
 {
     "name": "timer",
-    "version": "1.7.1",
+    "version": "1.8.0",
     "devDependencies": {
         "grunt": "~1.0.1",
         "grunt-contrib-copy": "~1.0.0",
-        "grunt-contrib-uglify": "~1.0.1",
-        "grunt-contrib-cssmin": "~1.0.1",
+        "grunt-contrib-uglify": "~2.0.0",
+        "grunt-contrib-cssmin": "~1.0.2",
         "grunt-contrib-clean": "~1.0.0",
-        "grunt-processhtml": "~0.4.0",
+        "grunt-processhtml": "~0.4.1",
         "grunt-ts": "~5.5.1",
-        "typescript": "~1.8.10",
-        "electron-packager": "~7.1.0",
+        "typescript": "~2.0.10",
+        "electron-packager": "~8.3.0",
         "grunt-electron-packager": "~0.0.8"
     },
     "dependencies": {
-        "electron-prebuilt": "~1.2.5"
+        "electron-prebuilt": "~1.4.10"
     },
     "main": "electron_main.js"
 }
