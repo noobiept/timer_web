@@ -289,13 +289,12 @@ var ctx = canvas.getContext( '2d' );
 
 ctx.beginPath();
 
-var x, y;
 var step = 5;
 var radius = 1;
 
-for (x = 0 ; x < width ; x += step)
+for (let x = 0 ; x < width ; x += step)
     {
-    for (y = 0 ; y < height ; y += step)
+    for (let y = 0 ; y < height ; y += step)
         {
         ctx.beginPath();
 
@@ -311,16 +310,16 @@ for (x = 0 ; x < width ; x += step)
 /*
     Rounds a number to a specified decimal case
  */
-function round(num, dec)
+function round( num: number, dec: number )
 {
-return Math.round( num * Math.pow(10,dec) ) / Math.pow( 10,dec );
+return Math.round( num * Math.pow( 10, dec ) ) / Math.pow( 10,dec );
 }
 
 
 /*
     'SomethingLikeThis' into 'Something Like This'
  */
-function separateWords( str )
+function separateWords( str: string )
 {
     // add a space before a capitalized letter
 str = str.replace( /([A-Z])/g, ' $1' );
@@ -357,7 +356,7 @@ return false;
 function limitValue( value: number, decimalCases: number, floor: boolean )
 {
 var scale = Math.pow( 10, decimalCases );
-var limitFunc;
+var limitFunc: (x: number) => number;
 
 if ( floor )
     {

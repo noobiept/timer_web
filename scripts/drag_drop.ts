@@ -51,9 +51,9 @@ onDragStart( event: DragEvent )
     dataTransfer.effectAllowed = 'move';
 
         //so that the image that is shown during the drag, is of the element, and not the drag handle
-    if ( dataTransfer.setDragImage )
+    if ( (<any>dataTransfer).setDragImage )
         {
-        dataTransfer.setDragImage( this.dragElement, 0, 0 );
+        (<any>dataTransfer).setDragImage( this.dragElement, 0, 0 );
         }
 
         //the element that is been dragged

@@ -467,12 +467,11 @@ var StopWatch = (function () {
         //  for example, if the string is "in 20h 3m", then number will have 20 hours and 3 minutes converted in milliseconds
         var milliseconds = 0;
         var foundPattern = false;
-        var temp;
         //deal with 'pattern' - one at the time (for example 20h 3m, cycle goes two times)
         //sum everything into 'number' (in milliseconds)
         while (matches !== null) {
             foundPattern = true;
-            temp = parseInt(matches[0], 10);
+            var temp = parseInt(matches[0], 10);
             //see if it has more than 3 digits the number
             if (numberOfDigits(temp) > 3) {
                 throw "Max. 3 digits for each number";
