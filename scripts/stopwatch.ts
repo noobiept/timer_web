@@ -41,13 +41,13 @@ private DRAG_HANDLE: HTMLCanvasElement;
 CONTAINER_ELEMENT: HTMLDivElement;
 
     // for CountDown mode only
-private ENTRY_ELEMENT: HTMLInputElement;
+private ENTRY_ELEMENT: HTMLInputElement | null;
 INIT_VALUE_COUNTDOWN: number = StopWatch.DEFAULT_COUNT_DOWN_VALUE;    // the value which is set (where it started to count down)
 
-private ENTRY_MESSAGE_ELEMENT: HTMLSpanElement;
+private ENTRY_MESSAGE_ELEMENT: HTMLSpanElement | null;
 private ENTRY_MESSAGE_TIMEOUT_F: number;    // reference to the window.setTimeout(), to be able to cancel it if necessary
 
-private OPTIONS_WINDOW: Options = null;
+private OPTIONS_WINDOW: Options | null = null;
 
     // tells when the stop watch is running or not
 RUNNING = false;
@@ -67,7 +67,7 @@ private static DEFAULT_COUNT_DOWN_VALUE = 10000;    // 10s
     // contains all the stopwatches created
 private static ALL_STOPWATCHES: StopWatch[] = [];
 private static ACTIVE_WATCHES: StopWatch[] = [];
-private static MAIN_CONTAINER: HTMLElement = null;
+private static MAIN_CONTAINER: HTMLElement;
 private static TIMER_INTERVAL = 100;    // 0.1 seconds
 
 private static WORKER = new Worker( 'scripts/stopwatch_worker.js' );
@@ -270,8 +270,8 @@ constructor( watchArguments: WatchData, loading= false )
 
     if ( !countUp )
         {
-        container.appendChild( entry );
-        container.appendChild( entryMessage );
+        container.appendChild( entry! );
+        container.appendChild( entryMessage! );
         }
 
     this.POSITION = StopWatch.MAIN_CONTAINER.children.length;
@@ -317,7 +317,7 @@ constructor( watchArguments: WatchData, loading= false )
         };
 
 
-    if ( !countUp )
+    if ( entry )
         {
         entry.onkeypress = ( event ) =>
             {
@@ -349,7 +349,7 @@ constructor( watchArguments: WatchData, loading= false )
 
         // :: Update the watch :: //
 
-    if ( $.isNumeric( watchArguments.count ) )
+    if ( typeof watchArguments.count === 'number' )
         {
         this.updateWatch( watchArguments.count );
         }
@@ -368,7 +368,7 @@ constructor( watchArguments: WatchData, loading= false )
         }
 
         // And the number of decimal cases
-    if ( $.isNumeric( watchArguments.numberDecimalCases ) )
+    if ( typeof watchArguments.numberDecimalCases === 'number' )
         {
         this.changeNumberDecimalCases( watchArguments.numberDecimalCases );
         }
@@ -522,13 +522,18 @@ restartWatch()
             // clear any possible previous timeout
         window.clearTimeout( this.ENTRY_MESSAGE_TIMEOUT_F );
 
-        $( this.ENTRY_MESSAGE_ELEMENT ).text( '<-- Error: ' + error );
-
+        if ( this.ENTRY_MESSAGE_ELEMENT )
+            {
+            $( this.ENTRY_MESSAGE_ELEMENT ).text( '<-- Error: ' + error );
+            }
 
             // clear the message after some time
         this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout( function()
             {
-            $( watchObject.ENTRY_MESSAGE_ELEMENT ).text( '' );
+            if ( watchObject.ENTRY_MESSAGE_ELEMENT )
+                {
+                $( watchObject.ENTRY_MESSAGE_ELEMENT ).text( '' );
+                }
 
             }, 2000 );
 
@@ -577,12 +582,18 @@ resetWatch()
             // clear any possible previous timeout
         window.clearTimeout( this.ENTRY_MESSAGE_TIMEOUT_F );
 
-        $( this.ENTRY_MESSAGE_ELEMENT ).text( '<-- Error: ' + error );
+        if ( this.ENTRY_MESSAGE_ELEMENT )
+            {
+            $( this.ENTRY_MESSAGE_ELEMENT ).text( '<-- Error: ' + error );
+            }
 
             // clear the message after some time
         this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout( function()
             {
-            $( watchObject.ENTRY_MESSAGE_ELEMENT ).text( '' );
+            if ( watchObject.ENTRY_MESSAGE_ELEMENT )
+                {
+                $( watchObject.ENTRY_MESSAGE_ELEMENT ).text( '' );
+                }
 
             }, 2000 );
 
@@ -680,7 +691,7 @@ getInitialValue(): number
         // when counting down, go get the value from the entry
     if ( !this.COUNT_UP )
         {
-        value = this.stringToMilliseconds( this.ENTRY_ELEMENT.value );
+        value = this.stringToMilliseconds( this.ENTRY_ELEMENT!.value );
 
         this.INIT_VALUE_COUNTDOWN = value;
         }
@@ -846,7 +857,7 @@ optionsWindow( open?: boolean )
 
     else if ( !open && isOpened )
         {
-        this.OPTIONS_WINDOW.remove();
+        this.OPTIONS_WINDOW!.remove();
         this.OPTIONS_WINDOW = null;
         }
     }
