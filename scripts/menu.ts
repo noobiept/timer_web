@@ -71,7 +71,7 @@ export function init()
 
     sound.onclick = function()
         {
-        if ( Data.getOption( 'sound' ) === true )
+        if ( Data.getSound() === true )
             {
             setSound( false );
             }
@@ -82,7 +82,7 @@ export function init()
             }
         };
 
-    setSound( Data.getOption( 'sound' ) );
+    setSound( Data.getSound() );
 
 
         // :: Position correctly the menu elements :: //
@@ -102,14 +102,14 @@ export function setSound( onOff: boolean )
     {
     if ( onOff === true )
         {
-        Data.setOption( 'sound', true );
+        Data.setSound( true );
 
         $( SOUND_ELEMENT ).text( 'On' );
         }
 
     else
         {
-        Data.setOption( 'sound', false );
+        Data.setSound( false );
 
         $( SOUND_ELEMENT ).text( 'Off' );
         }

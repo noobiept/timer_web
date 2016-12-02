@@ -384,7 +384,7 @@ var StopWatch = (function () {
                 $(this.CONTAINER_ELEMENT).addClass('watch-finished');
                 // :: show some message :: //
                 $(this.COUNT_MESSAGE_ELEMENT).text('<-- Ended');
-                if (!this.LOADING && Data.getOption('sound')) {
+                if (!this.LOADING && Data.getSound()) {
                     // play the sound
                     new Sound('sound1');
                 }

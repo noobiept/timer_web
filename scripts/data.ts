@@ -62,15 +62,15 @@ function saveWatches()
     }
 
 
-export function getOption( key: string )
+export function getSound()
     {
-    return OPTIONS[ key ];
+    return OPTIONS.sound;
     }
 
 
-export function setOption( key: string, value: any )
+export function setSound( value: boolean )
     {
-    OPTIONS[ key ] = value;
+    OPTIONS.sound = value;
 
     if ( SAVE_ENABLED )
         {

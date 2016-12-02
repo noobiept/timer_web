@@ -35,17 +35,17 @@ var Data;
     function saveWatches() {
         AppStorage.setData({ timer_watches: WATCHES });
     }
-    function getOption(key) {
-        return OPTIONS[key];
+    function getSound() {
+        return OPTIONS.sound;
     }
-    Data.getOption = getOption;
-    function setOption(key, value) {
-        OPTIONS[key] = value;
+    Data.getSound = getSound;
+    function setSound(value) {
+        OPTIONS.sound = value;
         if (SAVE_ENABLED) {
             saveOptions();
         }
     }
-    Data.setOption = setOption;
+    Data.setSound = setSound;
     function getWatches() {
         return WATCHES;
     }
