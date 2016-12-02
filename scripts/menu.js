@@ -4,10 +4,9 @@ var Menu;
     var SOUND_ELEMENT;
     function init() {
         // setup the add watches buttons
-        var watchObject;
         var addCountUp = document.querySelector('#Menu-addCountUp');
         addCountUp.onclick = function () {
-            watchObject = new StopWatch({ countUp: true });
+            var watchObject = new StopWatch({ countUp: true });
             if (isVisible(watchObject.CONTAINER_ELEMENT)) {
                 watchObject.TITLE_ELEMENT.focus();
             }
@@ -24,7 +23,7 @@ var Menu;
         };
         var addCountDown = document.querySelector('#Menu-addCountDown');
         addCountDown.onclick = function () {
-            watchObject = new StopWatch({ countUp: false });
+            var watchObject = new StopWatch({ countUp: false });
             if (isVisible(watchObject.CONTAINER_ELEMENT)) {
                 watchObject.TITLE_ELEMENT.focus();
             }

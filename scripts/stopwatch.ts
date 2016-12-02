@@ -45,7 +45,7 @@ private ENTRY_ELEMENT: HTMLInputElement;
 INIT_VALUE_COUNTDOWN: number = StopWatch.DEFAULT_COUNT_DOWN_VALUE;    // the value which is set (where it started to count down)
 
 private ENTRY_MESSAGE_ELEMENT: HTMLSpanElement;
-private ENTRY_MESSAGE_TIMEOUT_F;    // reference to the window.setTimeout(), to be able to cancel it if necessary
+private ENTRY_MESSAGE_TIMEOUT_F: number;    // reference to the window.setTimeout(), to be able to cancel it if necessary
 
 private OPTIONS_WINDOW: Options = null;
 
@@ -134,7 +134,7 @@ constructor( watchArguments: WatchData, loading= false )
         // :: Title :: //
 
     var title = <HTMLDivElement> document.createElement( 'div' );
-    var titlePlaceholder;
+    var titlePlaceholder: string;
 
     if ( countUp )
         {
@@ -214,8 +214,8 @@ constructor( watchArguments: WatchData, loading= false )
 
         // :: Entry :: //
 
-    var entry = null;
-    var entryMessage = null;
+    var entry: HTMLInputElement | null = null;
+    var entryMessage: HTMLSpanElement | null = null;
 
         // when count down mode, add an entry to set the starting time
     if ( countUp === false )

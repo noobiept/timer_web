@@ -4,12 +4,17 @@ interface Window { chrome: any; }
 
 module AppStorage
 {
+interface Items {
+    [ key: string ]: any
+}
+
+
 /**
  * Calls the `callback` with a dictionary that has all the requested keys/values from `localStorage`.
  */
-function getLocalStorage( keys, callback )
+function getLocalStorage( keys: string[], callback: (objects: Items) => void )
     {
-    var objects = {};
+    var objects: Items = {};
 
     for (var a = 0 ; a < keys.length ; a++)
         {
@@ -27,7 +32,7 @@ function getLocalStorage( keys, callback )
  * Sets the given key/value into `localStorage`. Calls the `callback` when its done.
  * Converts the value to string (with json).
  */
-function setLocalStorage( items, callback )
+function setLocalStorage( items: Items, callback: () => any )
     {
     for ( var key in items )
         {
@@ -47,7 +52,7 @@ function setLocalStorage( items, callback )
 /**
  * Calls the `callback` with a dictionary that has all the requested keys/values from `chrome.storage.local`.
  */
-function chromeStorageGet( keys, callback )
+function chromeStorageGet( keys: string[], callback: (objects: Items) => void )
     {
     chrome.storage.local.get( keys, callback );
     }
@@ -57,7 +62,7 @@ function chromeStorageGet( keys, callback )
  * Sets the given key/value into `chrome.storage.local`. Calls the `callback` when its done.
  * Converts the value to string (with json).
  */
-function chromeStorageSet( items, callback )
+function chromeStorageSet( items: Items, callback: () => void )
     {
     chrome.storage.local.set( items, callback );
     }
@@ -66,7 +71,7 @@ function chromeStorageSet( items, callback )
 /**
  * Uses the `chrome storage` if it's available (when running as a chrome app), otherwise uses the `localStorage`.
  */
-export function getData( keys, callback )
+export function getData( keys: string[], callback: (items: Items) => void )
     {
     if ( window.chrome && window.chrome.storage )
         {
@@ -83,7 +88,7 @@ export function getData( keys, callback )
 /**
  * Uses the `chrome storage` if it's available (when running as a chrome app), otherwise uses the `localStorage`.
  */
-export function setData( items, callback? )
+export function setData( items: Object, callback?: () => void )
     {
     if ( window.chrome && window.chrome.storage )
         {

@@ -118,7 +118,7 @@ selectDecimalCase( newCase: number )
         // on load of the options window, we don't need to call this, but since the case hasn't changed it won't do anything
     this.WATCH_OBJECT.changeNumberDecimalCases( newCase );
 
-    var element;
+    var element: HTMLDivElement;
 
     if ( newCase == 0 )
         {

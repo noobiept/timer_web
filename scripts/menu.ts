@@ -8,14 +8,11 @@ var SOUND_ELEMENT: HTMLSpanElement;
 export function init()
     {
         // setup the add watches buttons
-    var watchObject;
-
     var addCountUp = <HTMLDivElement> document.querySelector( '#Menu-addCountUp' );
 
     addCountUp.onclick = function()
         {
-        watchObject = new StopWatch( { countUp: true } );
-
+        let watchObject = new StopWatch( { countUp: true } );
 
         if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
             {
@@ -44,7 +41,7 @@ export function init()
 
     addCountDown.onclick = function()
         {
-        watchObject = new StopWatch( { countUp: false } );
+        let watchObject = new StopWatch( { countUp: false } );
 
         if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
             {
@@ -101,7 +98,7 @@ export function init()
     }
 
 
-export function setSound( onOff )
+export function setSound( onOff: boolean )
     {
     if ( onOff === true )
         {

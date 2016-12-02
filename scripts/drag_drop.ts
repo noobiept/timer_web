@@ -44,7 +44,7 @@ isValidDrop()
 /**
  * when the drag of an element starts
  */
-onDragStart( event )
+onDragStart( event: DragEvent )
     {
     var dataTransfer = event.dataTransfer;
     dataTransfer.setData( "text", "" );   // required on some browsers
@@ -66,7 +66,7 @@ onDragStart( event )
  * when an element is dropped over a valid place, we have to switch the positions between the element that is was
  *      been dragged, and the element where the drop occurred
  */
-onDrop( event )
+onDrop( event: DragEvent )
     {
         //remove the css effect for valid drop places
     this.dragElement.classList.remove( 'validDrop' );
@@ -93,7 +93,7 @@ onDrop( event )
 /**
  * Allows or not the drop to occur
  */
-onDragOver( event )
+onDragOver( event: DragEvent )
     {
         //if this is a valid drop, let it be possible to occur
     if ( this.isValidDrop() === true )
@@ -117,7 +117,7 @@ onDragOver( event )
 /**
  * Remove the effect of a valid drop place
  */
-onDragLeave( event )
+onDragLeave( event: DragEvent )
     {
     if ( this.isValidDrop() === true )
         {

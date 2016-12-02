@@ -39,7 +39,7 @@ Menu.init();
 window.onkeyup = function( event )
 {
 var key = event.keyCode;
-var watchObject;
+var watchObject: StopWatch;
 
     // alt + q: add count up
 if ( event.altKey && key == EVENT_KEY.q )
