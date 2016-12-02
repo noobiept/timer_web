@@ -531,6 +531,9 @@ var StopWatch = (function () {
         }
         return null;
     };
+    StopWatch.prototype.gainFocus = function () {
+        this.TITLE_ELEMENT.focus();
+    };
     // default value when a new timer is added (or when an error occurs)
     StopWatch.DEFAULT_STOP_WATCH_VALUE = 0;
     StopWatch.DEFAULT_COUNT_DOWN_VALUE = 10000; // 10s

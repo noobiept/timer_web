@@ -8,7 +8,7 @@ var Menu;
         addCountUp.onclick = function () {
             var watchObject = new StopWatch({ countUp: true });
             if (isVisible(watchObject.CONTAINER_ELEMENT)) {
-                watchObject.TITLE_ELEMENT.focus();
+                watchObject.gainFocus();
             }
             else {
                 // scroll to the added element
@@ -17,7 +17,7 @@ var Menu;
                     'scrollTop': $(watchObject.CONTAINER_ELEMENT).offset().top
                 }, 200, // duration
                 function () {
-                    watchObject.TITLE_ELEMENT.focus();
+                    watchObject.gainFocus();
                 });
             }
         };
@@ -25,7 +25,7 @@ var Menu;
         addCountDown.onclick = function () {
             var watchObject = new StopWatch({ countUp: false });
             if (isVisible(watchObject.CONTAINER_ELEMENT)) {
-                watchObject.TITLE_ELEMENT.focus();
+                watchObject.gainFocus();
             }
             else {
                 // scroll to the added element
@@ -34,7 +34,7 @@ var Menu;
                     'scrollTop': $(watchObject.CONTAINER_ELEMENT).offset().top
                 }, 200, // duration
                 function () {
-                    watchObject.TITLE_ELEMENT.focus();
+                    watchObject.gainFocus();
                 });
             }
         };

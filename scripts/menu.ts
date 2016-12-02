@@ -16,7 +16,7 @@ export function init()
 
         if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
             {
-            watchObject.TITLE_ELEMENT.focus();
+            watchObject.gainFocus();
             }
 
         else
@@ -30,7 +30,7 @@ export function init()
                 200,    // duration
                 function()  // on complete
                     {
-                    watchObject.TITLE_ELEMENT.focus();
+                    watchObject.gainFocus();
                     }
                 );
             }
@@ -45,7 +45,7 @@ export function init()
 
         if ( isVisible( watchObject.CONTAINER_ELEMENT ) )
             {
-            watchObject.TITLE_ELEMENT.focus();
+            watchObject.gainFocus();
             }
 
         else
@@ -59,7 +59,7 @@ export function init()
                 200,    // duration
                 function()  // on complete
                     {
-                    watchObject.TITLE_ELEMENT.focus();
+                    watchObject.gainFocus();
                     }
                 );
             }

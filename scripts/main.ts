@@ -45,13 +45,13 @@ var watchObject: StopWatch;
 if ( event.altKey && key == EVENT_KEY.q )
     {
     watchObject = new StopWatch({ countUp: true });
-    watchObject.TITLE_ELEMENT.focus();
+    watchObject.gainFocus();
     }
 
     // alt + w: add count down
 else if ( event.altKey && key == EVENT_KEY.w )
     {
     watchObject = new StopWatch({ countUp: false });
-    watchObject.TITLE_ELEMENT.focus();
+    watchObject.gainFocus();
     }
 };

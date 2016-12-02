@@ -881,4 +881,10 @@ getEntryValue()
 
     return null;
     }
+
+
+gainFocus()
+    {
+    this.TITLE_ELEMENT.focus();
+    }
 }

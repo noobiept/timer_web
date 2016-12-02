@@ -25,10 +25,10 @@ window.onkeyup = function (event) {
     // alt + q: add count up
     if (event.altKey && key == EVENT_KEY.q) {
         watchObject = new StopWatch({ countUp: true });
-        watchObject.TITLE_ELEMENT.focus();
+        watchObject.gainFocus();
     }
     else if (event.altKey && key == EVENT_KEY.w) {
         watchObject = new StopWatch({ countUp: false });
-        watchObject.TITLE_ELEMENT.focus();
+        watchObject.gainFocus();
     }
 };
