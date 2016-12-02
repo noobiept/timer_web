@@ -13,7 +13,7 @@ private ONE_DECIMAL_CASE: HTMLDivElement;
 private WATCH_OBJECT: StopWatch;
 private CONTAINER_ELEMENT: HTMLDivElement;
 
-private ON_REMOVE: () => any;
+private ON_REMOVE: (() => any) | undefined;
 
 
 /*
@@ -78,7 +78,7 @@ constructor( watchObject: StopWatch, onRemove?: () => any )
     close.width = 15;
     close.height = 15;
 
-    var ctx = close.getContext('2d');
+    var ctx = close.getContext('2d')!;
 
     ctx.strokeStyle = 'rgb(46, 144, 189)';
     ctx.lineWidth = 2;
@@ -125,7 +125,7 @@ selectDecimalCase( newCase: number )
         element = this.ZERO_DECIMAL_CASE;
         }
 
-    else if ( newCase == 1 )
+    else
         {
         element = this.ONE_DECIMAL_CASE;
         }

@@ -264,7 +264,7 @@ function drawRemoveButton( canvas: HTMLCanvasElement )
 canvas.width = 15;
 canvas.height = 15;
 
-var ctx = canvas.getContext( '2d' );
+var ctx = canvas.getContext( '2d' )!;
 
 ctx.beginPath();
 
@@ -285,7 +285,7 @@ var height = 20;
 canvas.width = width;
 canvas.height = height;
 
-var ctx = canvas.getContext( '2d' );
+var ctx = canvas.getContext( '2d' )!;
 
 ctx.beginPath();
 

@@ -75,7 +75,7 @@ var Options = (function () {
         if (newCase == 0) {
             element = this.ZERO_DECIMAL_CASE;
         }
-        else if (newCase == 1) {
+        else {
             element = this.ONE_DECIMAL_CASE;
         }
         // remove from the old one

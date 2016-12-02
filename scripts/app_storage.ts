@@ -32,7 +32,7 @@ function getLocalStorage( keys: string[], callback: (objects: Items) => void )
  * Sets the given key/value into `localStorage`. Calls the `callback` when its done.
  * Converts the value to string (with json).
  */
-function setLocalStorage( items: Items, callback: () => any )
+function setLocalStorage( items: Items, callback?: () => any )
     {
     for ( var key in items )
         {
@@ -62,7 +62,7 @@ function chromeStorageGet( keys: string[], callback: (objects: Items) => void )
  * Sets the given key/value into `chrome.storage.local`. Calls the `callback` when its done.
  * Converts the value to string (with json).
  */
-function chromeStorageSet( items: Items, callback: () => void )
+function chromeStorageSet( items: Items, callback?: () => void )
     {
     chrome.storage.local.set( items, callback );
     }

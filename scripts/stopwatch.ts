@@ -888,7 +888,7 @@ getEntryValue()
         return this.ENTRY_ELEMENT.value;
         }
 
-    return null;
+    return undefined;
     }
 
 

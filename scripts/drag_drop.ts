@@ -1,7 +1,7 @@
 class DragDrop
 {
     //has the object of the element that is been dragged
-private static CurrentDragElement: StopWatch = null;
+private static CurrentDragElement: StopWatch | null = null;
 
 private dragHandler: HTMLElement;
 private dragElement: HTMLElement;
@@ -78,7 +78,7 @@ onDrop( event: DragEvent )
     var dragObject = DragDrop.CurrentDragElement;
 
         //see if we're not dropping on the same place
-    if ( dragObject !== elementObject )
+    if ( dragObject && (dragObject !== elementObject) )
         {
         dragObject.moveTo( elementObject.POSITION );
         }

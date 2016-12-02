@@ -138,7 +138,7 @@ var StopWatch = (function () {
         remove.onclick = function () {
             _this.remove();
         };
-        if (!countUp) {
+        if (entry) {
             entry.onkeypress = function (event) {
                 var key = event.which;
                 // start or restart the watch
@@ -161,7 +161,7 @@ var StopWatch = (function () {
         this.DRAG_HANDLE = dragHandle;
         this.CONTAINER_ELEMENT = container;
         // :: Update the watch :: //
-        if ($.isNumeric(watchArguments.count)) {
+        if (typeof watchArguments.count === 'number') {
             this.updateWatch(watchArguments.count);
         }
         else {
@@ -173,7 +173,7 @@ var StopWatch = (function () {
             }
         }
         // And the number of decimal cases
-        if ($.isNumeric(watchArguments.numberDecimalCases)) {
+        if (typeof watchArguments.numberDecimalCases === 'number') {
             this.changeNumberDecimalCases(watchArguments.numberDecimalCases);
         }
         if (watchArguments.started) {
@@ -302,10 +302,14 @@ var StopWatch = (function () {
             console.log(error);
             // clear any possible previous timeout
             window.clearTimeout(this.ENTRY_MESSAGE_TIMEOUT_F);
-            $(this.ENTRY_MESSAGE_ELEMENT).text('<-- Error: ' + error);
+            if (this.ENTRY_MESSAGE_ELEMENT) {
+                $(this.ENTRY_MESSAGE_ELEMENT).text('<-- Error: ' + error);
+            }
             // clear the message after some time
             this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout(function () {
-                $(watchObject.ENTRY_MESSAGE_ELEMENT).text('');
+                if (watchObject.ENTRY_MESSAGE_ELEMENT) {
+                    $(watchObject.ENTRY_MESSAGE_ELEMENT).text('');
+                }
             }, 2000);
             // bring the last valid value that was set (this error only occurs in the CountDown watches)
             initValue = this.INIT_VALUE_COUNTDOWN;
@@ -336,10 +340,14 @@ var StopWatch = (function () {
             console.log(error);
             // clear any possible previous timeout
             window.clearTimeout(this.ENTRY_MESSAGE_TIMEOUT_F);
-            $(this.ENTRY_MESSAGE_ELEMENT).text('<-- Error: ' + error);
+            if (this.ENTRY_MESSAGE_ELEMENT) {
+                $(this.ENTRY_MESSAGE_ELEMENT).text('<-- Error: ' + error);
+            }
             // clear the message after some time
             this.ENTRY_MESSAGE_TIMEOUT_F = window.setTimeout(function () {
-                $(watchObject.ENTRY_MESSAGE_ELEMENT).text('');
+                if (watchObject.ENTRY_MESSAGE_ELEMENT) {
+                    $(watchObject.ENTRY_MESSAGE_ELEMENT).text('');
+                }
             }, 2000);
             if (this.COUNT_UP) {
                 initValue = StopWatch.DEFAULT_STOP_WATCH_VALUE;
@@ -528,7 +536,7 @@ var StopWatch = (function () {
         if (this.ENTRY_ELEMENT) {
             return this.ENTRY_ELEMENT.value;
         }
-        return null;
+        return undefined;
     };
     StopWatch.prototype.gainFocus = function () {
         this.TITLE_ELEMENT.focus();
@@ -539,7 +547,6 @@ var StopWatch = (function () {
     // contains all the stopwatches created
     StopWatch.ALL_STOPWATCHES = [];
     StopWatch.ACTIVE_WATCHES = [];
-    StopWatch.MAIN_CONTAINER = null;
     StopWatch.TIMER_INTERVAL = 100; // 0.1 seconds
     StopWatch.WORKER = new Worker('scripts/stopwatch_worker.js');
     return StopWatch;
