@@ -11,7 +11,8 @@
         "grunt-ts": "~5.5.1",
         "typescript": "~2.0.10",
         "electron-packager": "~8.3.0",
-        "grunt-electron-packager": "~0.0.8"
+        "grunt-electron-packager": "~0.0.8",
+        "@types/jquery": "~2.0.34"
     },
     "dependencies": {
         "electron-prebuilt": "~1.4.10"

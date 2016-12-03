@@ -1,4 +1,3 @@
-/// <reference path="main.ts" />
 var Menu;
 (function (Menu) {
     var SOUND_ELEMENT;

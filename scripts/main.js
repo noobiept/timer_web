@@ -1,7 +1,3 @@
-/// <reference path="../d.ts/jquery.d.ts" />
-/// <reference path="../d.ts/jqueryui.d.ts" />
-/// <reference path="stopwatch.ts" />
-/// <reference path="menu.ts" />
 window.onload = function () {
     Data.load(initApp);
 };

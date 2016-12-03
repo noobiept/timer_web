@@ -1,6 +1,3 @@
-/// <reference path="utilities.ts" />
-/// <reference path="options.ts" />
-/// <reference path="sound.ts" />
 var StopWatch = (function () {
     function StopWatch(watchArguments, loading) {
         var _this = this;

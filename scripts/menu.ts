@@ -1,5 +1,3 @@
-/// <reference path="main.ts" />
-
 module Menu
 {
 var SOUND_ELEMENT: HTMLSpanElement;
