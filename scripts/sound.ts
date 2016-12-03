@@ -1,11 +1,14 @@
 class Sound
 {
+private audio: HTMLAudioElement;
+
+
 constructor( id: string )
     {
     var source = 'sounds/' + id;
-    var audio = <HTMLAudioElement> document.createElement( 'audio' );
+    this.audio = <HTMLAudioElement> document.createElement( 'audio' );
 
-    if ( audio.canPlayType( 'audio/ogg' ) )
+    if ( this.audio.canPlayType( 'audio/ogg' ) )
         {
         source += '.ogg';
         }
@@ -15,7 +18,13 @@ constructor( id: string )
         source += '.mp3';
         }
 
-    audio.src = source;
-    audio.play();
+    this.audio.src = source;
+    }
+
+
+play()
+    {
+    this.audio.currentTime = 0;
+    this.audio.play();
     }
 }

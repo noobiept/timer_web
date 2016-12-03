@@ -209,6 +209,7 @@ var StopWatch = (function () {
         StopWatch.WORKER.onmessage = function (event) {
             StopWatch.tick();
         };
+        StopWatch.SOUND = new Sound('sound1');
     };
     /**
      * When there's a change in the order of the watches, need to update the 'POSITION' property.
@@ -391,7 +392,7 @@ var StopWatch = (function () {
                 $(this.COUNT_MESSAGE_ELEMENT).text('<-- Ended');
                 if (!this.LOADING && Data.getSound()) {
                     // play the sound
-                    new Sound('sound1');
+                    StopWatch.SOUND.play();
                 }
                 return true;
             }

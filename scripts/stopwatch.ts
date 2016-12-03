@@ -66,6 +66,7 @@ private static MAIN_CONTAINER: HTMLElement;
 private static TIMER_INTERVAL = 100;    // 0.1 seconds
 
 private static WORKER = new Worker( 'scripts/stopwatch_worker.js' );
+private static SOUND: Sound;
 
 
 /*
@@ -79,6 +80,8 @@ static init()
         {
         StopWatch.tick();
         };
+
+    StopWatch.SOUND = new Sound( 'sound1' );
     }
 
 
@@ -664,7 +667,7 @@ reachedLimit(): boolean
             if ( !this.LOADING && Data.getSound() )
                 {
                     // play the sound
-                new Sound( 'sound1' );
+                StopWatch.SOUND.play();
                 }
 
             return true;
