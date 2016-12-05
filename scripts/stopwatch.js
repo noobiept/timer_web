@@ -22,10 +22,10 @@ var StopWatch = (function () {
         var title = document.createElement('div');
         var titlePlaceholder;
         if (countUp) {
-            titlePlaceholder = 'Count Up (click to edit)';
+            titlePlaceholder = 'Count Up';
         }
         else {
-            titlePlaceholder = 'Count Down (click to edit)';
+            titlePlaceholder = 'Count Down';
         }
         title.className = 'StopWatch-title';
         title.contentEditable = 'true';

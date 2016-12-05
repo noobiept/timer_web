@@ -136,12 +136,12 @@ constructor( watchArguments: WatchData, loading= false )
 
     if ( countUp )
         {
-        titlePlaceholder = 'Count Up (click to edit)';
+        titlePlaceholder = 'Count Up';
         }
 
     else
         {
-        titlePlaceholder = 'Count Down (click to edit)';
+        titlePlaceholder = 'Count Down';
         }
 
     title.className = 'StopWatch-title';
