@@ -61,14 +61,13 @@ var StopWatch = (function () {
         reset.type = 'button';
         reset.value = 'Reset';
         // :: Open Options :: //
-        var options = document.createElement('input');
-        options.className = 'StopWatch-openOptions';
-        options.type = 'button';
-        options.value = 'Options';
+        var options = document.createElement('div');
+        options.className = 'StopWatch-openOptions StopWatch-topButtons';
+        options.innerText = '⚙';
         // :: Remove Button :: //
-        var remove = document.createElement('canvas');
-        remove.className = 'StopWatch-remove';
-        drawRemoveButton(remove);
+        var remove = document.createElement('div');
+        remove.className = 'StopWatch-remove StopWatch-topButtons';
+        remove.innerText = '✕';
         // :: Entry :: //
         var entry = null;
         var entryMessage = null;
@@ -92,7 +91,7 @@ var StopWatch = (function () {
         }
         // :: Drag Handle :: //
         var dragHandle = document.createElement('canvas');
-        dragHandle.className = 'StopWatch-dragHandle';
+        dragHandle.className = 'StopWatch-dragHandle StopWatch-topButtons';
         drawDragHandle(dragHandle);
         // :: Container :: //
         var container = document.createElement('div');
@@ -149,13 +148,8 @@ var StopWatch = (function () {
         this.COUNT_ELEMENT = count;
         this.COUNT_MESSAGE_ELEMENT = countMessage;
         this.START_STOP_ELEMENT = startStop;
-        this.RESTART_ELEMENT = restart;
-        this.RESET_ELEMENT = reset;
-        this.OPEN_OPTIONS_ELEMENT = options;
-        this.REMOVE_ELEMENT = remove;
         this.ENTRY_ELEMENT = entry;
         this.ENTRY_MESSAGE_ELEMENT = entryMessage;
-        this.DRAG_HANDLE = dragHandle;
         this.CONTAINER_ELEMENT = container;
         // :: Update the watch :: //
         if (typeof watchArguments.count === 'number') {

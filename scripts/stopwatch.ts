@@ -26,13 +26,7 @@ NUMBER_DECIMAL_CASES: number = 0;
 private TITLE_ELEMENT: HTMLDivElement;
 private COUNT_ELEMENT: HTMLSpanElement;
 private COUNT_MESSAGE_ELEMENT: HTMLSpanElement;
-
 private START_STOP_ELEMENT: HTMLInputElement;
-private RESTART_ELEMENT: HTMLInputElement;
-private RESET_ELEMENT: HTMLInputElement;
-private OPEN_OPTIONS_ELEMENT: HTMLInputElement;
-private REMOVE_ELEMENT: HTMLCanvasElement;
-private DRAG_HANDLE: HTMLCanvasElement;
 CONTAINER_ELEMENT: HTMLDivElement;
 
     // for CountDown mode only
@@ -197,18 +191,17 @@ constructor( watchArguments: WatchData, loading= false )
 
         // :: Open Options :: //
 
-    var options = <HTMLInputElement> document.createElement( 'input' );
+    var options = document.createElement( 'div' );
 
-    options.className = 'StopWatch-openOptions';
-    options.type = 'button';
-    options.value = 'Options';
+    options.className = 'StopWatch-openOptions StopWatch-topButtons';
+    options.innerText = '⚙';
 
         // :: Remove Button :: //
 
-    var remove = <HTMLCanvasElement> document.createElement( 'canvas' );
-    remove.className = 'StopWatch-remove';
+    var remove = document.createElement( 'div' );
 
-    drawRemoveButton( remove );
+    remove.className = 'StopWatch-remove StopWatch-topButtons';
+    remove.innerText = '✕';
 
         // :: Entry :: //
 
@@ -244,10 +237,9 @@ constructor( watchArguments: WatchData, loading= false )
 
         // :: Drag Handle :: //
 
-    var dragHandle = <HTMLCanvasElement> document.createElement( 'canvas' );
+    var dragHandle = document.createElement( 'canvas' );
 
-    dragHandle.className = 'StopWatch-dragHandle';
-
+    dragHandle.className = 'StopWatch-dragHandle StopWatch-topButtons';
     drawDragHandle( dragHandle );
 
         // :: Container :: //
@@ -336,13 +328,8 @@ constructor( watchArguments: WatchData, loading= false )
     this.COUNT_ELEMENT = count;
     this.COUNT_MESSAGE_ELEMENT = countMessage;
     this.START_STOP_ELEMENT = startStop;
-    this.RESTART_ELEMENT = restart;
-    this.RESET_ELEMENT = reset;
-    this.OPEN_OPTIONS_ELEMENT = options;
-    this.REMOVE_ELEMENT = remove;
     this.ENTRY_ELEMENT = entry;
     this.ENTRY_MESSAGE_ELEMENT = entryMessage;
-    this.DRAG_HANDLE = dragHandle;
     this.CONTAINER_ELEMENT = container;
 
         // :: Update the watch :: //

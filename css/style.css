@@ -92,7 +92,7 @@
     margin: 25px 0;
     margin-top: 0;
     padding-left: 30px;
-    padding-right: 20px;
+    padding-right: 22px;
     min-height: 1em;
     }
 
@@ -121,34 +121,6 @@
     width: 100px;
     }
 
-.StopWatch-remove
-    {
-    position: absolute;
-
-    top: 7px;
-    right: 5px;
-
-    opacity: 0.5;
-    cursor: pointer;
-    }
-
-.StopWatch-dragHandle
-    {
-    position: absolute;
-
-    top: 12px;  /* this is done in code, to position correctly with different font sizes (see at the end of the StopWatch constructor) */
-    left: 5px;
-
-    cursor: pointer;
-    opacity: 0.3;
-    }
-
-.StopWatch-dragHandle:hover, .StopWatch-remove:hover
-    {
-    opacity: 1;
-    transform: scale( 1.2 );
-    }
-
 .watch-active
     {
     background-color: rgba(0, 252, 0, 0.15);
@@ -169,7 +141,7 @@
     background-color: rgba(188, 0, 0, 0.15);
     }
 
-.StopWatch-startStop, .StopWatch-restart, .StopWatch-reset, .StopWatch-openOptions
+.StopWatch-startStop, .StopWatch-restart, .StopWatch-reset
     {
     font-family: arial, sans-serif;
     }
@@ -177,6 +149,37 @@
 .validDrop
     {
     background-color: #b3b3b3;
+    }
+
+    /* :: Top Buttons :: */
+
+.StopWatch-topButtons
+    {
+    position: absolute;
+    top: 7px;
+    opacity: 0.3;
+    cursor: pointer;
+    }
+
+.StopWatch-topButtons:hover
+    {
+    opacity: 1;
+    transform: scale( 1.2 );
+    }
+
+.StopWatch-remove
+    {
+    right: 5px;
+    }
+
+.StopWatch-openOptions
+    {
+    right: 20px;
+    }
+
+.StopWatch-dragHandle
+    {
+    left: 5px;
     }
 
     /* :: Options Window :: */
