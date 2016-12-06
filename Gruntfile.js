@@ -4,33 +4,37 @@ const os = require( 'os' );
 var root = './';
 var dest = './release/<%= pkg.name %> <%= pkg.version %>/';
 var desktopDest = './release/<%= pkg.name %> <%= pkg.version %> desktop/';
+var temp = './temp/';
 
 grunt.initConfig({
         pkg: grunt.file.readJSON( 'package.json' ),
 
-            // delete the destination folder
         clean: {
-            options: {
-                force: true
-            },
-            release: [
+                // delete the destination folder
+            previousBuild: [
                 dest,
                 desktopDest
             ],
+
                 // remove temporary files
-            temp: [
-                root + 'temp/'
-            ]
+            afterBuild: [
+                    temp,
+                    '.tscache',
+                ]
         },
 
             // compile to javascript
         ts: {
             release: {
                 src: [ root + 'scripts/*.ts' ],
-                dest: 'temp/code.js',
+                dest: temp + 'code.js',
                 options: {
-                    sourceMap: false,
-                    target: 'es5'
+                    "noImplicitAny": true,
+                    "noImplicitReturns": true,
+                    "noImplicitThis": true,
+                    "noUnusedLocals": true,
+                    "strictNullChecks": true,
+                    "target": "es5"
                 }
             }
         },
@@ -42,13 +46,12 @@ grunt.initConfig({
                 cwd: root,
                 src: [
                     'libraries/**',
-                    'random/icon16.png',
                     'random/icon128.png',
                     'sounds/sound1.mp3',
                     'sounds/sound1.ogg',
-                    'background.js',
+                    'web_workers/**',
                     'electron_main.js',
-                    'manifest.json',
+                    'license.txt',
                     'package.json'
                 ],
                 dest: dest
@@ -58,7 +61,7 @@ grunt.initConfig({
         uglify: {
             release: {
                 files: [{
-                    src: 'temp/code.js',
+                    src: temp + 'code.js',
                     dest: dest + 'min.js'
                 }]
             }
@@ -68,9 +71,9 @@ grunt.initConfig({
             release: {
                 files: [{
                     expand: true,
-                    cwd: root,
-                    src: 'css/style.css',
-                    dest: dest
+                    cwd: root + 'css',
+                    src: '*.css',
+                    dest: dest + 'css'
                 }]
             },
             options: {
@@ -112,6 +115,6 @@ grunt.loadNpmTasks( 'grunt-ts' );
 grunt.loadNpmTasks( 'grunt-electron-packager' );
 
     // tasks
-grunt.registerTask( 'default', [ 'clean:release', 'ts', 'copy', 'uglify', 'cssmin', 'processhtml', 'clean:temp' ] );
+grunt.registerTask( 'default', [ 'clean:previousBuild', 'ts', 'copy', 'uglify', 'cssmin', 'processhtml', 'clean:afterBuild' ] );
 grunt.registerTask( 'desktop', [ 'default', 'electron-packager' ] );
 };
