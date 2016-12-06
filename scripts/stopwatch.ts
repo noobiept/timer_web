@@ -59,7 +59,7 @@ private static ACTIVE_WATCHES: StopWatch[] = [];
 private static MAIN_CONTAINER: HTMLElement;
 private static TIMER_INTERVAL = 100;    // 0.1 seconds
 
-private static WORKER = new Worker( 'scripts/stopwatch_worker.js' );
+private static WORKER = new Worker( 'web_workers/stopwatch_worker.js' );
 private static SOUND: Sound;
 
 

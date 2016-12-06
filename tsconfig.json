@@ -9,6 +9,7 @@
     },
     "compileOnSave": true,
     "include": [
-        "scripts/**/*"
+        "scripts/**/*",
+        "web_workers/**/*"
     ]
 }

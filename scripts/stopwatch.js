@@ -540,6 +540,6 @@ var StopWatch = (function () {
     StopWatch.ALL_STOPWATCHES = [];
     StopWatch.ACTIVE_WATCHES = [];
     StopWatch.TIMER_INTERVAL = 100; // 0.1 seconds
-    StopWatch.WORKER = new Worker('scripts/stopwatch_worker.js');
+    StopWatch.WORKER = new Worker('web_workers/stopwatch_worker.js');
     return StopWatch;
 }());
