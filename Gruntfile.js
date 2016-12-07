@@ -49,7 +49,7 @@ grunt.initConfig({
                     'random/icon128.png',
                     'sounds/sound1.mp3',
                     'sounds/sound1.ogg',
-                    'web_workers/**',
+                    'web_workers/*.js',
                     'electron_main.js',
                     'license.txt',
                     'package.json'
