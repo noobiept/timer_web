@@ -195,6 +195,7 @@ constructor( watchArguments: WatchData, loading= false )
 
     options.className = 'StopWatch-openOptions StopWatch-topButtons';
     options.innerText = '⚙';
+    options.title = 'Open Options';
 
         // :: Remove Button :: //
 
@@ -202,6 +203,7 @@ constructor( watchArguments: WatchData, loading= false )
 
     remove.className = 'StopWatch-remove StopWatch-topButtons';
     remove.innerText = '✕';
+    remove.title = 'Remove';
 
         // :: Entry :: //
 
@@ -240,6 +242,7 @@ constructor( watchArguments: WatchData, loading= false )
     var dragHandle = document.createElement( 'canvas' );
 
     dragHandle.className = 'StopWatch-dragHandle StopWatch-topButtons';
+    dragHandle.title = 'Drag';
     drawDragHandle( dragHandle );
 
         // :: Container :: //

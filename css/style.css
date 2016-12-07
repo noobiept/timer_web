@@ -123,7 +123,7 @@
 
 .watch-active
     {
-    background-color: rgba(0, 252, 0, 0.15);
+    background-color: rgba(0, 252, 0, 0.13);
     }
 
 .watch-notActive
@@ -133,12 +133,12 @@
 
 .watch-stopped
     {
-    background-color: rgba(36, 19, 181, 0.15);
+    background-color: rgba(36, 19, 181, 0.13);
     }
 
 .watch-finished
     {
-    background-color: rgba(188, 0, 0, 0.15);
+    background-color: rgba(188, 0, 0, 0.13);
     }
 
 .StopWatch-startStop, .StopWatch-restart, .StopWatch-reset
@@ -156,7 +156,7 @@
 .StopWatch-topButtons
     {
     position: absolute;
-    top: 7px;
+    top: 0;
     opacity: 0.3;
     cursor: pointer;
     }
